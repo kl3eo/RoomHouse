@@ -1,0 +1,161 @@
+<html>
+<head>
+    <title>My App</title>
+</head>
+  <body onload="setTimeout(gattr, 2000);">
+
+ <script type="text/javascript" src="/mp4/clappr.min.js"></script>
+
+<div id="player"></div>
+  <script>
+
+var iframe = parent.document.getElementsByTagName('iframe')[7];
+
+let source = '';
+
+/*
+https://nhkwlive-ojp.akamaized.net/hls/live/2003459/nhkwlive-ojp-en/index.m3u8
+*/
+
+var clappr_source = iframe.id && iframe.id != 'ifr' ? iframe.id : source;
+
+var player = new Clappr.Player({
+	source: clappr_source,
+        parentId: "#player",
+        autoPlay: "true",
+        //mute: "true",
+        width: "100%",
+        height: "100%",
+});
+
+//var iframeParent = iframe.parentElement;
+
+let recordedVideo = parent.document.querySelector('video');
+let mediaRecorder;
+let sourceBuffer;
+let updatingBuffer = false;
+
+let bufferedBlobs = [];
+let recordedBlobs = [];
+let myOptions = { mimeType: 'video/webm;codecs="opus,vp8"' };
+
+let stream = null;
+
+function handleSourceOpen(event) {
+  console.log("MediaSource opened");
+  sourceBuffer = myMediaSource.addSourceBuffer(myOptions.mimeType);
+  sourceBuffer.addEventListener("update", () => {
+    //console.log("sourceBuffer update");
+  });
+  sourceBuffer.addEventListener("error", e =>
+    console.log(`sourceBuffer error: ${JSON.stringify(e, null, 2)}`)
+  );
+  console.log("Source buffer: ", sourceBuffer);
+  sourceBuffer.addEventListener("abort", () =>
+    console.log("sourceBuffer abort")
+  );
+  sourceBuffer.addEventListener("updatestart", () => {
+    //console.log("sourceBuffer update start")
+  });
+  sourceBuffer.addEventListener("updateend", () => {
+    //console.log("sourceBuffer update end");
+    updatingBuffer = false;
+  });
+}
+
+const myMediaSource = new MediaSource();
+myMediaSource.addEventListener("sourceopen", handleSourceOpen);
+
+myMediaSource.addEventListener("sourceclose", () =>
+  console.log("myMediaSource closed")
+);
+
+myMediaSource.addEventListener("sourceended", () =>
+  console.log("myMediaSource ended")
+);
+
+async function handleDataAvailable(event) {
+  if (event.data && event.data.size > 0) {
+    bufferedBlobs.push(event.data);
+    recordedBlobs.push(event.data);
+  }
+  if (bufferedBlobs.length > 5) {
+    if (bufferedBlobs.length === 5)
+      console.log("buffered enough for delayed playback");
+    if (!updatingBuffer) {
+      updatingBuffer = true;
+      const bufferedBlob = bufferedBlobs.shift();
+      const bufferedAsArrayBuffer = await bufferedBlob.arrayBuffer();
+      if (!sourceBuffer.updating) {
+        //console.log("appending to buffer");
+        sourceBuffer.appendBuffer(bufferedAsArrayBuffer);
+      } else {
+        console.warn("Buffer still updating... ");
+        bufferedBlobs.unshift(bufferedBlob);
+      }
+    }
+  }
+  //if (recordedVideo.buffered.length && recordedVideo.buffered.end(0) - recordedVideo.buffered.start(0) > 60)
+//	{sourceBuffer.remove(0, recordedVideo.buffered.end(0) - 60); console.log('removing beyond 60s tail');} 
+}
+
+function getUserStream(stream) {
+	try {
+		mediaRecorder = new MediaRecorder(stream);
+	} catch (e) {
+		console.error("Exception while creating MediaRecorder:", e);
+		return;
+	}
+
+	console.log("Created MediaRecorder", mediaRecorder, "with myOptions", myOptions);
+  
+	mediaRecorder.onstop = event => {
+		console.log("Recorder stopped: ", event);
+	};
+	mediaRecorder.ondataavailable = handleDataAvailable;
+	mediaRecorder.start(1500); // collect 1500ms of data
+	console.log("MediaRecorder started", mediaRecorder);
+
+	recordedVideo.src = null;
+	recordedVideo.srcObject = null;
+	recordedVideo.src = window.URL.createObjectURL(myMediaSource);
+	recordedVideo.controls = true;
+}
+
+function stopStream() {
+  gumVideo.pause();
+  updatingBuffer = true;
+  mediaRecorder.stream.getTracks().forEach(track => { track.stop(); mediaRecorder.stream.removeTrack(track) })
+  mediaRecorder.stream = null;
+  mediaRecorder.stop();
+  myMediaSource.endOfStream();
+  
+  const blob = new Blob(recordedBlobs, {
+      type: 'video/webm'
+  })
+    
+  recordedBlobs = []
+  const blobUrl = URL.createObjectURL(blob)
+
+  recordedVideo.srcObject = null
+  recordedVideo.src = blobUrl
+  recordedVideo.muted = false
+}
+
+const gattr = () => {
+	let gumVideo = document.querySelector('video');
+	gumVideo.pause();
+
+	gumVideo.addEventListener('play', (event) => {
+        	if (gumVideo.captureStream) {stream = gumVideo.captureStream(24); console.log('user1', stream)} else 
+		if (gumVideo.mozCaptureStream) {stream = gumVideo.mozCaptureStream(24); console.log('user2', stream); const ctx = new AudioContext(); const dest = ctx.createMediaStreamSource(stream); dest.connect(ctx.destination);}
+	})
+	
+	gumVideo.play().then( async () => {
+		getUserStream(stream);
+	})
+}; //gattr
+
+  </script>
+  </body>
+</html>

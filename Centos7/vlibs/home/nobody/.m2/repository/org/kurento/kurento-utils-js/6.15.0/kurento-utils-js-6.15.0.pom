@@ -1,0 +1,132 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <!-- Maven coordinates -->
+  <groupId>org.kurento</groupId>
+  <artifactId>kurento-utils-js</artifactId>
+  <version>6.15.0</version>
+  <packaging>jar</packaging>
+
+  <!-- Project-level information -->
+  <name>kurento-utils-js</name>
+  <description>
+    Kurento Media Server, JavaScript client code for module kurento-utils-js.
+  </description>
+  <url>https://www.kurento.org/docs/${project.version}</url>
+  <scm>
+    <url>https://github.com/Kurento/kurento-utils-js</url>
+    <connection>scm:git:git://github.com/Kurento/kurento-utils-js.git</connection>
+    <developerConnection>scm:git:git@github.com:Kurento/kurento-utils-js.git</developerConnection>
+  </scm>
+
+  <!-- Organization-level information -->
+  <developers>
+    <developer>
+      <id>kurento.org</id>
+      <name>Kurento Community</name>
+      <organization>Kurento</organization>
+      <organizationUrl>https://www.kurento.org</organizationUrl>
+    </developer>
+  </developers>
+  <issueManagement>
+    <system>GitHub</system>
+    <url>https://github.com/Kurento/bugtracker/issues</url>
+  </issueManagement>
+  <licenses>
+    <license>
+      <name>Apache 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+  <mailingLists>
+    <mailingList>
+      <name>Kurento List</name>
+      <subscribe>http://groups.google.com/group/kurento/subscribe</subscribe>
+      <post>http://groups.google.com/group/kurento/post</post>
+      <archive>http://groups.google.com/group/kurento/about</archive>
+    </mailingList>
+  </mailingLists>
+  <organization>
+    <name>Kurento</name>
+    <url>https://www.kurento.org</url>
+  </organization>
+
+  <!-- Project configuration -->
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>1.6.0</version>
+        <executions>
+          <!-- Explicit CLI calls (e.g. from kurento_get_version.sh to get
+          the project version) are defined separately so maven_script.sh
+          doesn't get called. -->
+          <execution>
+            <id>default-cli</id>
+            <phase/>
+          </execution>
+          <!-- Use the "generate-resources" phase to call maven_script.sh
+          that generates all JS files and puts them into resources/ -->
+          <execution>
+            <id>default-package</id>
+            <phase>generate-resources</phase>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+            <configuration>
+              <executable>maven_script.sh</executable>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <!-- Generates a ZIP file for distribution (currently unused?) -->
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <configuration>
+          <descriptors>
+            <descriptor>
+              ${basedir}/assembly.xml
+            </descriptor>
+          </descriptors>
+          <outputDirectory>
+            ${project.build.directory}
+          </outputDirectory>
+          <appendAssemblyId>false</appendAssemblyId>
+        </configuration>
+        <executions>
+          <execution>
+            <id>make-assembly</id>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+    <extensions>
+      <extension>
+        <groupId>org.kuali.maven.wagons</groupId>
+        <artifactId>maven-s3-wagon</artifactId>
+        <version>1.2.1</version>
+      </extension>
+    </extensions>
+  </build>
+  <profiles>
+    <!-- Kurento CI requires these profiles to exist -->
+    <profile>
+      <id>default</id>
+    </profile>
+    <profile>
+      <id>deploy</id>
+    </profile>
+    <profile>
+      <id>kurento-release</id>
+    </profile>
+  </profiles>
+</project>
