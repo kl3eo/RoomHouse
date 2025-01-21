@@ -1,0 +1,10 @@
+2019-03-16 18:53:51.201 MSK [23674] LOG:  listening on IPv6 address "::1", port 5432
+2019-03-16 18:53:51.201 MSK [23674] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2019-03-16 18:53:51.201 MSK [23674] LOG:  listening on Unix socket "/tmp/.s.PGSQL.5432"
+2019-03-16 18:53:51.209 MSK [23675] LOG:  database system was shut down at 2019-03-16 18:53:51 MSK
+2019-03-16 18:53:51.210 MSK [23674] LOG:  database system is ready to accept connections
+2019-03-16 18:54:30.287 MSK [23674] LOG:  received fast shutdown request
+2019-03-16 18:54:30.287 MSK [23674] LOG:  aborting any active transactions
+2019-03-16 18:54:30.288 MSK [23674] LOG:  background worker "logical replication launcher" (PID 23681) exited with exit code 1
+2019-03-16 18:54:30.288 MSK [23676] LOG:  shutting down
+2019-03-16 18:54:30.293 MSK [23674] LOG:  database system is shut down

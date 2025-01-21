@@ -1,0 +1,142 @@
+#!/usr/bin/perl
+
+use 5.006;
+use CGI;
+use DBI;
+use Socket;
+use TClubMD5;
+use JSON;
+
+my $server = "127.0.0.1";
+my $user = "postgres";
+my $passwd = "postgres";
+my $dbase = "people";
+my $port = 5432;
+
+my $debug = 0;
+
+my $cgi = CGI->new();
+
+my %form;
+
+for my $param ($cgi->param()) {
+   	$form{$param} = [ $cgi->param($param) ];
+}
+
+my $str = $form{'POSTDATA'}[0];
+
+if ('POST' eq $cgi->request_method) {
+	print STDERR "yes! str is $str!\n";
+} else {
+    print STDERR "no!\n";
+    exit;
+}
+
+my $data = decode_json($str);
+my $name = $data->{unique_xter_id};
+my $sta = $data->{status};
+my $softpac = $data->{softpac};
+my $client = $data->{client};
+
+exit unless (length($name) eq '8');
+exit unless (length($client));
+exit unless (length($softpac));
+
+
+print "Content-Type: text/html; charset=UTF-8\n\n";
+
+$dbconn=DBI->connect("dbi:Pg:dbname=$dbase;port=$port;host=$server",$user, $passwd);
+&connError("could not connect to server *** try $scriptname?dbase='aValidDatabaseName' ***")
+	if (!defined($dbconn));
+
+$dbconn->{LongReadLen} = 16384;
+
+
+my $addr = defined ($ENV{'REMOTE_ADDR'}) ? $ENV{'REMOTE_ADDR'} : '';
+
+my $free_ed = ($client eq "demo" || $client eq "jaja" || $client eq "rhplus") ? 1 : 0;
+
+my $good_minutes = 0;
+my $bad_minutes = 0;
+
+$comm = "select count(*) from apos where status = 't' and ip = '$addr'";
+#$comm = "select count(*) from apos where status = 't' and name = '$name'";
+&getTable;
+&dBaseError($dbconn, $cmd) if (!defined($result));
+$good_minutes = ${${$listresult}[0]}[0];
+
+$comm = "select count(*) from apos where status = 'f' and ip = '$addr'";
+#$comm = "select count(*) from apos where status = 'f' and name = '$name'";
+&getTable;
+&dBaseError($dbconn, $cmd) if (!defined($result));
+$bad_minutes = ${${$listresult}[0]}[0];
+
+$comm = "select round(sum(kurento_diff)/(1024*1024)) from apos where status is not null and ip = '$addr'";
+#$comm = "select round(sum(kurento_diff)/(1024*1024)) from apos where status is not null and name = '$name'";
+&getTable;
+&dBaseError($dbconn, $cmd) if (!defined($result));
+$ku_traf = ${${$listresult}[0]}[0];
+
+#create table payouts (id serial, ip text, name text, date_and_time timestamp default current_timestamp, qty float, address text);
+#insert into payouts(ip, name, qty, address) values ('81.25.50.12', 'RPXMJZNN', 0, '5Dz8Ew8bsrd9BHCygQSBdqnBwiKGUMk86HVmrQhpXpUSDXKT');
+
+#NB!!: name has to be some way updated on each R-H node reboot
+
+$comm = "select sum(qty) from payouts where ip='$addr'";
+#$comm = "select sum(qty) from payouts where name = '$name'";
+&getTable;
+&dBaseError($dbconn, $cmd) if (!defined($result));
+my $total_pirl_qty = ${${$listresult}[0]}[0];
+
+ 
+$comm = "select date_and_time, qty, address, current_date-date_and_time >'1 hour' from payouts where ip='$addr' order by id desc limit 1";
+#$comm = "select date_and_time, qty, address, current_date-date_and_time >'1 hour' from payouts where name = '$name' order by id desc limit 1";
+&getTable;
+&dBaseError($dbconn, $cmd) if (!defined($result));
+my $last_pirl_dte = ${${$listresult}[0]}[0];
+my $last_pirl_qty = ${${$listresult}[0]}[1];
+my $payout_address = ${${$listresult}[0]}[2];
+my $paying_ok = ${${$listresult}[0]}[3];
+
+my $current_balance = length($payout_address) ? `cd /opt/nvme/polka && node bal.js --address=$payout_address` : 0;
+
+my %hash = ('node_session' => $name, 'node_ip' => $addr, 'good_minutes' => $good_minutes, 'bad_minutes' => $bad_minutes, 
+'payout_address' => $payout_address, 'last_pirl_qty' => $last_pirl_qty, 'last_pirl_dte' => $last_pirl_dte, 'total_pirl_qty' => $total_pirl_qty, 
+'current_balance' => $current_balance/1000000000000, 'kurento_traffic' => $ku_traf, 'paying_ok' => $paying_ok);
+
+print encode_json(\%hash);
+
+print $j;
+
+$dbconn->disconnect;
+exit;
+
+sub getTable { #16
+
+my $now_time  = time;
+my $tt = $now_time - $script_start_time;
+
+print STDERR "Debug: in get table - begin, dbase is $dbase; comm is $comm, time is $tt\n" if ($debug);
+
+	$result=$dbconn->prepare($comm);
+
+    	$result->execute;
+	&dBaseError($result, $comm."  (".$result->rows()." rows found)") if ($result->rows() ==
+	-2);
+	
+	$listresult = $result->fetchall_arrayref;
+	$ntuples = $result->rows();
+
+$now_time  = time;
+$tt = $now_time - $script_start_time;
+
+print STDERR "Debug: in get table - end, time is $tt\n" if ($debug);
+
+}
+
+sub dBaseError {
+
+    local($check, $message) = @_;
+    print "<H4><FONT COLOR=BLACK><P>$message<BR>Error: ".$check->errstr."</FONT></H4>";
+    die("Action failed on command:$message  Error_was:$DBI::errstr");
+}

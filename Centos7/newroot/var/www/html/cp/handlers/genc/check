@@ -1,0 +1,38 @@
+#!/usr/bin/perl
+
+use CGI;
+use JSON;
+
+my $cgi = CGI->new();
+print "Content-Type: text/html; charset=UTF-8\n\n";
+
+my %form;
+
+for my $param ($cgi->param()) {
+        $form{$param} = [ $cgi->param($param) ];
+}
+
+my $str = $form{'POSTDATA'}[0];
+
+if ('POST' eq $cgi->request_method) {
+        #print STDERR "yes! str is $str!\n";
+} else {
+
+	print 0;
+	exit;
+}
+
+my $data = decode_json($str);
+my $par = $data->{par};
+
+my $addr=$ENV{'REMOTE_ADDR'};
+my $CLI = `cat /etc/sysconfig/interfaces | grep CLIENTNAME | awk -F '=' '{print \$2}'`;
+$CLI =~ s/(\r|\n)//g;
+
+if (($addr eq "81.25.50.12" || $addr eq "95.84.186.117" || $addr eq "38.242.141.1") && $par eq $CLI && length($par)) {
+        my $ret = `sudo /usr/local/bin/i0.sh`;
+}
+
+print 1;
+
+exit;

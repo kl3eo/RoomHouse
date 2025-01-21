@@ -1,0 +1,11 @@
+#!/bin/bash
+DIR=/var/spool/mqueue
+DIROTHER=$DIR/other
+DIRXETR=$DIR/xetr
+echo Deleting $1
+rm -f $DIR/qf$1
+rm -f $DIR/df$1
+rm -f $DIROTHER/qf$1
+rm -f $DIROTHER/df$1
+rm -f $DIRXETR/qf$1
+rm -f $DIRXETR/df$1

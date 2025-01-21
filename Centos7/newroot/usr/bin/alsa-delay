@@ -1,0 +1,979 @@
+#!/bin/bash
+
+version=0.1.0
+tmpdir=$TMPDIR
+if test -z "$tmpdir"; then
+	tmpdir="/tmp"
+fi
+tmpdir=$tmpdir/alsa-delay-script
+
+delay=
+pcard=
+pdev=
+ccard=
+cdev=
+
+yes=
+quiet=
+clean=
+remove=
+
+pdevice="default:%s"
+pdevice_set=
+cdevice="plughw:%s,%s,%s"
+pctl=
+cctl=
+one=
+arg=
+mix=
+pa=
+
+useprocfs=yes
+
+fuser_prg=fuser
+insmod_prg=insmod
+rmmod_prg=rmmod
+lsmod_prg=lsmod
+modprobe_prg=modprobe
+chkconfig_prg=chkconfig
+systemctl_prg=systemctl
+pidof_prg=pidof
+alsaloop_prg=alsaloop
+amixer_prg=amixer
+test -x /sbin/fuser && fuser_prg=/sbin/fuser
+test -x /sbin/insmod && insmod_prg=/sbin/insmod
+test -x /sbin/rmmod && rmmod_prg=/sbin/rmmod
+test -x /sbin/lsmod && lsmod_prg=/sbin/lsmod
+test -x /sbin/modprobe && modprobe_prg=/sbin/modprobe
+test -x /sbin/chkconfig && chkconfig_prg=/sbin/chkconfig
+test -x /bin/systemctl && systemctl_prg=/bin/systemctl
+test -x /sbin/pidof && pidof_prg=/sbin/pidof
+test -x /usr/bin/alsaloop && alsaloop_prg=/usr/bin/alsaloop
+test -x /usr/local/bin/alsaloop && alsaloop_prg=/usr/local/bin/alsaloop
+test -x /usr/bin/amixer && amixer_prg=/usr/bin/amixer
+
+modprobeconf=/etc/modprobe.d/alsa.conf
+test -r /etc/modprobe.conf && modprobeconf=/etc/modprobe.conf && useprocfs=""
+alsaloopconf=/etc/alsaloop.conf
+
+test -r modprobe.work && modprobeconf=modprobe.work
+test -r modprobe.work && alsaloopconf=alsaloop.conf
+
+usage() {
+	echo "Usage: $0 [OPTION]... <requested_delay_in_ms> [<output_card>[,<device>]]"
+	cat <<EOF
+
+This is a delay utility version $version. The snd-aloop ALSA driver is
+used to send all PCM streams back to the user space and the alsaloop
+utility is used to send this stream to a real hardware.
+
+<output_card> is ALSA card index (number) or string card identifier
+<device> is ALSA device number
+
+Use 'aplay -l' to list available cards and devices.
+
+Operation modes:
+  -h, --help		print this help, then exit
+  -q, --quiet		quiet mode
+  -y, --yes		do not ask any questions - answer is always yes
+  -c, --clean           clean temporary directory and exit
+  -r, --remove          remove the alsa-delay config modifications and exit
+  --tmpdir=<DIR>        set temporary directory
+Alsaloop options:
+  --pdevice=<DEV>       force playback device
+  --cdevice=<DEV>       force capture device
+  --pctl=<DEV>          force playback ctl device
+  --cctl=<DEV>          force capture ctl device
+  --one=<ARG>           pass this argument to last thread
+  --arg=<ARG>           pass this argument to all threads
+  --mix=<ARG>           redirect ALSA mixer controls to OSS mixer
+			(default is Master)
+  --pa			Redirect PA to alsaloop
+
+Note: For devices, the string %s is replaced with the card index
+      and second string %s is replaced with the device index
+      and third string %s is replaced the substream index (0-7).
+      Example: hw:%s,%s,%s    (card, device, substream)
+EOF
+}
+
+while :
+do
+	case "$1" in
+	-h|--help)
+		usage
+		exit 0
+		;;
+	-q|--quiet)
+		quiet=true ;;
+	-y|--yes)
+		yes=true ;;
+	-c|--clean)
+		clean="full" ;;
+	-r|--remove)
+		remove="full" ;;
+	--tmpdir*)
+		case "$#,$1" in
+		*,*=*)
+			tmpdir=`expr "z$1" : 'z-[^=]*=\(.*\)'` ;;
+		1,*)
+			usage ;;
+		*)
+			tmpdir="$2"
+			shift ;;
+		esac
+		tmpdir="$tmpdir/alsa-compile-script"
+		;;
+	--pdevice*)
+		case "$#,$1" in
+		*,*=*)
+			pdevice=`expr "z$1" : 'z-[^=]*=\(.*\)'`
+			pdevice_set=yes ;;
+		1,*)
+			usage ;;
+		*)
+			pdevice="$2"
+			pdevice_set=yes
+			shift ;;
+		esac
+		;;
+	--cdevice*)
+		case "$#,$1" in
+		*,*=*)
+			cdevice=`expr "z$1" : 'z-[^=]*=\(.*\)'` ;;
+		1,*)
+			usage ;;
+		*)
+			cdevice="$2"
+			shift ;;
+		esac
+		;;
+	--pctl*)
+		case "$#,$1" in
+		*,*=*)
+			pctl=`expr "z$1" : 'z-[^=]*=\(.*\)'` ;;
+		1,*)
+			usage ;;
+		*)
+			pctl="$2"
+			shift ;;
+		esac
+		;;
+	--cctl*)
+		case "$#,$1" in
+		*,*=*)
+			cctl=`expr "z$1" : 'z-[^=]*=\(.*\)'` ;;
+		1,*)
+			usage ;;
+		*)
+			cctl="$2"
+			shift ;;
+		esac
+		;;
+	--one*)
+		case "$#,$1" in
+		*,*=*)
+			one1=`expr "z$1" : 'z-[^=]*=\(.*\)'` ;;
+		1,*)
+			usage ;;
+		*)
+			one1="$2"
+			shift ;;
+		esac
+		one="$one $one1"
+		;;
+	--arg*)
+		case "$#,$1" in
+		*,*=*)
+			arg1=`expr "z$1" : 'z-[^=]*=\(.*\)'` ;;
+		1,*)
+			usage ;;
+		*)
+			arg1="$2"
+			shift ;;
+		esac
+		arg="$arg $arg1"
+		;;
+	--mix*)
+		case "$#,$1" in
+		*,*=*)
+			mix=`expr "z$1" : 'z-[^=]*=\(.*\)'` ;;
+		1,*)
+			usage ;;
+		*)
+			mix="$2"
+			shift ;;
+		esac
+		arg="$arg $arg1"
+		;;
+	--pa)
+		pa=true
+		;;
+	*)
+		if test -n "$1"; then
+			ok=
+			if test -z "$delay"; then
+				delay="$1"
+				if test "$delay" -lt 1000; then
+					delay=$[$delay * 1000]
+				fi
+				ok=true
+			fi
+			if test -z "$ok" -a -z "$pcard"; then
+				pcard="$1"
+				ok=true
+			fi
+			if test -z "$ok"; then
+				echo "Unknown parameter '$1'"
+				break
+			fi
+		else
+			break
+		fi
+		;;
+	esac
+	shift
+done
+
+test -z "$pdevice_set" -a -n "$pa" && pdevice="plug:dmix:%s"
+test -z "$delay" && delay="50000"
+test -z "$pcard" && pcard="1"
+pdev=$(echo $pcard | cut -s -d , -f 2)
+pcard=$(echo $pcard | cut -d , -f 1)
+test -z "$pdev" && pdev="0"
+test -z "$ccard" && ccard="Loopback,1"
+cdev=$(echo $ccard | cut -s -d , -f 2)
+ccard=$(echo $ccard | cut -d , -f 1)
+test -z "$cdev" && cdev="0"
+
+# Echo "true" or "false", depending on $yes and user response to prompt
+# $1 is prompt message
+question_bool() {
+	if test "$yes" = "yes"; then
+		echo "true"
+	else
+		echo >&2 -n "$1 (Y/ ) "
+		read i
+		local i=${i:0:1}
+		if test "$i" = "Y" -o "$i" = "y"; then
+			echo "true"
+		else
+			echo "false"
+		fi
+	fi
+}
+
+# Safe exit
+safe_exit() {
+	if test -r /etc/pulse/client.conf ; then
+		if grep "# alsa-delay-line-to-be-removed-1234" /etc/pulse/client.conf 2> /dev/null > /dev/null ; then
+			grep -v alsa-delay-line-to-be-removed-1234 /etc/pulse/client.conf > /etc/pulse/client.conf.new
+			if test -s /etc/pulse/client.conf.new; then
+				mv /etc/pulse/client.conf.new /etc/pulse/client.conf
+			fi
+		fi
+	fi
+	exit $1
+}
+
+# Log and execute $@ and check success
+do_cmd() {
+	if test -z "$quiet"; then
+		echo "> $@"
+	fi
+	$@ || safe_exit 1
+}
+
+# Cache or restore $protocol and $url and $package in $tmpdir
+check_environment() {
+	if ! test -d $tmpdir ; then
+		mkdir -p $tmpdir
+		if ! test -d $tmpdir; then
+			echo >&2 "Unable to create directory $tmpdir."
+			exit 1
+		fi
+	fi
+	echo "Using temporary tree: $tmpdir"
+	test -x /bin/depmod && depmodbin=/bin/depmod
+	test -x /sbin/depmod && depmodbin=/sbin/depmod
+	if test -z "$depmodbin"; then
+		echo >&2 "Unable to find depmod utility."
+		exit 1
+	fi
+	test -x /bin/modinfo && modinfobin=/bin/modinfo
+	test -x /sbin/modinfo && modinfobin=/sbin/modinfo
+	if test -z "$modinfobin"; then
+		echo >&2 "Unable to find modinfo utility."
+		exit 1
+	fi
+}
+
+# Kill processes currently accessing the audio devices
+kill_audio_apps() {
+	local pids0=$($fuser_prg /dev/snd/* 2> /dev/null)
+	local pids1=$($fuser_prg /dev/mixer* 2> /dev/null)
+	local pids2=$($fuser_prg /dev/sequencer* 2> /dev/null)
+	local pids=
+	for pid in $pids0 $pids1 $pids2; do
+		local pids="$pids $pid"
+	done
+	if ! test -z "$pids"; then
+		echo
+		echo "WARNING! An audio application uses ALSA driver:"
+		echo
+		for pid in $pids; do
+			ps --no-headers -p $pids || safe_exit 1
+		done
+		echo
+		if test $(question_bool "Would you like to kill these apps?") = "true"; then
+			if test -w /etc/pulse/client.conf ; then
+				echo "autospawn = no # alsa-delay-line-to-be-removed-1234" >> /etc/pulse/client.conf
+			fi
+			for pid in $pids; do
+				do_cmd kill $pid
+			done
+			sleep 2
+			local killed=
+			for pid in $pids; do
+				local a=$(ps --no-headers -p $pids)
+				if test -n "$a"; then
+					do_cmd kill -9 $pid
+					local killed="true"
+				fi
+			done
+			if test "$killed" = "true"; then
+				sleep 2
+				for pid in $pids; do
+					local a=$(ps --no-headers -p $pids)
+					if test -n "$a"; then
+						echo >&2 "Unable to kill application:"
+						echo >&2 "  $a"
+						safe_exit 1
+					fi
+				done
+			fi
+		else
+			echo >&2 "Cannot continue with running audio applications."
+			safe_exit 1
+		fi
+	fi
+}
+
+# Echo the list of configured sound modules
+configured_modules() {
+	if test -z "$useprocfs"; then
+		cat $modprobeconf | grep -E "^alias snd-card-" | cut -d ' ' -f 3
+	else
+		cat /proc/asound/modules | colrm 1 3
+	fi
+}
+
+# Echo the list of loaded sound modules
+current_modules() {
+	$lsmod_prg | cut -d ' ' -f 1 | grep -E "^(snd[_-])"
+}
+
+# The loopback kernel driver detection
+aloop_present() {
+	if test -r /proc/asound/card0/id; then
+		local id=$(cat /proc/asound/card0/id)
+	else
+		local id=""
+	fi
+	if test "$id" = "Loopback"; then
+		echo "yes"
+	fi
+}
+
+# Remove kernel modules, using two phases
+# $@ is module names
+my_rmmod() {
+	local phase2=
+	while test -n "$1"; do
+		if ! $rmmod_prg $1 2> /dev/null > /dev/null; then
+			local phase2="$phase2 $1"
+		else
+			echo "> rmmod $1"
+		fi
+		shift
+	done
+	for mod in $phase2; do
+		echo "> rmmod $mod"
+		if ! $rmmod_prg $mod ; then
+			echo >&2 "Unable to remove kernel module $mod."
+			safe_exit 1
+		fi
+	done
+}
+
+# Reload kernel modules
+kernel_modules() {
+	kill_audio_apps
+	if test "$1" = "unload"; then
+		local present=$(aloop_present)
+		if test "$present" = "yes"; then
+			if ! $rmmod_prg snd-aloop; then
+				echo >&2 "Unable to remove kernel module snd-aloop."
+				safe_exit 1
+			fi
+		fi
+	fi
+	local curmods=$(current_modules)
+	local usermods=$(configured_modules)
+	my_rmmod $curmods
+	$modprobe_prg soundcore || safe_exit 1
+	if test "$1" = "load"; then
+		if ! $modprobe_prg snd-aloop; then
+			echo >&2 "Unable to install kernel module snd-aloop."
+			safe_exit 1
+		fi
+	fi
+	for mod in $usermods; do
+		if ! $modprobe_prg $mod; then
+			echo >&2 "Unable to install kernel module $mod."
+			safe_exit 1
+		fi
+	done
+	echo "Kernel modules ready:"
+	cat /proc/asound/cards
+	sleep 0.5
+}
+
+# If $package is alsa-driver then remove current modules
+kernel_modules_remove() {
+	local curmods=$(current_modules)
+	if test -z "$curmods"; then
+		echo "No ALSA kernel modules to remove."
+		safe_exit 0
+	fi
+	kill_audio_apps
+	my_rmmod $curmods
+	echo "ALSA kernel modules removed."
+}
+
+function clean() {
+	echo -n "Removing tree $tmpdir:"
+	if test -d "$tmpdir"; then
+		if ! rm -rf "$tmpdir"; then
+			echo " failed"
+			safe_exit 1
+		fi
+	fi
+	echo " success"
+}
+
+function reindex_modprobe_conf() {
+	if test -z "$useprocfs"; then
+		cat > $tmpdir/run.awk <<EOF
+function rewrite_line(line,   res, c, i, j) {
+	split(line, l, " ")
+	if (l[1] == "alias") {
+		printf(l[1])
+		c = int(substr(l[2], 9)) + 1
+		printf(" snd-card-%i %s\n", c, l[3])
+	} else if (l[1] == "options") {
+		printf(l[1])
+		for (i = 2; i <= length(l); i++) {
+			c = substr(l[i], 0, 9)
+			if (c == "snd-card-") {
+				c = int(substr(l[i], 9)) + 1
+				printf(" snd-card-%i", c)
+				continue
+			}
+			c = substr(l[i], 0, 6)
+			if (c == "index=") {
+				printf(" index=")
+				c = substr(l[i], 6)
+				split(c, y, ",")
+				for (j = 1; j <= length(y); j++) {
+					c = int(y[j]) + 1
+					if (j > 1)
+						printf(",")
+					printf("%i", c)
+				}
+				continue
+			}
+			printf(" %s", l[i])
+		}
+		printf("\n")
+	} else if (l[1] == "remove") {
+		printf(l[1])
+		flag = 0
+		for (i = 2; i <= length(l); i++) {
+			if (l[i] == "/usr/sbin/alsactl" || l[i] == "store") {
+				flag++;
+				printf(" %s", l[i]);
+				continue;
+			}
+			if (flag == 2) {
+				c = int(l[i]) + 1;
+				printf(" %i", c);
+				flag = 0;
+				continue;
+			}
+			flag = 0;
+			printf(" %s", l[i]);
+		}
+		printf("\n")
+	} else {
+		print line
+	}
+}
+
+BEGIN			{ aloop=0; }
+/alias snd-card-0 snd-aloop/ { aloop=1; next; }
+/options snd-card-0 index=0/ { if (aloop) next; }
+/options snd-aloop/	{ next; }
+/alias snd-card-/	{ rewrite_line(\$0); next; }
+/options snd-/		{ rewrite_line(\$0); next; }
+/remove snd-/		{ rewrite_line(\$0); next; }
+			{ print \$0; }
+EOF
+		cat $modprobeconf | awk -f $tmpdir/run.awk > $modprobeconf.new
+		rm $tmpdir/run.awk || safe_exit 1
+	else
+		local index=1
+		echo -n "" > $modprobeconf.new
+		declare -a modules printed
+		for mod in $(cat /proc/asound/modules | grep -Ev "^2[6789]" | colrm 1 3); do
+			if test "$mod" != "snd_aloop" -a "$mod" != "snd-aloop"; then
+				if test -z ${modules[$mod]}; then
+					modules[$mod]=$index
+				else
+					modules[$mod]="${modules[mod]},$index"
+				fi
+				echo "alias snd-card-$index $mod" >> $modprobeconf.new
+				echo "options snd-card-$index index=$index" >> $modprobeconf.new
+			fi
+			index=$(expr $index + 1)
+		done
+		for mod in $(cat /proc/asound/modules | grep -Ev "^2[6789]" | colrm 1 3); do
+			if test "$mod" != "snd_aloop" -a "$mod" != "snd-aloop"; then
+				if test -z ${printed[$mod]}; then
+					echo "options $mod index=${modules[$mod]}" >> $modprobeconf.new
+					printed[$mod]=yes
+				fi
+			fi
+		done
+	fi
+cat >> $modprobeconf.new <<EOF
+alias snd-card-0 snd-aloop
+options snd-card-0 index=0
+options snd-aloop index=0
+EOF
+	if ! test -f $modprobeconf.alsa-delay.save ; then
+		if ! test -f $modprobeconf ; then
+			touch $modprobeconf.alsa-delay.save
+		else
+			cp $modprobeconf $modprobeconf.alsa-delay.save
+		fi
+	fi
+	mv $modprobeconf.new $modprobeconf || safe_exit 1
+}
+
+function modify_modprobe_conf() {
+	local check=$(cat $modprobeconf 2> /dev/null | grep -E "^alias snd-card-0 snd-aloop")
+	local present=$(aloop_present)
+	if test -n "$check"; then
+		echo "Module snd-aloop is already installed."
+		if ! test "$present" = "yes"; then
+			kernel_modules load
+		fi
+	else
+		reindex_modprobe_conf
+		if ! test "$present" = "yes"; then
+			kernel_modules load
+		else
+			kernel_modules
+		fi
+	fi
+}
+
+function myprintf() {
+	local cnt=$(echo "$1" | grep -o "%" | wc -l)
+	if test $cnt -eq 1; then
+		printf "$1" "$2"
+	else if test $cnt -eq 2; then
+		printf "$1" "$2" "$3"
+	else
+		printf "$1" "$2" "$3" "$4"
+	fi
+	fi
+}
+
+function check_ctl_name() {
+	$amixer_prg -D "$1" contents | grep "name='$2'"
+}
+
+function check_oss_mixer() {
+	grep ": mixer" /proc/asound/oss/devices
+}
+
+function get_card_id() {
+	$amixer_prg -D "$1" info | head -1 | cut -d '/' -f 1 | cut -d ' ' -f 3- | awk '{ print substr($0, 2, length($0)-2) }'
+}
+
+function generate_alsaloop_line() {
+	local file="$1"
+	local idx="$2"
+	local carg=$(myprintf "$cdevice" $ccard $cdev $idx)
+	local parg=$(myprintf "$pdevice" $pcard $pdev $idx)
+	local res="-C $carg -P $parg -T $idx -t $delay"
+	if test -n "$cctl"; then
+		local carg=$(myprintf "$cctl" $pcard $cdev $idx)
+		local res="$res -Y $carg"
+	fi
+	if test -n "$pctl"; then
+		local parg=$(myprintf "$pctl" $pcard $pdev $idx)
+		local res="$res -X $parg"
+	fi
+	if test -n "$arg"; then
+		local res="$res $arg"
+	fi
+	if test $idx -eq 7; then
+		if test -n "$one"; then
+			local res="$res $one"
+		fi
+		if test -z "$pctl"; then
+			local res="$res -X hw:$pcard"
+		fi
+		local mymix="$mix"
+		if test -z "$mymix"; then
+			local mymix="Master"
+			for mymix in Master "Master Mono" Headphone Headphone2 PCM Speaker \
+				     "Desktop Speaker" Beep Front Rear Center LFE Side \
+				     Surround ; do
+				local check=$(check_ctl_name hw:$pcard "$mymix Playback Switch")
+				if test -n "$check"; then
+					local res="$res -m \"name='$mymix Playback Switch'\""
+				fi
+				local check=$(check_ctl_name hw:$pcard "$mymix Playback Volume")
+				if test -n "$check"; then
+					local res="$res -m \"name='$mymix Playback Volume'\""
+				fi
+			done
+		else
+			local check=$(check_ctl_name hw:$pcard "$mymix Playback Switch")
+			if test -n "$check"; then
+				local res="$res -m \"name='$mymix Playback Switch'\""
+			fi
+			local check=$(check_ctl_name hw:$pcard "$mymix Playback Volume")
+			if test -n "$check"; then
+				local res="$res -m \"name='$mymix Playback Volume'\""
+			fi
+		fi
+		local check=$(check_oss_mixer)
+		if test -n "$check"; then
+			local res="$res -O \"$mymix@VOLUME\""
+		fi
+	fi
+	echo $res >> $file
+}
+
+function generate_alsaloop_conf() {
+	local idx=0
+	rm -f $alsaloopconf.new
+	while test $idx -lt 8; do
+		generate_alsaloop_line $alsaloopconf.new $idx
+		idx=$(expr $idx + 1)
+	done
+	mv $alsaloopconf.new $alsaloopconf || safe_exit 1
+}
+
+function kill_alsaloop() {
+	local pid=$($pidof_prg alsaloop)
+	if test -n "$pid"; then
+		echo "Killing alsaloop..."
+	fi
+	while test -n "$pid"; do
+		kill $pid
+		sleep 0.01
+		pid=$($pidof_prg alsaloop)
+	done
+}
+
+function restart_alsaloop() {
+	echo "Restarting alsaloop: delay $delay us."
+	if test -d /etc/systemd/system; then
+		systemctl start alsaloop.service
+	else
+		/etc/init.d/alsaloop start
+	fi
+	sleep 0.4
+	local pid=$($pidof_prg alsaloop)
+	if test -z "$pid"; then
+		echo "ERROR: Not started, check /var/log/messages for details"
+	else
+		if test -d /etc/systemd/system; then
+			systemctl status alsaloop.service
+		else
+			ps -p $pid
+		fi
+	fi
+}
+
+function create_systemd_service() {
+	if test -r /etc/systemd/system/alsaloop.service; then
+		echo "/etc/systemd/system/alsaloop.service exists"
+	else
+		cat >> /etc/systemd/system/alsaloop.service <<EOF
+# This file was created by the alsa-delay utility
+
+[Unit]
+Description=The alsaloop daemon service
+After=alsa-restore.service
+Before=shutdown.target
+Conflicts=shutdown.target
+
+[Service]
+Type=simple
+ExecPre=-/sbin/modprobe snd-aloop
+ExecStart=-/usr/bin/alsaloop --syslog --config $alsaloopconf
+EOF
+		ln -sf ../alsaloop.service /etc/systemd/system/basic.target.wants/alsaloop.service
+	fi
+}
+
+function create_initd() {
+	if test -x /etc/init.d/alsaloop; then
+		echo "/etc/init.d/alsaloop exists"
+	else
+		cat >> /etc/init.d/alsaloop <<EOF
+#! /bin/sh
+
+# alsaloop init file
+# Copyright (C) 2010 Jaroslav Kysela <jkysela@redhat.com>
+
+# For RedHat and cousins:
+# chkconfig: 2345 99 01
+# description: Start alsaloop daemon
+# processname: alsaloop
+
+### BEGIN INIT INFO
+# Provides: alsaloop
+# Required-Start: \$local_fs
+# Required-Stop: \$local_fs
+# Should-Start:
+# Short-Description: ALSALOOP
+# Description: ALSALOOP
+### END INIT INFO
+
+# This program is free software; you can redistribute it and/or modify it
+# under the terms of the GNU General Public License as published by the Free
+# Software Foundation; either version 2, or (at your option) any later
+# version.
+# You should have received a copy of the GNU General Public License (for
+# example COPYING); if not, write to the Free Software Foundation, Inc., 675
+# Mass Ave, Cambridge, MA 02139, USA.
+# This code was originally developed as a Senior Thesis by Michael Cornwell
+# at the Concurrent Systems Laboratory (now part of the Storage Systems
+# Research Center), Jack Baskin School of Engineering, University of
+# California, Santa Cruz. http://ssrc.soe.ucsc.edu/.
+
+alsaloop_opts="--daemonize --workaround serialopen --config $alsaloopconf"
+
+ALSALOOP_BIN=/usr/bin/alsaloop
+test -x /usr/local/bin/alsaloop && ALSALOOP_BIN=/usr/local/bin/alsaloop
+
+# Source function library
+. /etc/rc.d/init.d/functions
+
+RETVAL=0
+prog=alsaloop
+pidfile=/var/lock/subsys/alsaloop
+
+start()
+{
+	modprobe snd-aloop
+	echo -n \$"Starting \$prog: "
+	daemon \$ALSALOOP_BIN \$alsaloop_opts
+	RETVAL=\$?
+	echo
+	[ \$RETVAL = 0 ] && touch \$pidfile
+	return \$RETVAL
+}
+
+stop()
+{
+	echo -n \$"Shutting down \$prog: "
+	killproc \$ALSALOOP_BIN
+	RETVAL=\$?
+	echo
+	rm -f \$pidfile
+	return \$RETVAL
+}
+
+case "\$1" in
+	start)
+		start
+		;;
+	stop)
+		stop
+		;;
+	restart)
+		stop
+		start
+		;;
+	try-restart)
+		if [ -f \$pidfile ]; then
+			stop
+			start
+		fi
+		;;
+	status)
+		status $prog
+		RETVAL=$?
+		;;
+	*)
+		echo \$"Usage: \$0 {start|stop|restart|try-restart}"
+		RETVAL=3
+esac
+
+exit \$RETVAL
+EOF
+		chmod 755 /etc/init.d/alsaloop || safe_exit 1
+		$chkconfig_prg --add alsaloop
+		$chkconfig_prg alsaloop on
+	fi
+}
+
+function modify_pa_conf() {
+
+	if grep Loopback /etc/pulse/default.pa > /dev/null; then
+		echo "/etc/pulse/default.pa already modified"
+	else
+		if test -f /etc/pulse/default.pa; then
+			local pcardid=$(get_card_id "hw:$pcard")
+			if ! test -f /etc/pulse/default.pa.alsa-delay.save ; then
+				cp /etc/pulse/default.pa /etc/pulse/default.pa.alsa-delay.save
+			fi
+			cat /etc/pulse/default.pa | \
+				sed -e 's/^load-module module-udev-detect/#load-module module-udev-detect # commented by alsa-delay/' \
+				    -e 's/^load-module module-detect/#load-module module-detect # commented by alsa-delay/' \
+				    -e "s/^### Automatically load driver modules for Bluetooth hardware/load-module module-alsa-card device_id=Loopback\nload-module module-alsa-card device_id=$pcardid\n\n### Automatically load driver modules for Bluetooth hardware/" > /etc/pulse/default.pa.new
+			if test -s /etc/pulse/default.pa.new; then
+				mv /etc/pulse/default.pa.new /etc/pulse/default.pa
+				echo "/etc/pulse/default.pa changed"
+			fi
+		fi
+	fi
+
+	local file=
+	local asoundconf=
+	if test -d /etc/alsa -a -f /etc/alsa/pulse-default.conf; then
+		file=/etc/alsa/alsaloop-default.conf
+		asoundconf=yes
+	fi
+	if test -f /usr/share/alsa/alsa.conf.d/99-pulseaudio-default.conf ; then
+		file=/usr/share/alsa/alsa.conf.d/A0-alsaloop-default.conf
+	fi
+	if test -z "$file"; then
+		echo "unknown PulseAudio setup (asound.conf)"
+	elif test -f $file; then
+		echo "$file exists"
+	else
+		cat >> $file <<EOF
+pcm.!default {
+	@args [ CARD ]
+	@args.CARD {
+		type string
+	}
+	type asym
+	playback.pcm "plughw:Loopback"
+	capture.pcm {
+		type pulse
+	}
+}
+EOF
+		if test -n "$asoundconf"; then
+			cat /etc/asound.conf | sed 's/pulse-default.conf/alsaloop-default.conf/g' > /etc/asound.conf.new
+			if test -s /etc/asound.conf.new; then
+				mv /etc/asound.conf.new /etc/asound.conf
+			fi
+		fi
+	fi
+}
+
+function remove() {
+	if test -f /etc/pulse/default.pa.alsa-delay.save ; then
+		echo "Restoring /etc/pulse/default.pa"
+		mv /etc/pulse/default.pa.alsa-delay.save /etc/pulse/default.pa
+	fi
+	if test -f /etc/init.d/alsaloop ; then
+		echo "Removing /etc/init.d/alsaloop service"
+		$chkconfig_prg alsaloop off
+		$chkconfig_prg --del alsaloop
+		rm /etc/init.d/alsaloop
+	fi
+	if test -f /etc/systemd/system/alsaloop.service ; then
+		echo "Removing /etc/systemd/system/alsaloop.service"
+		$systemctl_prg disable alsaloop.service
+		rm /etc/systemd/system/alsaloop.service
+	fi
+	if test -f $alsaloopconf ; then
+		echo "Removing $alsaloopconf"
+		rm $alsaloopconf
+	fi
+	if test -f /etc/alsa/alsaloop-default.conf ; then
+		echo "Removing /etc/alsa/alsaloop-default.conf"
+		rm /etc/alsa/alsaloop-default.conf
+	fi
+	if test -f /usr/share/alsa/alsa.conf.d/A0-alsaloop-default.conf ; then
+		echo "Removing /usr/share/alsa/alsa.conf.d/A0-alsaloop-default.conf"
+		rm /usr/share/alsa/alsa.conf.d/A0-alsaloop-default.conf
+	fi
+	if grep "alsaloop-default.conf" /etc/asound.conf > /dev/null 2> /dev/null ; then
+		echo "Modifying /etc/asound.conf"
+		cat /etc/asound.conf | sed 's/alsaloop-default.conf/pulse-default.conf/g' > /etc/asound.conf.new
+		if test -s /etc/asound.conf.new; then
+			mv /etc/asound.conf.new /etc/asound.conf
+		fi
+	fi
+	if test -f $modprobeconf.alsa-delay.save ; then
+		echo "Restoring $modprobeconf"
+		if test -s $modprobeconf.alsa-delay.save ; then
+			mv $modprobeconf.alsa-delay.save $modprobeconf
+		else
+			rm $modprobeconf.alsa-delay.save
+			rm $modprobeconf
+		fi
+	fi
+	if test $(aloop_present) = "yes"; then
+		kernel_modules unload
+	fi
+}
+
+rundir=$(pwd)
+export LC_ALL=C
+export LANGUAGE=C
+
+check_environment
+
+if test -n "$clean"; then
+	clean
+	safe_exit 0
+fi
+
+if test -n "$remove"; then
+	kill_alsaloop
+	remove
+	clean
+	safe_exit 0
+fi
+
+kill_alsaloop
+if test -d /etc/systemd/system ; then
+  create_systemd_service
+else
+  create_initd
+fi
+modify_modprobe_conf
+generate_alsaloop_conf
+if test -n "$pa"; then
+  modify_pa_conf
+fi
+restart_alsaloop
+
+clean
+
+safe_exit 0

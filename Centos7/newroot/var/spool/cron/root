@@ -1,0 +1,7 @@
+MAILTO=""
+30 * * * * /var/www/html/lightsquid/lightparser.pl
+30 1 * * * /usr/sbin/ntpdate ru.pool.ntp.org
+*/1 * * * * /root/check_httpd.sh
+*/1 * * * * /root/report_to_center.sh
+* * * * * /bin/rm -f /var/www/html/cp/handlers/checklist
+03 * * * * sync; echo 3 > /proc/sys/vm/drop_caches

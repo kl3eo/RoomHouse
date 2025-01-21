@@ -1,0 +1,2 @@
+su - shevlakov -c '/usr/bin/fetchmail -d 300'
+su - tuffyak -c '/usr/bin/fetchmail -d 300'

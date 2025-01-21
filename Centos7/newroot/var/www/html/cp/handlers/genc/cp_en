@@ -1,0 +1,1277 @@
+#!/usr/bin/perl
+
+#   Copyright (c) 2007 Alex Shevlakov info[at]motivation[dot]ru
+#   All Rights Reserved.
+
+#   This program is free software; you can redistribute it and/or modify
+#   it under the terms of the GNU General Public License as published by
+#   the Free Software Foundation; either version 2 of the License, or
+#   (at your option) any later version.
+#
+#   This program is distributed in the hope that it will be useful,
+#   but WITHOUT ANY WARRANTY; without even the implied warranty of
+#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#   GNU General Public License for more details.
+
+use CGI;
+use TClub_LANG_en;
+
+my $scriptURL = CGI::url();
+$scriptURL =~ /(^.+cgi\/)(.+)(\/)(.*)/;
+
+$ru_en=$2;
+
+my $mumbai_lounge = $scriptURL;
+my $cairo_lounge = $scriptURL;
+my $paris_lounge = $scriptURL;
+my $miami_lounge = $scriptURL;
+
+$mumbai_lounge =~ s/\/$ru_en\//\/in_MU\//g;
+$cairo_lounge =~ s/\/$ru_en\//\/eg_CA\//g;
+$miami_lounge =~ s/\/$ru_en\//\/us_MB\//g;
+$paris_lounge =~ s/\/$ru_en\//\/fr_PA\//g;
+
+$mumbai_lounge =~ s/motivation.ru/tennismatchmachine.com/g;
+$cairo_lounge =~ s/motivation.ru/tennismatchmachine.com/g;
+$miami_lounge =~ s/motivation.ru/tennismatchmachine.com/g;
+$paris_lounge =~ s/motivation.ru/tennismatchmachine.com/g;
+
+$announce_new_lounges = "<div id=new_lounges_announce style=\"width:320px;height:40px;font-size:16px;line-height:20px;position:absolute;top:234px;left:790px;\">
+<font color=#ff2233><small><b>New</b></font> lounges for <a href=$paris_lounge?mode=demo><b>Paris</b><a> and <a href=$miami_lounge?mode=demo><b>Miami</b></a>.<br>
+Create <i><b>your own</b></i> TMM?..</small><br><div style=\"background:#e3f1fb;display:inline;padding:4px;margin-left:98px;font-size:14px;font-family:Courier;color:#883344;\" >..That's <a href=$scriptURL_tmm?Submit=Logout style=\"text-decoration:none;\"><b>easy</b></a>!</div></div>";
+#==============	 translation block    
+$buttons{'search'}  = "View";
+$buttons{'update'}  = "Enter";
+$buttons{'undef'}   = "?";
+$buttons{'delete'}  = "Remove";
+$buttons{'confchal'} = "Confirm";
+$buttons{'selprize'} = "Select prize";
+$buttons{'confladder'} = "Go ahead";
+$buttons{'add'} = "Add";
+$buttons{'apply'} = "Accept";
+$buttons{'contest'} = "negotiate";
+$buttons{'add_ad'} = "add";
+$buttons{'change_password'} = "Change password";
+$buttons{'add_challenge'} = "Add Challenge";
+$buttons{'edit_challenge'} = "edit";
+$buttons{'update_challenge'} = "enter";
+$buttons{'select_candidate'} = "Select";
+$buttons{'set_booking_winner'} = "Reserve";
+$buttons{'reject'} = "withdraw";
+$buttons{'remove_candidate'} = "Reject";
+$buttons{'reset'}   = "Refresh";
+$buttons{'true'}= "Yes";
+$buttons{'true_a'}= "yes";
+$buttons{'false'}   = "No";
+$buttons{'false_a'}   = "no";
+$buttons{'new'} = "Add New";
+$buttons{'edit'}= "Edit";
+$buttons{'show_all'} = "Show All";
+$buttons{'show_ten'} = "Show Ten";
+$buttons{'show_next'} = "Show Next";
+$buttons{'show_last'} = "Show Last";
+$buttons{'add_reg'} = $regbutton;
+$buttons{'add_tourn_reg'} = "Add Self";
+$buttons{'notify'} = "Notify";
+$buttons{'send_the_doodling_message'} = "Send";
+$buttons{'send_result'} = "Send -->";
+$buttons{'add_the_forum_message'} = "Add Message";
+$buttons{'add_the_match_comment'} = "Add Comment";
+$buttons{'reply_forum_message'} = "Reply";
+$buttons{'consent'} = "OK";
+$buttons{'add_toss'} = "Toss";
+$buttons{'add_zhr'} = "Pull";
+$buttons{'update_reservation'} = "Record";
+$buttons{'update_price'} = "Yes!";
+$buttons{'apply_court_template'} = "Apply";
+$buttons{'erase_kortadmin_log'} = "Erase";
+$buttons{'h2h'} = "view";
+$buttons{'tourn_req'} = "Propose a tournament";
+
+$notice_to_new_user =  "<html><body><h2>To submit you message or challenge</h2><br>
+     you'd have to have played at least $n_crit match(es) with Club members 
+     who have played matches. Your match result should be reported 
+     to the Club by your opponent by \"Send Result\".</body></html>";
+$notice_to_new_user_edit =  "<html><body><h2>To edit the courts database</h2><br>
+     you'd have to have played at least $n_crit_edit match(es) with Club members 
+     who have played matches. Your match result should be reported 
+     to the Club by your opponent by \"Send Result\".</body></html>";
+$notice_to_new_user_photo =  "<html><body><h2>To submit a photo the the Club's gallery</h2><br>
+     you'd have to have played at least $n_crit_photo match(es) with Club members 
+     who have played matches. Your match result should be reported 
+     to the Club by your opponent by \"Send Result\".</body></html>";
+$notice_to_visitor =  "<html><body><h2>You've entered the Club as visitor.</h2><br>
+     To become a new Club player, you should <a href=$scriptname?mode=new_register>register</a>.</body></html>";
+$notice_to_beholder =  "<html><body><h2>This service is available to the Club admin only.</h2><br>
+</body></html>";
+
+@months = (0,'January','February','March','April','May','June','July',
+	       'August','September','October','November','December');
+@weekday = ('Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday');
+
+@csex = ('m','f');
+
+%prize_labels = ('1'=>'Club T-shirt','2'=>'tennis bag',
+				'3'=>'tennis shoes','4'=>'tennis raquet'
+);
+
+%court_labels = ('clay'=>'clay','brick'=>'red clay',
+				'greenset'=>'greenset','asphalt'=>'asphalt',
+				'paint'=>'painted concrete','concrete'=>'concrete',
+				'wood'=>'wood','artgrass'=>'artgrass','grass'=>'grass','carpet'=>'carpet',
+			        'hard'=>'hard','rubber'=>'rubber','synthetics'=>'synthetics','taraflex'=>'taraflex');
+				
+%court_type_labels = ('indoor'=>'indoor','inflat'=>'inflat','outdoor'=>'outdoor');
+%court_qual_labels = ('best'=>'best','good'=>'good','mean'=>'mean','poor'=>'poor');
+%court_line_labels = ('paint'=>'paint','plastic'=>'plastic');
+				
+@cmetro_us_NY = ("metro_station1", "metro_station2","metro_station3");
+@cmetro_eg_CA = ("metro_station1", "metro_station2","metro_station3");
+@cmetro_tr_IST = ("Hacıosman", "Darüşşafaka","Atatürk Oto Sanayi","İTÜ - Ayazağa","Seyrantepe","Sanayi Mahallesi","Levent","4. Levent",
+"Gayrettepe","Şişli - Mecidiyeköy","Osmanbey","Taksim","Şişhane","Havalimanı","Dünya Ticaret Merkezi","Yenibosna",
+"Ataköy - Şirinevler","Bahçelievler","Bakırköy - İncirli","Zeytinburnu","Merter","Davutpaşa","Terazidere","Otogar/Esenler",
+"Kartaltepe - Kocatepe","Sağmalcılar","Bayrampaşa - Maltepe","Topkapı - Ulubatlı","Emniyet - Fatih","Aksaray");
+
+@cmetro_es_BCN = sort("Hospital de Bellvitge", "Bellvitge","Av. Carrilet","Rambla Just Oliveras", "Can Serra","Florida",
+"Torrassa", "Santa Eulàlia","Mercat Nou","Plaça de Sants", "Hostafrancs","Espanya","Rocafort", 
+"Urgell","Universitat","Catalunya", "Urquinaona","Arc de Triomf","Marina", "Glòries","Clot",
+"Navas", "Sagrera","Fabra i Puig","Sant Andreu", "Torras i Bages","Trinitat Vella","Baró de Viver", "Santa Coloma","Fondo",
+"Ciutat Aeroportuària", "Mas Blau","Sant Cosme","El Prat Centre", "Estació del Prat","Centre Direccional",
+"Verge de Montserrat", "Mercabarna","Parc Logístic","Fira 2-Pedrosa", "Foc Cisell","INEF",
+"Fira 1", "Poble Sec","Paral·lel","Sant Antoni", "Passeig de Gràcia","Tetuan",
+"Monumental", "Sagrada Família","Encants","Bac de Roda", "Sant Martí","La Pau",
+"Verneda", "Artigues-Sant Adrià","Sant Roc","Gorg", "Pep Ventura","Badalona Pompeu Fabra",
+"Casagemes", "Canyadó","Morera","Zona Universitària", "Palau Reial","Maria Cristina",
+"Les Corts", "Plaça del Centre","Tarragona","Drassanes", "Liceu","Diagonal",
+"Fontana", "Lesseps","Vallcarca","Penitents", "Vall d'Hebron","Montbau",
+"Mundet", "Valldaura","Canyelles","Roquetes", "Trinitat Nova","Via Júlia",
+"Llucmajor", "Maragall","Guinardó-Hospital de Sant Pau","Alfons X", "Joanic","Verdaguer",
+"Girona", "Jaume I","Barceloneta","Ciutadella-Vila Olímpica", "Bogatell","Llacuna",
+"Poblenou", "Selva de Mar","El Maresme-Fòrum","Besòs Mar", "Besòs","La Pau",
+"Santander", "Sagrera-TAV","Sagrera-Meridiana","Cornellà Centre", "Gavarra","Sant Ildefons",
+"Can Boixeres", "Can Vidalet","Ernest Lluch","Collblanc", "Badal","Entença",
+"Hospital Clínic", "Sant Pau-Dos de Maig","Camp de l'Arpa","Congrés", "Virrei Amat","Vilapicina",
+"Horta", "El Carmel","La Teixonera","Provença", "Gràcia","Sant Gervasi",
+"Muntaner", "La Bonanov","Les Tres Torres","Sarrià", "Reina Elisenda","Plaça Molina",
+"Pàdua", "El Putxet","Avinguda Tibidabo","Magòria-La Campana", "Ildefons Cerdà","Europa-Fira",
+"Gornal", "Sant Josep","Avinguda Carrilet","Almeda", "Cornellà-Riera","Sant Boi",
+"Molí Nou-Ciutat Cooperativa", "Can Tries","Camp Nou","Campus Nord", "Manuel Girona","Prat de la Riba",
+"Mandrí", "Muntanya","Sanllehy","Onze de Setembre", "Bon Pastor","Can Peixauet",
+"Santa Rosa", "Església Major","Singuerlín","Can Zam", "Polígon Pratenc","Zona Franca",
+"Motors", "Foc Cisell","Foneria","Provençana", "Llefià","La Salut",
+"Casa de l'Aigua", "Torre Baró-Vallbona","Ciutat Meridiana","Can Cuiàs"
+);
+
+%cmetro_generic = ('eg_CA'=>\@cmetro_eg_CA,'tr_IST'=>\@cmetro_tr_IST,'us_NY'=>\@cmetro_us_NY,'es_BCN'=>\@cmetro_es_BCN);
+###
+$__1="If you really want to delete this record, please confirm:";
+$__2="<P>You may also go back to view the list:";
+$__3="<CENTER><H1>Enter data</H1><CENTER>";
+$__3a="Close";
+$__3ab="Cancel";
+$__3ac="Agree";
+$__3ad="Keep";
+$__3b="My Profile";
+$__3c="Profiles";
+$__3d="Archive";
+$__3da="Current tournaments";
+$__3e="Subscription";
+$__3f="Forum";
+$__3g="Courts";
+$__3h="Back";
+$__4="<CENTER> Registration: Step 2";
+$__5="<br><br><center><H4> (Please reload)</H4></center><br>";
+$__6="read anew...";
+$__7="Can't open seed file.";
+$__8="Bad params of seed.";
+$__9="You have registered!";
+$__9a="New password has been sent to your email";
+$__9b="Please give us 24 hours to complete this task. We will inform you on the email that you have provided. Thank you!\n\n";
+$__10="Continue";
+$__11="<b>Payment notify page</b>";
+$__12="Go back";
+
+$__14="Do add up your credit";
+$__15="Quit";
+$__15a="Return to the list";
+$__16="Current credit";
+$__19="Description";
+$__20="Name";
+$__21="Price";
+$__24="Category: ";
+$__30="\$";
+$__39="category";
+$__40="usual";
+$__41="save";
+$__41e="NN";
+$__42="Photo";
+$__43="File";
+$__44="Name / Alias";
+$__45="First and Second Name";
+$__46="YoB - Gender - Height/Weight";
+$__47="Level (NTRP)";
+$__48="Closest metro";
+$__52="Contact (phone, etc.)";
+$__52a="Question to answer <br> if you forgot your password";
+$__52a_1="What's your pet's name?";
+$__52a_2="What's your best fruit?";
+$__52a_3="What's your grandpa's name?";
+$__52a_4="What's your grandma's name?";
+$__52b="Correct answer";
+$__53="Login (small Latin, no spaces)";
+$__58="<center><br>You have read these
+<br>\"<a href=/docs/tos.en.html target=new>Terms of Service</a>\"
+<br>and you agree.</center><br>";
+$__58a="I accept \"<a href=/docs/tos.en.html target=new>Terms of Service</a>\" ";
+$__60="Enter 4 symbols above:";
+$__61="(anti-spam protection)";
+$__62="password: 8+ symbols";
+$__63="one more time:";
+$__64="You have entered the system as user";
+
+$oryol = "heads";
+$reshka = "tails";
+
+$good_mes = "You win!";
+$bad_mes = "You lose :(";
+$toss_result = "The result of toss";
+$log_erase_warning = "All your log data will be erased. 
+<br>Yes or No:<br>";
+$online_reg_warning = "Online registration to TClub is temporarily closed. 
+To become a new TClub player, write to info\@yoursite.com, Subject: TClub";
+$court_ttle1 = "Court Admin";
+$court_ttle2 = "Reservation Log";
+$court_ttle3 = "Templates";
+
+$notice_to_new_user_a =  "To submit this kind of request</h2><br>
+     please play at least ";
+$notice_to_new_user_b =  " matches against other Club players. 
+The result of this match should be submitted by your opponent on the \"Submit result\" link from the main page.";
+	
+$email_h1 = "Your tournament opponent";
+$email_h2 = "suggests:";
+$email_h3 = "Time:";
+$email_h4 = "Place";
+$email_h5 = "You may agree to these conditions or propose your own.";
+$email_h6 = "Use \"Draw\" at TClub site:";
+$email_h7 = "http://motivation.ru/cgi/".$ru_en."/tclub";
+$email_h7 = "http://tennismatchmachine.com/cgi/".$ru_en."/tclub" if ($tmm);
+$email_h8 ="agree to what you've previously proposed:";
+$email_h9 = "We hope your match will be played as scheduled.";
+$email_h10 = "TClub: please negotiate your match with your opponent";
+$email_h11 = "TClub:  match conditions approved by the opponent";
+$email_h12 = "You've been selected by player";
+$email_h13 = "to admin";
+$email_h14 = "Your message added to the admin's private folder. You'll see your letter as colored background 
+which means only you two can see these.<br>";
+$email_h15 = "TClub: News";
+$email_h17 = "TClub: Match result";
+
+$email_footer = "\n\n This message was sent automatically by program TMM.\nTo change the email to
+receive such messages, edit your profile on site ";
+
+$email_footer_html = "<br><br>This message was sent automatically by program TMM.<br>To change the email to receive such messages, edit your profile on";
+
+$warn1 = "As the player wished, his/her profile is locked for new players.";
+$warn2 = "As the player wished, his/her profile is locked for visitors.";
+$warn3 = "Confirmation";
+$warn4 = "You are willing to become a candidate for opponent to";
+$warn5 = "in this match and accept his/her terms?<br> Yes or No:<br>";
+$warn6 = "Cancel: confirm";
+$warn7 = "You have decided not to be an opponent to";
+$warn8 = "in this match. <br> Yes or No:<br>";
+
+$_ttl1 = "Matches of player";
+$_ttl2 = "Date";
+$_ttl3 = "Round";
+$_ttl4 = "Result";
+$_ttl5 = "Score";
+$_ttl6 = "Points";
+$_ttl7 = "Comments";
+$_ttl8 = "Individual match";
+$_ttl9 = "Type";
+$_ttl10 = "View";
+
+$type_m1 = "Singles";
+$type_m2 = "Doubles";
+$razryad = "";
+$subj1 = "New match challenge";
+
+$ad_a = "Subscription--to ALL--to ALL--Subscription\nMatch challenge from";
+$ad_b = "his/her NTRP";
+$ad_c = "To accept the proposed terms";
+$ad_d = "on site TClub, select \"Agree\"";
+$ad_d1 = "TClub: you have been selected the opponent for the match.";
+
+$list_rec_1 = "Submitted by:";
+$list_rec_2 = "Time";
+$list_rec_3 = "Profile:";
+$list_rec_4 = "Text:";
+
+
+$ad_g = "Match challenge";
+$ad_i = "Select your opponent";
+$ad_j = "Send message:";
+$ad_k = "Add message:";
+$ad_l = "Write to admin:";
+$ad_m = "Blog:";
+$ad_n = "Comment to blog:";
+$ad_na = "Add comment:";
+$ad_nb = "Send challenge:";
+$ad_o = "The tournament match is scheduled for:";
+$ad_p = "Add location";
+$ad_q = "Add court";
+$ad_r = "Edit location";
+$ad_r_a = "edit";
+$ad_s = "You can edit";
+$ad_t = "Edit court";
+$ad_u = "Add question";
+$ad_v = "Add";
+$ad_w = "Edit";
+$ad_x = "Site/Blog";
+$ad_y1 = "Profile viewed by visitors";
+$ad_y2 = "Viewed by new players";
+$ad_y3 = "Show ads";
+
+$ad_y4 = "Yandex news";
+$ad_y5 = "������.News";
+$ad_y6 = "Challenge";
+$ad_y7 = "see profiles";
+$ad_y8 = "Erase log";
+
+$bd_a = "Place";
+$bd_b = "Terms of match";
+$bd_c = "Time of match";
+$bd_d = "Opponent for<br>match";
+
+$bd_e = "Text of Message";
+$bd_f = "Subject";
+$bd_g = "URL of picture";
+$bd_i = "To";
+$bd_j = "Text";
+$bd_ja = "Add comment";
+
+$bd_k = "Name of<br>courts";
+$bd_l = "Location and<br>address";
+$bd_m = "Metro";
+$bd_p = "Map";
+$bd_q = "Shower";
+$bd_r = "Cafe";
+$bd_s = "Parking";
+
+$bd_t = "Dressroom";
+$bd_u = "WC";
+$bd_v = "Other";
+
+$c_a = "Group";
+$c_b = "Subgroup";
+
+$d_A = "This time requested by";
+$d_B = "Reservation would be given to";
+$d_C = "Reservation possible at least 1 h. before time!";
+$d_E = "Current time:";
+
+$e_a = "Match No.";
+$e_b = "1st round";
+$e_c = "2nd round";
+$e_d = "3rd round";
+$e_e = "4th round";
+$e_f = "5th round";
+$e_g = "6th round";
+$e_h = "final";
+$e_i = "Tourns";
+$e_i_a = "TClub Profiles";
+$e_j = "How to use <b>Tournament Draw</b>?";
+$e_k = "Draw";
+$e_l = "104 weeks";
+
+$f_a = "Court No.";
+$f_b = "Price, rub/h";
+$f_c = "Surface";
+$f_d = "Indoor/Outdoor";
+$f_e = "Quality";
+$f_f = "Lines";
+$f_g = "Background";
+$f_h = "Benches";
+$f_i = "Lights";
+
+$f_j = "plastic";
+$f_k = "paint";
+$f_l = "best";
+$f_m = "good";
+$f_n = "mean";
+$f_o = "poor";
+
+$f_p = "clay/red";
+$f_q = "clay";
+$f_r = "hard";
+$f_s = "greenset";
+$f_t = "taraflex";
+$f_u = "synthetics";
+$f_v = "rubber";
+$f_w = "rubber";
+$f_x = "asphalt";
+$f_y = "concrete/paint";
+$f_z = "wood";
+$f_a_a = "grass";
+$f_a_b = "artgrass";
+$f_a_c = "outdoor";
+$f_a_d = "indoor";
+$f_a_e = "inflat";
+
+$g_a = "Question";
+$g_b = "Name";
+$g_d = "Show";
+$g_e = "Buy";
+$g_f = "Sell";
+$g_g = "Services";
+$g_h = "Other";
+
+$h_a = "Your match is to be played on";
+$h_a_a = "inclusive\n";
+$h_b = "Singles<br> (won - lost)";
+$h_c = "see matches";
+$h_d = "Points";
+$h_e = "Text of message:";
+$h_f = "Who";
+$h_g = "Surface";
+$h_ga = "Price (per hour)";
+$h_h = "Against:";
+$h_i = "Location";
+$h_j = "Location name:";
+$h_k = "Time";
+$h_l = "Price (hour):";
+$h_m = "Text of challenge:";
+$h_n = "More:";
+$h_o = "SCORE of MATCH:";
+$h_p = "Your comments:";
+$h_q = "not available";
+$h_r = "You pushed the button!";
+
+$i_a = "Please edit your profile and take some good alias. It must be unique, or you will get error.";
+$i_aa = $i_aa_nw = "<b>Your profile will be activated soon. Please be patient, thank you!</b>";
+
+$i_b = "Please edit your profile and estimate your NTRP.";
+$i_c = "Active till";
+$i_d = "Club Card";
+$i_e = "players";
+$i_e_a = "other";
+$i_f = "Club Regulations";
+$i_fa = "Rules";
+$i_g = "Credit";
+$i_h = "Rating";
+$i_i = "Blogs";
+$i_j = "Matches";
+$i_k = "MV";
+$i_l = "VT";
+
+$i_m = "WIKI";
+$i_ma = "Courts";
+$i_mb = "Shops";
+$i_mc = "Stringers";
+$i_md = "Trainers";
+$i_me = "Hitters";
+$i_mf = "Clubs";
+$i_mg = "Sites";
+
+$i_n = "CourtAdmin";
+$i_o = "To new players";
+$i_p = "Yandex Tennis News";
+
+$j_a = "Courts";
+$j_b = "lend";
+$j_c = "use";
+$j_d = "none so far..";
+$j_e = "How to:";
+$j_f = "today";
+$j_g = "this week";
+$j_h = "next week";
+$j_i = "tomorrow";
+$j_j = "from";
+$j_k = "reservation";
+$j_l = "Submit proposal";
+
+$k_a = "Individual Matches";
+$k_b = "Submit Result";
+$k_c = "Offer Match";
+$k_ca = "New Match [through Gold]";
+$k_d = "Level";
+$k_e = "Terms";
+$k_f = "Action";
+$k_g = "by mutual agreement";
+$k_h = "opponent selected";
+$k_i = "candidates";
+$k_j = "\$/hr.";
+
+$l_a = "104 weeks";
+$l_b = "total";
+$l_c = "small font";
+$l_d = "registered";
+$l_e = "played";
+$l_f = "see ";
+$l_g = "head-to-head";
+$l_h = "winner";
+$l_i = "runner-up";
+$l_j = "premier league";
+$l_k = "first league";
+$l_l = "second league";
+$l_m = "not rated";
+$l_n = "photo";
+$l_na = "calculate";
+$l_naa = "in 365 days";
+$l_nb = "for matches";
+$l_nc = "comments done";
+$l_nd = "total <img src=/icon/th_up_16x16.png border=0>";
+$l_ne = "total <img src=/icon/th_down_16x16.png border=0>";
+$l_nf = " people";
+$l_ng = " from ";
+$l_o = "blog/site";
+$l_p = "players";
+$l_p_a = "player";
+$l_q = "NTRP";
+$l_r = "points";
+$l_s = "matches";
+$l_su = "rated matches";
+$l_t = "victories";
+$l_ta = "rated doubles";
+$l_u = "rating";
+$l_v = "metro";
+$l_w = "last visited";
+$l_x = "Alias";
+$l_y = "NTRP";
+$l_z = "Points";
+$l_1 = "Number of matches in TClub";
+$l_2 = "Number of victories in TClub";
+$l_3 = "TClub Rating";
+$l_4 = "Closest metro";
+$l_5 = "last visited TClub";
+$l_6 = "noname";
+$l_7 = "newb";
+$l_8 = "fair";
+$l_9 = "expert";
+$l_10 = "good";
+
+$m_a = "CLOSE";
+$m_b = "Registration";
+$m_c = "Participant";
+$m_ca = "Doubles";
+$m_d = "Status";
+$m_e = "Registration closed";
+$m_f = "";
+$m_g = "NB - only messages from common forum and owned privately shown.";
+$m_h = "search";
+$m_i = "Archive";
+$m_j = "Partner";
+
+$n_a = "Courts Locations";
+$n_b = "Total locations:";
+$n_c = "Add location";
+$n_d = "Search by metro:";
+$n_e = "found locations near";
+$n_f = "Address";
+$n_g = "Map";
+$n_h = "Contact<br>phones";
+$n_i = "Working hours";
+$n_j = "Facilities";
+$n_k = "Other";
+$n_l = "Last edited";
+$n_m = "Total courts";
+$n_n = "list";
+$n_o = "OK";
+
+$o_a = "to admin";
+$o_b = "Author";
+$o_c = "no subj";
+$o_d = "bytes";
+$o_e = "No.";
+$o_f = "Winner";
+$o_g = "Runner-up";
+$o_h = "TClub rating tournament";
+$o_i = "TClub group tournament";
+$o_j = "TClub satellite tournament";
+$o_k = "category";
+$o_l = "Virtual machine for";
+$o_m = "Machine for Voting";
+$o_n = "Archive";
+$o_o = "You have NOT voted";
+$o_p = "You have voted";
+$o_q = "Virtual Toss";
+$o_r = "Purpose of Toss";
+$o_s = "Your guess";
+$o_t = "Pull";
+$o_u = "Toss for";
+$o_v = "You have already pulled!";
+$o_w = "Last VT (only with purpose)";
+$o_x = "Who tossed";
+$o_y = "Purpose";
+$o_z = "Guessed";
+$o_1 = "won";
+$o_2 = "lost";
+$o_3 = "For who";
+$o_4 = "Poll";
+$o_5 = "against all";
+$o_6 = "You've already voted for";
+$o_7 = "For variant";
+$o_8 = "Vote for one of";
+
+$p_a = "private message";
+$p_b = "videoclips";
+$p_c = "Sale";
+$p_d = "other";
+$p_e = "How to submit a video?";
+$p_f = "Photogallery";
+$p_g = "Last photos";
+$p_h = "Add photo";
+$p_i = "Previous";
+$p_j = "Size";
+$p_k = "Players Blogs";
+$p_l = "Bloggers at <b>yoursite.com</b>";
+$p_m = "Start blog at �� yoursite.com";
+$p_n = "Bloggers at <b>livejournal.com</b>";
+$p_o = "To create a link to your blog, edit your profile and put there URL to livejournal.com";
+$p_p = "Blog";
+
+$q_a = "Auto-Refresh<br> in ";
+$q_b = "The window will refresh in ";
+$q_c = "busy";
+$q_d = "paid";
+$q_e = "reserv.";
+$q_f = "request";
+$q_g = "Legend";
+$q_h = "erase";
+$q_i = "free";
+$q_j = "cancel";
+$q_k = "text for";
+$q_l = "journal";
+$q_m = "first ";
+$q_n = "second ";
+$q_o = "third ";
+$q_p = "court";
+$q_q = "all courts";
+$q_r = 'r';
+$q_s = 'p';
+$q_t = "Template</b><br>of courts hours";
+$q_u = "Price of hour: from";
+$q_v = "this court";
+$q_w = "all courts";
+$q_x = 'on';
+$q_y = "w/d";
+$q_z = "w/e";
+$q_1 = "all";
+$q_2 = "request not approved";
+$q_3 = "court reserved";
+$q_4 = "on";
+$q_5 = "from";
+$q_6 = "Admin booked court";
+$q_7 = "sent request";
+$q_8 = "Admin approved reservation";
+$q_9 = "Admin confirmed payment";
+$q_10 = "cancelled request";
+$q_11 = "Admin cancelled reservation";
+$q_12 = "Admin freed court";
+
+%labels_courts = ('Court1'=>$q_m.$q_p,
+	      'Court2'=>$q_n.$q_p,
+	      'Court3'=>$q_o.$q_p,
+	      'Court4'=>'4 '.$q_p,
+	      'Court5'=>'5 '.$q_p,
+	      'Court6'=>'6 '.$q_p,
+	      'Court7'=>'7 '.$q_p,
+	      'Court8'=>'8 '.$q_p,
+	      'Court9'=>'9 '.$q_p,
+	      'Court10'=>'10 '.$q_p,
+	      'allCourts'=>$q_q);
+
+%labels_days = ('today'=>$j_f,
+	      'thisWeek'=>$j_g,
+'tW1'=>'this Mon','tW2'=>'this Tue','tW3'=>'this Wed','tW4'=>'this Thu','tW5'=>'this Fri','tW6'=>'this
+Sat',
+'tW7'=>'this Sun',
+	      'nextWeek'=>$j_h,
+'nW1'=>'next Mon','nW2'=>'next Tue','nW3'=>'next Wed','nW4'=>'next Thu','nW5'=>'next Fri',
+'nW6'=>'next Sat','nW7'=>'next Sun');
+
+$r_a = "Your current credit in Club is ";
+$r_b = " WMR. Please,add up your credit. Contact admin by \"Write to admin\" from page \"My profile\"/\"Add to credit\".";
+$r_c = "Select two players";
+$r_d = "Request";
+$r_e = "Last Results:";
+$r_f = "days";
+$r_g = "hour";
+$r_h = "for";
+$r_i = "to";
+$r_j = "is";
+$r_k = "Write reply";
+$r_l = "voting";
+$r_m = "toss";
+$r_n = "hidden";
+$r_o = "estimate!";
+$r_p = "light";
+$r_q = "Reply";
+$r_r = "here";
+$r_s = "self";
+$r_t = "sec";
+###
+$s_a = "You may as well fill this form later on.";
+$s_b = "Please reload this window";
+$s_d = "Players";
+$s_e = "Forum";
+$s_f = "Docs";
+$s_g = "T-Shirts";
+$s_h = "Shirts";
+$s_i = "Sale";
+$s_j = "Profile";
+$i_ja = 'Cafe';
+$s_k = 'Log Out';
+$s_l = 'raquet';
+$s_m = "string";
+$s_n = "String/Tension";
+$s_o = "other sports";
+$s_p = "Other sports / Achievements";
+$s_q = "In club since";
+$s_r = "Raquet";
+$s_s = "Your raquet";
+$s_t = "Playing tennis since";
+$s_u = "You play reqularly since";
+$s_v = "Statistics";
+$s_w = "trainer";
+$l_ia = "3rd place";
+$l_da = "active";
+$s_x = 'Club Card';
+$s_y = 'free';
+$s_z = 'for a day';
+#
+$t_a = 'none yet :)';
+$t_b = "Select a player and click";
+$t_c = "Send message";
+$t_d = "active:";
+$t_e = "close";
+$t_f = "Wait for invited player in Cafe!";
+$t_g = "candidates";
+$t_h = "Reading";
+$t_i = "Select one of the two ways to continue.";
+$t_j = "Tournament table";
+$t_k = "You are about to invite a player";
+$t_m = "You are not registered into the tournament yet. See Registration.";
+$t_n = "Warning!<br>This window will close in 15 sec.,<br>push 'Cancel' to keep on";
+$t_o = "Cancel";
+$t_p = "New version";
+$t_q = "For successful registration you have to accept the Rules";
+$t_r = "You offer to play on the paid court";
+$t_s = "select";
+$t_t = "Region";
+$t_u = "Tournament points";
+$t_v = "Registration of new players";
+$t_w = "Points";
+$t_x = "Upcoming matches";
+$t_y = "Completed matches";
+$t_z = "Till";
+$t_za = "u.w.l.";
+$t_zb = "Prize";
+#
+$u_a = "Free, busy, on vacation";
+$u_b = "Matches";
+$u_c = "Matches played";
+$u_ca = "Weeks of leave used";
+$u_d = "CHALLENGE FROM";
+$u_e = "YOUR CHALLENGE";
+$u_f = "Match date";
+$u_g = "Who challenged";
+$u_h = "result not submitted";
+$u_i = "You are invited to Cafe by";
+$u_j = "Your partner";
+$u_k = "Mark all read";
+$u_ka = $u_k;
+$u_kb = "Hide faces";
+$u_kc = "Hide thumbs";
+$u_kd = "No blacklisting";
+$u_ke = "No comments";
+$u_l = "addresses";
+$u_la = "courts";
+$u_m = "show on map";
+$u_n = "indoor";
+$u_o = "Passwords do not coincide!";
+$u_p = "Password must be all lower latin, no spaces!";
+$u_q = "Enter password twice";
+$u_r = "Your login";
+$u_s = "Your new password";
+$u_t = "Please store login and password on paper!";
+$u_u = "I read the Rules";
+$u_v = "Thank you";
+$u_w = "Map of the City";
+$u_x = "Tournament Rules";
+$u_y = "You read";
+$u_z = "Confirm or Cancel";
+$u_za = "and want to participate";
+$u_zb = "You have been registered already.";
+$u_zc = "Your opponent cannot play";
+#
+$v_a = "send";
+$v_b = "Please, tell us about yourself";
+$v_c = "today";
+$v_ca = " in Club";
+$v_d = "rating points";
+$v_e = "against";
+$v_f = "statistics";
+$v_fa = "table";
+$v_fb = "common";
+$v_g = "reload";
+$v_h = "challenge from";
+$v_ij = "vacation";
+$v_i = "drop leave";
+$v_ii = "take leave";
+$v_j = "Whom";
+$v_k = "open";
+$v_l = "Active players";
+$v_la = "Login with";
+$v_m = "New players";
+$v_n = "Tournaments";
+$v_o = "in current month";
+$v_oo = "months";
+$v_p = "7 days";
+$v_pa = "30 days";
+$v_q = "visit this location!";
+$v_qa = "You are here!";
+$v_r = "enter text";
+$v_s = "last messages";
+$v_t = "Rocket of month";
+$v_u = "Last month";
+$v_v = "Links";
+$v_w = "Do you really want to enter BAR? WARNING: this room of the Club may contain abuse!";
+$v_wa = "Do you really want to delete these messages?";
+$v_x = "Matches played in this month";
+$v_y = "singles";
+$v_ya = "doubles";
+$v_z = "Players:";
+$v_za = "You are late!";
+$v_zaa = "Only 2 challenges at a time!";
+$v_zab = "Don't forget to put forth your conditions!";
+$v_zb = "You are on vacation!";
+$v_zc = "You are retired.";
+$v_zd = "Registration not complete.";
+$v_ze = "To cancel your offer, <a href=/docs/TClub_FAQ_en.html#2.3>read here</a>";
+$v_zf = "It is recommended to submit completed match results. Incomplete match results can be accounted according to specific club regulations.";
+$v_zg = "Unfortunately it is not possible to revise your password automatically. Please contact the administration.";
+$v_zga = "The photo you have just submitted will be added to our gallery soon. Thank you!";
+$v_zgba  = "One day Club Card?";
+$v_zgc = "This is a day ago backup copy of Moscow lounge: see it fresh online at <a href=http://motivation.ru>motivation.ru</a>";
+
+
+$w_a = "T-Shirts";
+$w_b = "<p>This is a simplified PDA version of the program. Please use the <a href=javascript:runMini();>Classic</a> version when possible! Thank you!</p>";
+$w_d = "Year";
+$w_e = "Metro";
+$w_f = "PDA version";
+$w_h = "clay";
+$w_i = "Banners show stats";
+$w_j = "yesterday";
+$w_ja = "this month";
+$w_jb = "show records";
+$w_jc = "shows";
+$w_jd = "clicks of";
+$w_k = "You have been challenged in Ladder";
+$w_l = "In gallery";
+$w_m = "Scoreboard";
+$w_ma = "Moscow, June 10 - October 3.";
+$w_mb = "Chess Tournament";
+$w_mc = "Please visit MV and say Yes or No to";
+$w_md = "This message will not be displayed after you've voted!";
+$w_me = "New club rules!";
+$w_mf = "Winner points";
+$w_mg = "Loser points";
+$w_mh = "Matches registrar";
+
+$x_a = "Welcome to TMM!";
+$x_b = "You are over";
+$x_c = "lounge in quick demo";
+$x_d = "For normal run, please <a style=\"text-decoration:none;\" href=$scriptname?Submit=Logout>click here</a>";
+$x_e = "Hello, this is Alex,";
+$x_f = "To see all our lounges, select \"Other\" from the <a style=\"text-decoration:none;\" href=$scriptname?Submit=Logout>start page</a>";
+$x_g = "To set up a new lounge, select <a style=\"text-decoration:none;\" href=$scriptname?Submit=Logout>\"Create a new lounge\"</a>";
+$x_h = "To come over and see some our biggest lounge in action,<br>switch <a style=\"text-decoration:none;\" href=http://motivation.ru/cgi/ru/tclub?mode=demo&language=english>here</a>";
+$x_i = "Click \"Enter\" and <br>login as visitor";
+$x_j = "Edit challenge";
+$x_k = "Update/Select";
+$new_user_mail_message = "<div style=\"font-size:14px;margin:5px;\">Congratulations on coming to our lounge of Match Machine. Please read \"Frequently Asked Questions\" 
+- <a href=/docs/TClub_FAQ_en.html>FAQ</a></div>.<br><br>Support Team";
+$check_results = "see results";
+$question_default = "Your question";
+$variant = "Variant";
+$poll_default = "Enter short name without spaces:";
+$poll_menu = "Poll";
+$gnu_says = "GNU says: Time to UPGRADE browser!";
+$poll_completed = "Poll completed. Thank you!";
+$your_mail = "Your mail";
+$your_sms = "Onliners";
+$your_reading = "Reading";
+$your_bar = "RestRoom";
+$new_profile_list = "new format";
+$old_profile_list = "<small>This new format is limited for your IE browser. Please consider upgrading your browser!</small>";
+
+$minutes = "m.";
+$seconds = "s.";
+$hours = "hr.";
+$ag = "ago";
+$viewed = "viewed";
+$wrote = "wrote";
+$edited = "edited";
+$added = "added";
+$sent = "sent";
+$used = "used";
+$deleted = "deleted";
+$activated = "activated";
+$deactivated = "deactivated";
+
+$y_a = "Your blacklist";
+$y_b = "For player";
+$y_c = "set/remove taboo for adding comments to your matches";
+$y_d = "You can not comment this match due to participant(s) taboo";
+$y_e = "Total";
+$y_f = "Successful";
+$y_g = "Draw remaining";
+$y_h = "offers";
+$y_h_1 = "offer";
+$y_h_24 = "offers";
+$y_i = "Ground floor";
+$y_j = "First floor";
+$y_ja = "First floor being refurbished";
+$y_k = "Background:";
+$y_l = "All-in-one";
+$y_m = "Invite Your Boss!";
+$y_n = "<b>Your Boss</b> is not registered yet? Type here the email:";
+$y_o = "Code from picture";
+
+$y_p = "Time to register in your CITY?";
+$y_q = "it's there";
+$y_r = "or click anywhere to continue";
+$y_s = "Hello! Today you're visitor";
+$y_t = "from";
+$y_u = "your city";
+
+$email_subj_reg = "Welcome to Match Machine";
+
+$email_message_reg = "Dear Sir or Madam,
+\n\nPlease be kindly advised to follow this Match Machine link in your city:
+\n
+http://tennismatchmachine.com/cgi/$ru_en/tclub
+\n
+Your login:     your_login_your_login
+Your password:  your_password_your_password
+\n
+Please edit \"Profile\", fill in all the information about yourself!
+\n
+Please use this program and ask as many friends and other tennis players be
+invited to it. We hope you'll get more questions about this program and we are
+ready to help you, so please don't think twice to ask these questions directly
+to us!
+\n
+Sincerely,\n
+the TMM support team.\n
+http://tennismatchmachine.com\n
+\n";
+
+$lenta_submit = "Write in the news";
+@cthemes = ('watched','listened','read','visited');
+@creacted = ('thinking','approving','disapproving');
+$do_comment_pls = 'write smth?';
+$nazv = 'what';
+$btn_lenta = 'Add in news';
+$reports = 'reports that';
+$film_title = "Club News";
+$at = "at";
+$and = "and";
+$comms = "comm.";
+
+$tourn_title = "Title of the tournament";
+$tourn_num_rounds = "Number of rounds (r008 -  up to 8 players, r016 - to 16)";
+$tourn_prizes = "Your prizes to finalists";
+$tourn_av_rating = "Average rating";
+$tourn_reg_deadline = "Registration to your tournament will be open till 12 pm Thu (r008) or Sat (r016)";
+$tourn_reg_warning = "Your request will be reviewed by Club admin,<br>if approved the link would be added to the list \"Current tournaments\".";
+$tourn_free = "Conditions of participation";
+$tourn_reg_proc = "After the registration is complete, you will proceed with selecting players.";
+$tournir_author = "Organizer";
+$tournir_conditions = "Conditions of participation";
+$tournir_prizes = "Prizes to finalists";
+$tournir_rdd = "till 12 pm ";
+$tournir_nr = "Number of rounds";
+$select_players_warn = "Please mark participants ";
+$how_many_sel_prefix = "You've selected ";
+$how_many_sel_postfix = " players";
+$ulim_reached = "You have already selected maximum players for this draw.";
+$continue_toss = "=> seeds";
+$choose_seeds = "Select seeds";
+$cancel_seeds = "Cancel seeds";
+$seed = "seed";
+$seeds = "seeds";
+$parts = "unseeded";
+$create_draw_message = "You're done with seeds. Pushing the button \"Create draw\", you're going to make up first round pairs.
+<br><br>Attention! Pushing the button \"Create draw\", 
+you'll not be able to change the draw or list of participants - the draw will be <b>final</b>.";
+$create_draw_button = "Create draw";
+$start_tournir_ad = "Add Tournament";
+
+$reg_open_warn = "<img src=/icon/edit.png title=\"Registration\">";
+$tour_cancel_warn = "<img src=/icon/undo.png title=\"Cancelled\">";
+$tour_running_warn = "<img src=/icon/fwd.png title=\"Active\">";
+$tour_gen_info = "General information";
+$draw_or_cancel_dd = "Draw by ";
+$first_round_dd = "First round by ";
+$qf_dd = "Quoterfinals by ";
+$sf_dd = "Semifinals by ";
+$f_dd = "Final ";
+$subb = "Sat";
+$voskr = "Sun";
+$chtv = "Thu";
+$pnd = "Mon";
+$vtr = "Tue";
+$reg_online = "Register online";
+$fixed_forum_mes = "ON TOP";
+$dblclck = "click to open chat";
+$dblclck_back = "double-click to close chat";
+
+$your_login = "Your login";
+$your_password = "Your password";
+$the_best_prog = "The best tennis program - in";
+$unite_and_play = "Join with TMM and play tennis!";
+
+$hello_amigos = "Hello";
+$forgotten_us = "Haven't seen you a lot.. password lost?";
+$happy_new_year = "Happy New Year!";
+$sign_up_and_get = "Sign up and GET \$20!";
+$already_exists = "already exists! Please <a href=javascript:window.history.back();>chose another name</a>.";
+$message_sent = "Message sent to";
+$addresses = "addresses at";
+$pushit = "click ";
+
+$favourite_court_address = "plays at";
+$sorting_shootout = "For sorting on a column,<br>click on its header!";
+
+$sorry_ie = "Sorry, Internet Explorer does not show this table. Please use another browser for working with Match Machine";
+$select_by_court = "Select by location";
+$total_s = "Total sum";
+
+$hide_chal = "delete challenge?";
+$hide_chal_warn = "The match offer will be deleted.";
+
+$validate_fill_opp = "Fill in Opponent";
+$validate_fill_court = "Fill in Location";
+$validate_fill_court_type = "Fill in Court_type";
+
+$validate_fill_match_date = "Fill in Match date";
+$validate_fill_pph = "Fill in Price of hour";
+$validate_fill_num_hours = "Fill in Number of hours";
+$to_main = "Back to main";
+$versions = "Other versions";
+
+$counter_cond = "your offer (if any)";
+$email_sbscr = "Receive match offers on email";
+
+%masterst_labels = ('newb'=>$l_7,'mean'=>$l_8,'adv'=>$l_10,'exp'=>$l_9,'1.0'=>'1.0','1.5'=>'1.5','2.0'=>'2.0','2.5'=>'2.5',
+					'3.0'=>'3.0','3.5'=>'3.5','4.0'=>'4.0','4.5'=>'4.5','5.0'=>'5.0','5.5'=>'5.5','6.0'=>'6.0','6.5'=>'6.5',
+					,'7.0'=>'7.0');
+$now = "now";
+
+$your_offer_checked = "Your offer has been checked";
+$your_offer_unchecked = "Your offer was unchecked";
+$your_offer_plus_cand = "checked in to your offer";
+$your_offer_minus_cand = "bailed out from your offer";
+$your_offer_deleted = "deleted their offer";
+$your_offer_deleted_you = "You deleted your offer";
+
+$forum_plus = " wrote on forum ";
+
+$ad_ga = "Items for sale";
+$ad_gb = "Coach offer";
+$ad_gc = "Mini-tournament offer";
+$ad_gd = "Going abroad offer";
+$bd_aa = "Description";
+$bd_ba = "Price and terms";
+
+$warn4a = "You have read the offer from ";
+$warn5a = "and are ready to accept.<br> Confirm or cancel:<br>";
+$warn7a = "You have decided to cancel ";
+$warn8a = "? <br> Cancel it, or keep it:<br>";
+$ad_d1a = "Congratulations, you are selected";
+$ad_d2 = "Unfortunately, you were not selected";
+$ad_d2a = "Unfortunately, you were not selected";
+$k_ha = "party selected";
+$x_ka = "Select the party";
+$email_h4a = "Lot";
+
+$buttons{'clear_cookies'} = "Clear cookies";
+$do_challenge = "Challenge";
+$current = "current";
+$current_match = "match No.";
+
+$monitor = "Activity Monitor";
+$lenta = "News Reel";
+$mobi_icon = "Classic <==> Mobile Versions";
+$today_auction = "Only Now";
+
+$denga = "RUR" if ( $ru_en =~ /^ru/);
+$per_tspan = "for period";
+$used_m = "with payments data";
+$t_span = "Timespan";
+$all_recs = "Matches in DB, total<br>(=S+D)<br><b>N<sub>rec</sub></b>";
+$wos = "Missed, n/a, w/o, etc.,<br><b>N<sub>wo</sub></b>";
+$unspecs = "Matches on unacc. courts,<br><b>N<sub>un</sub></b>";
+$specs = "Matches on acc. courts,<br>(=S+D)<br><b>N<sub>sp</sub></b>";
+$kn_paid = "Matches with acc. paym.,<br>(=S+D)<br><b>N</b>";
+$ppl_played = "Number players in acc. matches,<br><b>P</b>";
+$addr_played = "Number addrs in acc. matches,<br><b>A</b>";
+$ttime_played = "Acc. and estm. time, hours, <b>H</b><br>(~H<sub>est</sub>)";
+$tsum = "Acc. and estm. sum, $denga, <b>S</b><br>(~S<sub>est</sub>)";
+$min_max_pph = "Min and max price, $denga/h,<br>m -- M";
+$ave_pph = "Mean price, $denga/h, <b>S/H</b>";
+$free_court_matches = "Matches on free courts,<br><b>N<sub>fr</sub></b>";
+$run_qu = "Select \"timespan\" and \"court type\" and click";
+$resu = "Results";
+$ct_type = "Court type";
+
+$ie_warning0 = "Please do not use this browser Internet Explorer ver. ";
+$ie_warning1 = "<p>Sorry, this version of Internet Explorer does not work well with TMM.";
+$ie_warning1a = "<p>Sorry, this version of Internet Explorer does not work well with TMM.";
+$ie_warning2 = "<p>Please consider use of Firefox, Chrome, Safari or any other browser!";
+
+$bd_ea = "New Topic";
+$zdest_default = "to everyone";
+
+$roundish = "Roundish design";
+$squarish = "Squarish design";
+
+$wait_registrators = "Please wait until the submitted result gets in the database.<br>Thank you for using Match Machine!";
+$gold_switched_on_warning = "One-day club card is valid until tomorrow.<br>Thank you for using Match Machine!";
+$new_user_profile_warning = "Please edit your profile while we are going to activate it soon, thank you.";
+$new_user_profile_warning_short = "Please edit your profile while we are going to activate it soon, thank you.";
+
+$cancel_ad = "cancel";
+$hint_select_candidate = " select \"-\" to cancel ";
+$your_action = "Whom";
+$your_action_a = "Status";
+$sowhat = "Where";
+
+$k_hb = "selected";
+$help = "Help";
+$chat = "Chat";
+
+$__45a = "Name";
+$__45ab = "name";
+$__45b = "Email";
+$__45c = "Facebook, etc.";
+
+$__13c="<b>You've registered, but the profile is inactive.</b><p>
+Please edit your profile clicking \"Profile\" icon from Menu. Make sure your profile looks the way you like it, 
+and request to admins <img src=/icon/angry_bird_a.png width=32> to activate your profile.";
+
+$__13d="<b>This profile is not active now.</b><p>
+Please edit your profile clicking \"Profile\" icon from Menu. Make sure your profile looks the way you like it, 
+and request to admins <img src=/icon/angry_bird_a.png width=32> to activate your profile.";
+
+$i_aa = "<div style=\"margin:45px auto;font-size:14px;width:180px;\"><b>You've registered, but the profile is inactive.</b> What <a href=$scriptname?mode=info_new_users target=blank>to do</a>?</div>";
+$i_aa_nw = "<b>You've registered, but the profile is inactive.</b> What <a href=$scriptname?mode=info_new_users target=blank>to do</a>?";
+$i_ab_nw = "<b>This profile is not active.</b> What <a href=$scriptname?mode=info_new_users target=blank>to do</a>?";
+
+$in_network = "social networks";
+$registered = "registered";
+$l_wa = "last seen";
+$contact_phone = "phone";
+$contact_warn = "phone to bee seen after selection of candidate";
+$contact_warn_a = "phone to bee seen after selection of candidate"; 
+$contact_not_given = "no phone given";
+
+$now_it_looks = "now looks like";
+$napis_adm = "Write to admins";
+$profile = "Profile";
+$profile_a = "Profile";
+$napisat_pismo = "Write a letter";
+$poslat = "send";
+
+$ad_lb = "Here you may write to admins:";
+$faq = "Frequently asked questions";
+$uslovi = "Share";
+
+$cont_reg = "Continue";
+$vash_avatar = "Your avatar looks like";
+$vash_avatar_a = "Your lot looks like";
+
+$whatis = "View";
+$startprice = "Price from";
+$torg_do = "Active till";
+$opisa = "description";
+$opisa_a = "Description";
+$opisa_a_w = "This field is empty if you're Buyer";
+$photo_a = "Lot photo";
+
+$nedel = "a week";
+$dvened = "two weeks";
+$mesyac = "month";
+$polgod = "half year";
+$god = "year";
+
+$ch_h = "chances";
+$ch_1 = "chances";
+$ch_24 = "chances";
+
+$lots_h = "lots";
+$lots_1 = "lots";
+$lots_24 = "lots";
+
+$vnachale = "got to register";
+$uzhe_est = "already";
+
+$ad_d1b = "Congrats, you've been selected";
+$ad_d2b = "Sorry, you've not been selected";
+
+$seller = "Seller";
+$buyer = "Buyer";
+$dlyaprosmotra = "To see the contacts open up seller's profile --ssylka-- above the lot photo in the table";
+
+$Acol = "HERE";
+$Bcol = "MAY";
+$Ccol = "BE";
+$Dcol = "YOUR";
+$Ecol = "OFFER";
+
+$neactive = "inactive";
+$active = "active";
+$goldactive = "GOLD";
+
+$smenit = "All profiles";
+
+$nknm_nazv = "Name";
+$opys_nazv = "Description";
+$status_nazv = "Status";
+$torgi = "Sale";
+
+$ttip_buyer = "Now you are Buyer";
+$ttip_buyer_a = "First edit this profile and add a description of your thing";
+$ttip_buyer_b = "must edit this profile";
+
+$ttip_seller = "active";
+$dobav = "add new profile";
+
+$ucha = "active in ";
+$ucha_a = "bought in ";
+$ucha_b = "cancelled in ";
+$ucha_c = "candidates in ";
+
+$ucha2 = "active in ";
+$ucha2_a = "won in ";
+
+$lp_warn1 = "To change the current profile, select and click \"Name\"<br>To see the profile, click \"Description\"";
+$small_ed = "edit";
+$small_rm = "del.";
+$vern = "back to main page";
+
+$spisok_pro = "Your profiles list";
+
+$vse_budut = "Current sale of the lot to be cancelled. Continue?";
+$vash_email_ne_viden = "email seen by profile owner only";
+
+$this_is_me = "this is ME";
+$this_is_mine = "My Thing";
+$bought = "bought";
+$profile_isnt_active = "profile not active";
+
+do ('../genc/cp');

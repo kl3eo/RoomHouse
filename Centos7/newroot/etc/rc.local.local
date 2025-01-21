@@ -1,0 +1,233 @@
+#!/bin/bash
+
+#second timerunning?
+#test -f /var/run/rc.local.pid && exit 0
+#echo $$ >/var/run/rc.local.pid
+
+if [ -f /etc/sysconfig/interfaces ]; then
+    . /etc/sysconfig/interfaces
+else
+        echo "Interfaces description not found, exiting.."
+        exit 1
+fi
+
+SOFTPAC=`cat /etc/sysconfig/softpac`
+
+MYIP0=`ifconfig eth0| grep inet | grep -v inet6 | awk '{print $2}'`
+MYIP1=`cat /etc/sysconfig/interfaces | grep EXT | awk -F '=' '{print $2}'`
+MYIP2=`cat /etc/sysconfig/interfaces | grep WLAN_IP | awk -F '=' '{print $2}'`
+#HN=`cat /etc/sysconfig/interfaces | grep HOSTNAME | awk -F '=' '{print $2}'`
+HN="localhost:8843"
+
+MYIP=$MYIP0 && [[ $MYIP0 == "10.0.2.15" ]] && MYIP=$HN
+
+ 
+
+if [ $SOFTPAC -eq 0 ]; then
+	
+	if [ "$CLIENTNAME" == "demo" ]; then
+		XTRVERSION="Safe2B"
+	else
+		XTRVERSION="Router"
+	fi
+	
+	/bin/systemctl start squid
+	
+elif [ $SOFTPAC -eq 5 ]; then
+
+	XTRVERSION="Office"
+	if [[ "$CLIENTNAME" == "jaja" || "$CLIENTNAME" == "demo" || "$CLIENTNAME" == "rhplus" ]]; then
+		XTRVERSION="KMS"
+	fi	
+	/bin/systemctl stop postfix
+
+	#abies/marta
+	MB1="BTDN829002VV"
+	MS1="DW1714903400148"
+	MM1="PSD416G21332S"
+
+	#picea/corfu
+	MB2="BTDN8290034M"
+	MS2="DW1714903400100"
+	MM2="PSD416G21332S"
+
+	#sorba/irma
+	#MB3="GEJY811002GK"
+	#MS3="G6JY81100E77"
+	#MM3="CT8G4SFD824AC16FE"
+
+	CMB=`/sbin/dmidecode -t baseboard | awk '/Serial Number:/ {print $3}'`
+	CMS=`/sbin/dmidecode -t system | awk '/Serial Number:/ {print $3}'`
+	CMM=`/sbin/dmidecode -t memory | awk '/Part Number:/ {print $3}' | grep -v Not | grep -v PartNumber`
+	CMM=${CMM//.}
+
+	INXI=`/sbin/dmidecode`
+	HOST=`/bin/hostname`
+
+	if [[ "$CLIENTNAME" == "jaja" || "$CLIENTNAME" == "demo" || "$CLIENTNAME" == "rhplus" ]]; then
+		service sendmail stop
+	else
+		rm -f /etc/mail/sendmail.cf && cp -a /etc/mail/sendmail.cf.cyrus /etc/mail/sendmail.cf
+		service saslauthd start
+		service cyrus-imapd start
+		service sendmail restart
+
+	fi
+	
+	service rsyslog restart
+	
+	/bin/systemctl start squid
+
+	if ( [[ "$CMB" == "$MB1" || "$CMB" == "$MB2" ]] && [[ "$CMS" == "$MS1" || "$CMS" == "$MS2" ]] && [[ "$CMM" == "$MM1"  ||  "$CMM" == "$MM2" ]] ) || (( "$KEY5" == 1 )); then	
+
+
+		ETH1_PRESENT=`cat /proc/net/dev | grep eth1 | awk '{print $1}'`
+
+		if [[ !(-z "$ETH1_PRESENT") ]]; then
+			/bin/systemctl start smb
+			/bin/systemctl start nmb
+			/usr/sbin/squid -f /etc/squid/squid2.conf
+
+		fi
+	
+		if [ -b /dev/nvme0n1p1 ]; then	
+			mount /dev/nvme0n1p1 /var/wftpserver/opt
+			chroot /var/wftpserver ./startwftp.sh 
+		fi
+
+		echo "$INXI" | mail -s "$HOST: ctrl started" -r "alex@motivation.ru" alex@motivation.ru
+	else	
+		echo "$INXI" | mail -s "$HOST: hardware altered" -r "alex@motivation.ru" alex@motivation.ru
+	fi
+
+	#enable netpbm for self-made captcha
+	mv /root/cache/kms/genc/action_rh /var/www/html/cp/handlers/genc/
+	mv /root/cache/kms/public_html/* /var/www/html/cp/public_html/
+	mv /root/cache/kms/netpbm/lib* /lib64/ && ldconfig
+	mv /root/cache/kms/netpbm/* /usr/bin/
+	
+	#disable ipcad? comment out below
+	#mv /root/cache/office/ipcad /etc/cron.d/
+	#/usr/local/bin/ipcad -rds
+	#/root/read_ipaudit.sh on cron every minute to read from /tmp/a.out (and delete it, not to be read again accidentally; but ipaudit re-writes it every 60 sec, anyway)
+	/usr/local/sbin/ipaudit -q -D60 eth0 -o /tmp/a.out
+	
+elif [ $SOFTPAC -eq 2 ]; then
+		
+	XTRVERSION="Home"
+		
+elif [ $SOFTPAC -eq 3 ]; then
+		
+	XTRVERSION="Ether"
+
+elif [ $SOFTPAC -eq 7 ]; then
+		
+	XTRVERSION="RH"
+	/bin/systemctl stop postfix
+	service sendmail stop
+	service squid stop
+	service rsyslog restart
+	
+	mv /root/cache/kms/genc/action_vg /var/www/html/cp/handlers/genc/
+	mv /root/cache/kms/public_html/* /var/www/html/cp/public_html/
+	mv /root/cache/kms/netpbm/lib* /lib64/ && ldconfig
+	mv /root/cache/kms/netpbm/p* /usr/bin/
+	
+	cp -a /var/www/html/cp/public_html/join_v.html /var/www/html/cp/public_html/join_$HOSTNAME.html
+	sed -i "s/club/$HOSTNAME/g" /var/www/html/cp/public_html/join_$HOSTNAME.html
+	rm -f /var/www/html/cp/public_html/join_GREENHALL.html && ln -s /var/www/html/cp/public_html/join_$HOSTNAME.html /var/www/html/cp/public_html/join_GREENHALL.html
+	rm -f /var/www/html/cp/public_html/join_REDHALL.html && ln -s /var/www/html/cp/public_html/join_$HOSTNAME.html /var/www/html/cp/public_html/join_REDHALL.html
+	rm -f /var/www/html/cp/public_html/join_BLUEHALL.html && ln -s /var/www/html/cp/public_html/join_$HOSTNAME.html /var/www/html/cp/public_html/join_BLUEHALL.html
+	
+	ln -s /var/www/html/cp/public_html/join_$HOSTNAME.html /home/nobody/vchat_video/src/main/resources/static/joins/
+	ln -s /var/www/html/cp/public_html/join_GREENHALL.html /home/nobody/vchat_video/src/main/resources/static/joins/
+	ln -s /var/www/html/cp/public_html/join_REDHALL.html /home/nobody/vchat_video/src/main/resources/static/joins/
+	ln -s /var/www/html/cp/public_html/join_BLUEHALL.html /home/nobody/vchat_video/src/main/resources/static/joins/
+		
+	HOSTNAME_ROOM_LIMIT="${HOSTNAME}_room_limit"
+	if [ ! -f /home/nobody/$HOSTNAME_ROOM_LIMIT ]; then
+		cp -a /home/nobody/room_limit /home/nobody/$HOSTNAME_ROOM_LIMIT
+	fi
+		
+	if [ ! -f /home/nobody/vchat_video/src/main/resources/static/img/city2_$HOSTNAME.room-house.com.png ]; then
+		cp -a /home/nobody/vchat_video/src/main/resources/static/img/bg_slider.png /home/nobody/vchat_video/src/main/resources/static/img/city2_$HOSTNAME.room-house.com.png
+	fi 
+		
+	if [ ! -f /home/nobody/vchat_video/src/main/resources/static/img/people4_$HOSTNAME.room-house.com.png ]; then
+		cp -a /home/nobody/vchat_video/src/main/resources/static/img/bg_slider.png /home/nobody/vchat_video/src/main/resources/static/img/people4_$HOSTNAME.room-house.com.png
+	fi
+
+	TEXTURE="${HOSTNAME}_hallA"
+	if [ ! -f /home/nobody/vchat_video/src/main/resources/static/textures/$TEXTURE.jpg ]; then
+		ln -s /home/nobody/vchat_video/src/main/resources/static/textures/hallA.jpg /home/nobody/vchat_video/src/main/resources/static/textures/$TEXTURE.jpg
+	fi	
+
+	sed  -i "s/111\.111\.111\.111/$EXT/" /usr/local/apache2/conf/httpd.conf && /usr/local/apache2/bin/apachectl restart
+	x=$(echo $EXT)
+	HOSTNAME=${x%%.*}
+	
+	cp -a /var/www/html/cp/public_html/join_v.html /var/www/html/cp/public_html/join_$HOSTNAME.html
+	sed -i "s/club/$HOSTNAME/g" /var/www/html/cp/public_html/join_$HOSTNAME.html
+	
+	HOSTNAME_ROOM_LIMIT="${HOSTNAME}_room_limit"
+	if [ ! -f /home/nobody/$HOSTNAME_ROOM_LIMIT ]; then
+		cp -a /home/nobody/room_limit /home/nobody/$HOSTNAME_ROOM_LIMIT
+	fi
+		
+	if [ ! -f /home/nobody/vchat_video/src/main/resources/static/img/city2_$HOSTNAME.room-house.com.png ]; then
+		cp -a /home/nobody/vchat_video/src/main/resources/static/img/bg_slider.png /home/nobody/vchat_video/src/main/resources/static/img/city2_$HOSTNAME.room-house.com.png
+	fi 
+		
+	if [ ! -f /home/nobody/vchat_video/src/main/resources/static/img/people4_$HOSTNAME.room-house.com.png ]; then
+		cp -a /home/nobody/vchat_video/src/main/resources/static/img/bg_slider.png /home/nobody/vchat_video/src/main/resources/static/img/people4_$HOSTNAME.room-house.com.png
+	fi			
+	#/usr/local/sbin/ipaudit -q -D60 eth0 -o /tmp/a.out
+	
+	ln -s /var/www/html/cp/public_html/join_$HOSTNAME.html /home/nobody/vchat_video/src/main/resources/static/joins/
+		
+else		
+	XTRVERSION="Unofficial"
+		
+fi
+
+
+OLDHOSTNAME=`cat /etc/sysconfig/interfaces | grep HOSTNAME | awk -F '=' '{print $2}'`;
+XTERTECH=`cat /etc/sysconfig/interfaces | grep XTERTECH | awk -F '=' '{print $2}'`;
+OLDNAME=$OLDHOSTNAME.$XTERTECH
+	
+sed -i "s/demo.xter.tech/$OLDNAME/g" /usr/local/apache2/conf/httpd.conf && /usr/local/apache2/bin/apachectl restart
+
+#making op user login smooth
+if [ -d /home/op/dev ]; then
+	rm -f /home/op/dev/null
+	cp -a /dev/null /home/op/dev/
+	mount -t proc none /home/op/proc/
+	mount -o bind /dev /home/op/dev/
+fi
+
+#clear && printf '\e[3J'
+
+echo >> /etc/issue
+echo >> /etc/issue
+echo     -- $XTRVERSION Edition in xTER SafeContainer \(tm\) >> /etc/issue
+echo >> /etc/issue
+echo >> /etc/issue
+echo     -- THE SYSTEM IS "UP" and "RUNNING" NOW: >> /etc/issue
+echo >> /etc/issue
+echo     -- please open the admin interface https://$MYIP/cgi/genc/cp, or WiFi https://$MYIP2/cgi/genc/cp, >> /etc/issue
+echo	 -- only if this system has a WiFi device: SSID "mudejar", key: "6e6fd3dd" >> /etc/issue
+echo	 -- UI login: "admin", password: "ed838432" >> /etc/issue
+echo	 -- please change these defaults in the "Settings" menu! >> /etc/issue
+echo >> /etc/issue
+
+/sbin/ntpdate ru.pool.ntp.org >/dev/null 2>&1 &
+
+if [ $SOFTPAC -eq 7 ]; then
+#restore users.db from PG, except for admin
+	/usr/local/bin/restore_users_db.pl
+fi
+
+#check sensors
+/usr/local/bin/check_sensors.pl
+
+sync; echo 3 > /proc/sys/vm/drop_caches

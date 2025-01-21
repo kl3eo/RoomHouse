@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Encoding=UTF-8
+Name=NVIDIA X Server Settings
+Comment=Configure NVIDIA X Server Settings
+Exec=/usr/bin/nvidia-settings
+Icon=/usr/share/doc/NVIDIA_GLX-1.0/nvidia-settings.png
+Categories=Settings;HardwareSettings;
+

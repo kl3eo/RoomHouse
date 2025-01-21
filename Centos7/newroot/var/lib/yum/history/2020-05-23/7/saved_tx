@@ -1,0 +1,30 @@
+290:b29fcbcdc3b2067e38e4a51c04b7569c473e2744
+0
+1
+installed:287:450de153def8419abf770daeedf462b33ea988a7
+3
+mbr: polkit,x86_64,0,0.112,26.el7 20
+  repo: installed
+  ts_state: e
+  output_state: 40
+  isDep: False
+  reason: user
+  reinstall: False
+mbr: tuned,noarch,0,2.11.0,8.el7 20
+  repo: installed
+  ts_state: e
+  output_state: 40
+  isDep: True
+  reason: user
+  reinstall: False
+  relatedto: polkit,x86_64,0,0.112,26.el7@i:dependson
+  depends_on: polkit,x86_64,0,0.112,26.el7@i
+mbr: polkit-pkla-compat,x86_64,0,0.1,4.el7 20
+  repo: installed
+  ts_state: e
+  output_state: 40
+  isDep: True
+  reason: user
+  reinstall: False
+  relatedto: polkit,x86_64,0,0.112,26.el7@i:dependson
+  depends_on: polkit,x86_64,0,0.112,26.el7@i

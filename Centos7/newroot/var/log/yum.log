@@ -1,0 +1,8 @@
+May 23 13:06:12 Installed: net-tools-2.0-0.25.20131004git.el7.x86_64
+May 23 14:41:23 Erased: firewalld-0.6.3-8.el7.noarch
+May 23 14:41:39 Erased: firewalld-filesystem-0.6.3-8.el7.noarch
+May 23 14:58:32 Installed: rsync-3.1.2-10.el7.x86_64
+May 23 15:02:52 Erased: 1:NetworkManager-wifi-1.18.4-3.el7.x86_64
+May 23 15:02:52 Erased: 1:NetworkManager-team-1.18.4-3.el7.x86_64
+May 23 15:02:52 Erased: 1:NetworkManager-tui-1.18.4-3.el7.x86_64
+May 23 15:02:52 Erased: 1:NetworkManager-1.18.4-3.el7.x86_64

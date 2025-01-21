@@ -1,0 +1,14 @@
+configdirectory: /var/lib/imap
+partition-default: /var/spool/imap
+admins: cyrus
+sievedir: /var/lib/imap/sieve
+sendmail: /usr/sbin/sendmail
+hashimapspool: true
+sasl_pwcheck_method: auxprop
+sasl_mech_list: DIGEST-MD5 CRAM-MD5
+tls_cert_file: /etc/pki/cyrus-imapd/cyrus-imapd.pem
+tls_key_file: /etc/pki/cyrus-imapd/cyrus-imapd.pem
+tls_ca_file: /etc/pki/tls/certs/ca-bundle.crt
+allowplaintext: no
+mboxlist_db: skiplist
+seenstate_db: skiplist

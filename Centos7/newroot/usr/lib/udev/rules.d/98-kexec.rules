@@ -1,0 +1,16 @@
+SUBSYSTEM=="cpu", ACTION=="add", GOTO="kdump_reload"
+SUBSYSTEM=="cpu", ACTION=="remove", GOTO="kdump_reload"
+SUBSYSTEM=="memory", ACTION=="online", GOTO="kdump_reload"
+SUBSYSTEM=="memory", ACTION=="offline", GOTO="kdump_reload"
+
+GOTO="kdump_reload_end"
+
+LABEL="kdump_reload"
+
+# If kdump is not loaded, calling "kdumpctl reload" will end up
+# doing nothing, but it and systemd-run will always generate
+# extra logs for each call, so trigger the "kdumpctl reload"
+# only if kdump service is active to avoid unnecessary logs
+RUN+="/bin/sh -c '/usr/bin/systemctl is-active kdump.service || exit 0; /usr/bin/systemd-run --quiet /usr/bin/kdumpctl reload'"
+
+LABEL="kdump_reload_end"

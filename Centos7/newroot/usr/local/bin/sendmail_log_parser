@@ -1,0 +1,50 @@
+#!/usr/bin/perl
+use strict;
+
+my @months = ('Jan','Feb','Mar','Apr','May','Jun','Jul',
+	       'Aug','Sep','Oct','Nov','Dec');
+my @weekday = ('Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat');
+
+my $p = $ARGV[0];
+my $file = "/var/log/maillog";
+$file = "/var/log/maillog.1" if ($p == 2);
+
+my ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday) = gmtime(time+14400);
+
+my $y = 1900 + $year;
+
+my $cmpstr = $months[$mon]." ".$mday;
+
+$hour = "0".$hour if ($hour < 10);$min = "0".$min if ($min < 10);$sec = "0".$sec if ($sec < 10);
+
+print "Сегодня ".$weekday[$wday]." ".$months[$mon]." ".$mday." ".$y." ".$hour.":".$min.":".$sec."\n";
+
+open(SENDMAIL, $file);
+
+my %pairs;
+my %from;
+my $counter = 0;
+my $start_time;my $end_time;
+while (my $line = <SENDMAIL>) {
+
+ chomp $line;
+ my @fields = split(" ", $line);
+ $start_time = $fields[0]." ".$fields[1]." ".$fields[2] if (!$counter);
+ $end_time = $fields[0]." ".$fields[1]." ".$fields[2];
+ $counter++;
+ next if ( ($fields[6] !~ /to=/ && $fields[6] !~ /from=/) || ($p == 0 && ($fields[0]." ".$fields[1] ne $cmpstr)) );
+
+ if ( $fields[6] =~ /from=/) {
+  $from{$fields[5]} = "\L$fields[6]";
+ }
+ else {
+  $pairs{"$from{$fields[5]} \L$fields[6]"}++;
+ }
+}
+close(SENDMAIL);
+
+print "  Начало лога: $start_time\n";
+print "  Конец лога: $end_time\n\n";
+foreach my $key (sort {$pairs{$b} <=> $pairs{$a}} (keys(%pairs))) {
+ print "$pairs{$key} $key\n";
+} 

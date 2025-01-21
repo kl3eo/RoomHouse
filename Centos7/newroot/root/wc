@@ -1,0 +1,27 @@
+#!/usr/bin/perl
+
+my $dname = defined($ARGV[0])  ? $ARGV[0] : '';
+
+if (length($dname)) {
+
+my $nd = "/root/family/$dname";
+
+ unless ( -d $nd) {
+   system("mkdir -p $nd");
+   for (my $i = 0;$i < 10;$i++) {
+	my $d = `date +"%Y-%m-%d_%H%M%S"`;
+	chop($d);	
+	my $n = $nd.'/'.$d.".jpg";	
+	system("fswebcam -r 1920x1080 --no-banner $n");
+	sleep(1);
+   }
+
+ } else {
+   print "$nd/: file exists! Use another name or delete old directory.\n";
+ }
+ 
+} else {
+	print "USAGE: ./wc some_name\n";
+}
+
+exit;

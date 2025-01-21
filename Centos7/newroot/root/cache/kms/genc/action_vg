@@ -1,0 +1,378 @@
+#!/usr/bin/perl
+#use 5.006;
+use CGI qw/:standard/;
+use CGI::Cookie;
+use Date::Calc qw(Day_of_Week);
+use DBI;
+use Socket;
+use TClubMD5;
+#use MIME::Base64::URLSafe;
+use Encode;
+use URI::Encode qw(uri_decode);
+#use Crypt::Digest::SHA512 qw( sha512 sha512_hex sha512_b64 sha512_b64u sha512_file sha512_file_hex sha512_file_b64 sha512_file_b64u );
+use String::Random;
+
+use open qw/ :std :encoding(utf8) /;
+
+my $server = "127.0.0.1";
+my $user = "postgres";
+my $passwd = "postgres";
+my $dbase = "cp";
+my $port = 5432;
+
+$query = new CGI;
+
+my $xtertech = `cat /etc/sysconfig/interfaces | grep XTERTECH | awk -F '=' '{print \$2}'`;$xtertech =~ s/(\r|\n)//g;
+my $hostname = `cat /etc/sysconfig/interfaces | grep HOSTNAME | awk -F '=' '{print \$2}'`;$hostname =~ s/(\r|\n)//g;
+
+my $public_prefix = "/var/www/html/cp/public_html";
+my $prefix = "/usr";
+my $pnmdir = $prefix."/bin";
+
+my $with_db = 1;
+
+my $with_session = 0;
+
+my $email_address = "alex\@motivation.ru";
+
+system("rm -f $public_prefix/icon/reg/*");
+
+my $mode = ($query->param('mode')) ? $query->param('mode'): 0;
+
+my $rcv_rnum = ($query->param('rnum')) ? $query->param('rnum'):'none';
+my $rcv_srnum = ($query->param('srnum')) ? $query->param('srnum'):'';
+
+my $who = defined($query->param('name')) ? $query->param('name') : "noname";
+my $qstn = defined($query->param('qstn')) ? $query->param('qstn') : '';
+my $room = defined($query->param('room')) ? $query->param('room') : '';
+my $ip = defined($query->param('curip')) ? $query->param('curip') : '';
+
+my $beginning_4_digits =  substr($rcv_rnum,0,4);
+my $rest_digits =  substr($rcv_rnum,4,length($rcv_rnum)-4);
+#print STDERR "Rest is $rest_digits!\n";
+
+my $compare = TClubMD5::md5_hex($beginning_4_digits);
+
+if ($with_db) {
+$dbconn=DBI->connect("dbi:Pg:dbname=$dbase;port=$port;host=$server",$user, $passwd);
+&connError("could not connect to server *** try $scriptname?dbase='aValidDatabaseName' ***")
+	if (!defined($dbconn));
+
+$dbconn->{LongReadLen} = 16384;
+}
+
+my $str = "";
+
+#won't work! gets proxy's ip
+#my $curip = $ENV{'REMOTE_ADDR'};
+
+if ($rcv_srnum eq $compare) {
+
+#change open to close:
+# sed -i "s/open_cabo/closed_cabo/g" /var/www/html/cp/public_html/join_v.html && sed -i -E "s/what's your name\?/\&\#128274; WILL OPEN at 5 PM/g" /var/www/html/cp/public_html/join_v.html && sed -i "s/required\//tabindex=-1 required\//g" /var/www/html/cp/public_html/join_v.html
+#back to open:
+# sed -i "s/closed_cabo/open_cabo/g" /var/www/html/cp/public_html/join_v.html && sed -i "s/\&\#128274; WILL OPEN at 5 PM/what's your name\?/g" /var/www/html/cp/public_html/join_v.html && sed -i "s/tabindex=-1 required\//required\//g" /var/www/html/cp/public_html/join_v.html
+
+my $n = decode('UTF-8', uri_decode($who)); $n =~ s/\s/_/g; $n =~ s/(\r|\n)//g;
+my $r = decode('UTF-8', uri_decode($room));
+my $sr = String::Random->new;
+my $random = $sr->randregex('[a-z]{8}');
+my $random2 = $sr->randregex('[a-zA-Z]{16}');
+$n = $random unless (length($n));
+$n .= '_'.$random;
+
+#hack ash
+#utf-8 is broken in mac devices
+
+#my $bro = $ENV{'HTTP_USER_AGENT'};
+#print STDERR "action_rh: name is $n, bro is $bro!\n";
+#$n = $random.'_'.$random if (($bro =~ /Mac OS/ || $bro =~ /iOS/ || $bro =~ /iPhone/ || $bro =~ /iPad/) && !($n =~ /^[a-zA-Z0-9_]+$/));
+$n = $random;
+	
+$comm = "select status from rooms where name = '$r'";
+
+&getTable;
+
+$sta = $ntuples == 1 ? ${${$listresult}[0]}[0] : 0;
+
+if (length($rest_digits) == 0 && $sta eq '0' ) { #free guest, room open
+
+	&make_date(86400);
+	my $datestamp =  sprintf("%4d-%02d-%02d",$thisyear,$mon,$mday);
+	my $wday = &find_weekday($datestamp);
+	my $mo = &find_month($mon);
+	my $exp = "$wday, ".$mday."-".$mo."-".$thisyear." $thistime:$thissec GMT";
+
+	print "Set-Cookie:name = $n;Expires = $exp;Path = /;SameSite = None;Secure;\n";
+	print "Set-Cookie:room = $r;Expires = $exp;Path = /;SameSite = None;Secure;\n";
+	print "Set-Cookie:timeout_nc = 1;Expires = $exp;Path = /;SameSite = None;Secure;\n";
+	print "Set-Cookie:session = $random2;Expires = $exp;Path = /;SameSite = None;Secure;HttpOnly;\n";
+	$with_session = 1;
+
+} elsif (length($rest_digits) == 0 && $sta ne '0' ) { #sorry, free guests not allowed, go away
+
+	&make_date(5);
+	my $datestamp =  sprintf("%4d-%02d-%02d",$thisyear,$mon,$mday);
+	my $wday = &find_weekday($datestamp);
+	my $mo = &find_month($mon);
+	my $exp = "$wday, ".$mday."-".$mo."-".$thisyear." $thistime:$thissec GMT";
+
+	print "Set-Cookie:role = -1;Expires = $exp;Path = /;SameSite = None;Secure;HttpOnly;\n";
+
+} else { #tries to authenticate
+
+  $comm = "select concat(proj_code, pass), a_nkname, room_master, md5(concat(proj_code, pass)) from members where proj_code != 'admin' and room = '$r'";
+#print STDERR "comm is $comm!\n";
+  &getTable;
+  my $authName = ''; my $authRoomMaster = 0; my $authToken = '';
+  
+  for (my $i = 0; $i < $ntuples; $i++) {
+      if ($rest_digits eq ${${$listresult}[$i]}[0] ) {
+	$authName = ${${$listresult}[$i]}[1];
+	$authRoomMaster = ${${$listresult}[$i]}[2];
+	$authtoken = ${${$listresult}[$i]}[3];
+	last;
+      }
+  }
+  
+  my $akey = `a=\$(cat /etc/sysconfig/interfaces | grep KEY2 | awk -F= '{print \$2}');SALT="eNiGmA";HA=\$a\$SALT;STR=\$(echo \$HA | md5sum); echo \${STR:8:8}`;$akey =~ s/(\r|\n)//g;
+  my $bkey = `a=\$(cat /etc/sysconfig/interfaces | grep KEY2 | awk -F= '{print \$2}');SALT="EnIgMa";HA=\$a\$SALT;STR=\$(echo \$HA | md5sum); echo \${STR:0:32}`;$bkey =~ s/(\r|\n)//g;
+
+  if ($rest_digits eq $akey || (length($authName) && $authRoomMaster )) {#sysadmin or guru
+	
+	&make_date(864000);
+	my $datestamp =  sprintf("%4d-%02d-%02d",$thisyear,$mon,$mday);
+	my $wday = &find_weekday($datestamp);
+	my $mo = &find_month($mon);
+	my $exp = "$wday, ".$mday."-".$mo."-".$thisyear." $thistime:$thissec GMT";
+
+#print STDERR "Here coo is Set-Cookie:name = $n;Expires = $exp;Path = /;SameSite = None;Secure; date timestamp is $datestamp\n";
+
+	print "Set-Cookie:name = $n;Expires = $exp;Path = /;SameSite = None;Secure;\n";
+	print "Set-Cookie:room = $r;Expires = $exp;Path = /;SameSite = None;Secure;\n";
+	print "Set-Cookie:timeout_nc = 1;Expires = $exp;Path = /;SameSite = None;Secure;\n";
+	print "Set-Cookie:authtoken = $bkey;Expires = $exp;Path = /;SameSite = None;Secure;\n";
+	print "Set-Cookie:role = 1;Expires = $exp;Path = /;SameSite = None;Secure;HttpOnly;\n";
+	print "Set-Cookie:session = $random2;Expires = $exp;Path = /;SameSite = None;Secure;HttpOnly;\n";
+	$with_session = 1;
+ 
+  } elsif (length($authName)) {
+	&make_date(864000);
+	my $datestamp =  sprintf("%4d-%02d-%02d",$thisyear,$mon,$mday);
+	my $wday = &find_weekday($datestamp);
+	my $mo = &find_month($mon);
+	my $exp = "$wday, ".$mday."-".$mo."-".$thisyear." $thistime:$thissec GMT";
+
+	#print "Set-Cookie:name = $authName".'_'.$random.";Expires = $exp;Path = /;SameSite = None;Secure;\n";
+	#can't use this any more, because of iOS UTF-9
+	print "Set-Cookie:name = $n;Expires = $exp;Path = /;SameSite = None;Secure;\n";
+	print "Set-Cookie:authname = $authName;Expires = $exp;Path = /;SameSite = None;Secure;\n";
+	print "Set-Cookie:room = $r;Expires = $exp;Path = /;SameSite = None;Secure;\n";
+	print "Set-Cookie:timeout_nc = 1;Expires = $exp;Path = /;SameSite = None;Secure;\n";
+	print "Set-Cookie:authtoken = $authtoken;Expires = $exp;Path = /;SameSite = None;Secure;\n";	
+	print "Set-Cookie:role = 2;Expires = $exp;Path = /;SameSite = None;Secure;HttpOnly;\n";
+	print "Set-Cookie:session = $random2;Expires = $exp;Path = /;SameSite = None;Secure;HttpOnly;\n";
+	$with_session = 1;
+
+  } else { #go away
+	&make_date(5);
+	my $datestamp =  sprintf("%4d-%02d-%02d",$thisyear,$mon,$mday);
+	my $wday = &find_weekday($datestamp);
+	my $mo = &find_month($mon);
+	my $exp = "$wday, ".$mday."-".$mo."-".$thisyear." $thistime:$thissec GMT";
+	print "Set-Cookie:role = -1;Expires = $exp;Path = /;SameSite = None;Secure;HttpOnly;\n";
+  }
+}
+
+#CREATE TABLE sessions (session text, date_and_time timestamp, ip text, acc_id text);
+if ($with_session) {
+	my $cmd = "insert into sessions (session, date_and_time) values (?, current_timestamp)";
+	my $result=$dbconn->prepare($cmd);
+	$result->execute($random2);
+	&dBaseError($dbconn, $cmd) if (!defined($result));
+}
+
+#defaulting muted behaviour first time enering the room
+#print "Set-Cookie:all_muted = true;Expires = $exp;Path = /;SameSite = None;Secure;\n";
+
+print "Content-type:text/html; charset=UTF-8\r\n\r\n";
+
+$who = decode('UTF-8', uri_decode($who));
+$qstn = decode('UTF-8', uri_decode($qstn));
+
+my $sr = String::Random->new;
+my $random = $sr->randregex('[A-Z]{8}');
+
+#create table quest (id serial, qstn text, time_of_qstn timestamp, who text, ip text, room_code text unique, status bool default null, last_visited timestamp, who_visited text, house text);
+
+#print STDERR "Here mode is $mode!\n";
+
+if ($mode eq '0') {
+  if ($with_db && 0) {
+	my $cmd = "insert into quest (qstn, time_of_qstn, who, ip, room_code) values (?, current_timestamp, ?, ?, ?)";
+	my $result=$dbconn->prepare($cmd);
+	$result->execute($qstn, $who, $ip, $random);
+	&dBaseError($dbconn, $cmd) if (!defined($result));
+  }
+    
+   open(MAIL,"| /usr/sbin/sendmail -t");
+
+
+    print MAIL "To: alex\@motivation.ru\n";
+    print MAIL "From: \"Motivation Contact\"\n";
+
+    print MAIL "MIME-Version: 1.0\n";
+
+    print MAIL "Content-Type: text/plain; charset=koi8-r\r\n";
+   
+    print MAIL "Content-Transfer-Encoding: 8bit\r\n";
+
+    print MAIL "Subject: new contact\r\n";
+
+    print MAIL $who." -- ".$qstn." -- ".$random."\r\n";
+
+   close (MAIL);
+   
+} elsif ($mode eq '1') {
+  if ($with_db && 0) {
+	my $cmd = "update quest set last_visited = current_timestamp, who_visited = ?, ip = ? where room_code = ?";
+	my $result=$dbconn->prepare($cmd);
+	$result->execute($who, $ip, $room);
+	&dBaseError($dbconn, $cmd) if (!defined($result));
+  }
+}
+
+
+print $random;
+
+} else { #compare not ok
+
+print "Content-Type: text/html; charset=UTF-8\n\n";
+
+#$comm = "select id from quest where room_code = '$room' and (current_date - time_of_qstn) < '7 days' ";
+#print STDERR $comm."\n";
+
+#&getTable;
+
+#hack to disable captcha
+
+#if ($ntuples == 1 || $mode eq '0' || $room ne '143') {
+if ( $mode ne '0' && $room ne '143') {
+
+my $chu = TClubMD5::md5_hex(time());
+$chu =~ y/0-9//cd;
+my $rnum = substr($chu,0,4);
+my $srnum=TClubMD5::md5_hex($rnum);
+my $gifnum = substr($srnum,0,4);
+
+my $r = `sudo /usr/local/bin/change_target_mod.sh`;
+$s_call = "/bin/echo $rnum | $pnmdir/pbmtext  | $pnmdir/pnmscale 10 | $pnmdir/ppmshift 2 | $pnmdir/ppmspread 10| $pnmdir/ppmtogif >$public_prefix/icon/reg/$gifnum.gif";
+
+system($s_call);
+
+my $m = 0644;
+chmod $m, "$public_prefix/icon/reg/$gifnum.gif";
+
+print "<img src=\"/icon/reg/$gifnum.gif\" width=120><div style=\"display:none;\">$srnum</div>";
+} else {
+	
+	if ($room eq "143" || !$mode) {
+		print "<img src=\"/icon/reg/myroom.gif\" width=120><div style=\"display:none;\">0</div>";
+
+	} 
+	else {
+		print "<img src=\"/icon/reg/noroom.gif\" width=120><div style=\"display:none;\">0</div>";
+	}
+}
+}
+
+$dbconn->disconnect if ($with_db);
+
+sub getTable { #16
+
+my $now_time  = time;
+my $tt = $now_time - $script_start_time;
+
+print STDERR "Debug: in get table - begin, dbase is $dbase; comm is $comm, time is $tt\n" if ($debug);
+
+	$result=$dbconn->prepare($comm);
+
+    	$result->execute;
+	&dBaseError($result, $comm."  (".$result->rows()." rows found)") if ($result->rows() ==
+	-2);
+	
+	$listresult = $result->fetchall_arrayref;
+	$ntuples = $result->rows();
+
+$now_time  = time;
+$tt = $now_time - $script_start_time;
+
+print STDERR "Debug: in get table - end, time is $tt\n" if ($debug);
+
+}
+
+sub dBaseError {
+
+    local($check, $message) = @_;
+    print "<H4><FONT COLOR=BLACK><P>$message<BR>Error: ".$check->errstr."</FONT></H4>";
+    die("Action failed on command:$message  Error_was:$DBI::errstr");
+}
+
+sub make_date { #33
+
+my $addedtime = shift;
+my $t; my $this_;
+    ($thissec,$thismin,$thishour,$mday,$mon,$thisyear,$t,$t,$t) = gmtime(time+$addedtime);
+    $mon++;
+	my $month = $months[$mon];
+	     $month = $$month if $$month;
+    $thisyear += 1900;
+    $current_date = "$mday $month $thisyear";
+    $current_date = "$month $mday, $thisyear" if ($language eq "english");
+
+    if ($mday >= 10 && $mon >= 10 ) { $this_ = "$mon/$mday";}
+    elsif ($mon >= 10) { $this_ = "$mon/0$mday";}
+    elsif ($mday >= 10) { $this_ = "0$mon/$mday";}
+    else { $this_ = "0$mon/0$mday";}
+    
+    $thissec = '0'.$thissec if ($thissec < 10);
+
+	$thisdate = "$thisyear/$this_";
+    
+    if ($thishour >= 10 && $thismin >= 10 ) { $thistime = "$thishour:$thismin";}
+    elsif ($thishour >= 10) { $thistime = "$thishour:0$thismin";}
+    elsif ($thismin >= 10) { $thistime = "0$thishour:$thismin";}
+    else { $thistime = "0$thishour:0$thismin";}
+}
+
+sub find_weekday { #144
+
+my $td = shift;
+
+$td =~ /^(\d+)-(\d+)-(\d+)/;
+my $y = $1;
+my $m = $2;
+my $d = $3;
+
+my $wd = Day_of_Week($y, $m, $d);
+$wd = 0 if ($wd eq '7');
+
+@weekday = ("Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday");
+
+return $weekday[$wd];
+}
+
+sub find_month { #144
+
+my $m = shift;
+
+@mo_abbr = ('',"Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec");
+
+return $mo_abbr[$m];
+}
+
+sub connError { #11
+
+    my $message = shift;
+    if (!defined($dbconn)) {print "<H4><FONT COLOR=BLACK><P>$message<BR>Error: ". $DBI::errstr ."</FONT></H4>";die("$message ERROR:$DBI::errstr")}
+}

@@ -1,0 +1,12 @@
+293:7cfe3134fc614631bf2cd0f7a800b9e6857e86e0
+0
+1
+installed:294:4ade663c541a42ea6245f2ea19a4196a6420630a
+1
+mbr: rsync,x86_64,0,3.1.2,10.el7 70
+  repo: base
+  ts_state: u
+  output_state: 20
+  isDep: False
+  reason: user
+  reinstall: False

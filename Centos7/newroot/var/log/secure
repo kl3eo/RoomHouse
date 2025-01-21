@@ -1,0 +1,36 @@
+May 23 12:36:02 localhost polkitd[482]: Loading rules from directory /etc/polkit-1/rules.d
+May 23 12:36:02 localhost polkitd[482]: Loading rules from directory /usr/share/polkit-1/rules.d
+May 23 12:36:02 localhost polkitd[482]: Finished loading, compiling and executing 2 rules
+May 23 12:36:02 localhost polkitd[482]: Acquired the name org.freedesktop.PolicyKit1 on the system bus
+May 23 12:36:04 localhost sshd[808]: Server listening on 0.0.0.0 port 22.
+May 23 12:36:04 localhost sshd[808]: Server listening on :: port 22.
+May 23 12:36:18 localhost login: pam_unix(login:session): session opened for user root by LOGIN(uid=0)
+May 23 12:36:18 localhost login: ROOT LOGIN ON tty1
+May 23 12:38:04 localhost login: pam_unix(login:session): session closed for user root
+May 23 12:38:12 localhost login: pam_unix(login:session): session opened for user root by LOGIN(uid=0)
+May 23 12:38:12 localhost login: ROOT LOGIN ON tty1
+May 23 12:38:14 localhost polkitd[482]: Registered Authentication Agent for unix-process:8701:13628 (system bus name :1.19 [/usr/bin/pkttyagent --notify-fd 5 --fallback], object path /org/freedesktop/PolicyKit1/AuthenticationAgent, locale en_US.UTF-8)
+May 23 12:38:53 localhost polkitd[467]: Loading rules from directory /etc/polkit-1/rules.d
+May 23 12:38:53 localhost polkitd[467]: Loading rules from directory /usr/share/polkit-1/rules.d
+May 23 12:38:53 localhost polkitd[467]: Finished loading, compiling and executing 2 rules
+May 23 12:38:53 localhost polkitd[467]: Acquired the name org.freedesktop.PolicyKit1 on the system bus
+May 23 12:38:55 localhost sshd[767]: Server listening on 0.0.0.0 port 22.
+May 23 12:38:55 localhost sshd[767]: Server listening on :: port 22.
+May 23 12:40:49 localhost login: pam_unix(login:session): session opened for user root by LOGIN(uid=0)
+May 23 12:40:49 localhost login: ROOT LOGIN ON tty1
+May 23 12:40:51 localhost polkitd[467]: Registered Authentication Agent for unix-process:1264:12214 (system bus name :1.17 [/usr/bin/pkttyagent --notify-fd 5 --fallback], object path /org/freedesktop/PolicyKit1/AuthenticationAgent, locale en_US.UTF-8)
+May 23 12:40:51 localhost sshd[767]: Received signal 15; terminating.
+May 23 13:04:29 localhost polkitd[472]: Loading rules from directory /etc/polkit-1/rules.d
+May 23 13:04:29 localhost polkitd[472]: Loading rules from directory /usr/share/polkit-1/rules.d
+May 23 13:04:29 localhost polkitd[472]: Finished loading, compiling and executing 2 rules
+May 23 13:04:29 localhost polkitd[472]: Acquired the name org.freedesktop.PolicyKit1 on the system bus
+May 23 13:04:32 localhost sshd[807]: Server listening on 0.0.0.0 port 22.
+May 23 13:04:32 localhost sshd[807]: Server listening on :: port 22.
+May 23 13:04:48 localhost login: pam_unix(login:session): session opened for user root by LOGIN(uid=0)
+May 23 13:04:48 localhost login: ROOT LOGIN ON tty1
+May 23 14:40:28 localhost polkitd[472]: Registered Authentication Agent for unix-process:1431:576120 (system bus name :1.17 [/usr/bin/pkttyagent --notify-fd 5 --fallback], object path /org/freedesktop/PolicyKit1/AuthenticationAgent, locale en_US.UTF-8)
+May 23 14:40:28 localhost polkitd[472]: Unregistered Authentication Agent for unix-process:1431:576120 (system bus name :1.17, object path /org/freedesktop/PolicyKit1/AuthenticationAgent, locale en_US.UTF-8) (disconnected from bus)
+May 23 14:40:43 localhost polkitd[472]: Registered Authentication Agent for unix-process:1486:577635 (system bus name :1.18 [/usr/bin/pkttyagent --notify-fd 5 --fallback], object path /org/freedesktop/PolicyKit1/AuthenticationAgent, locale en_US.UTF-8)
+May 23 14:40:43 localhost polkitd[472]: Unregistered Authentication Agent for unix-process:1486:577635 (system bus name :1.18, object path /org/freedesktop/PolicyKit1/AuthenticationAgent, locale en_US.UTF-8) (disconnected from bus)
+May 23 14:45:56 localhost polkitd[472]: Registered Authentication Agent for unix-process:1561:608890 (system bus name :1.19 [/usr/bin/pkttyagent --notify-fd 5 --fallback], object path /org/freedesktop/PolicyKit1/AuthenticationAgent, locale en_US.UTF-8)
+May 23 14:45:56 localhost polkitd[472]: Unregistered Authentication Agent for unix-process:1561:608890 (system bus name :1.19, object path /org/freedesktop/PolicyKit1/AuthenticationAgent, locale en_US.UTF-8) (disconnected from bus)

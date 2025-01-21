@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>JUST MACHINE</title>
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400">  <!-- Google web font "Open Sans" -->
+  <link rel="stylesheet" href="/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/css/bootstrap_letter.min.css">
+  
+  <link rel="stylesheet" href="/css/demo.css" />
+  <link rel="stylesheet" href="/css/templatemo-style_letter.css">
+
+<style>
+.A {min-height:1px;margin:5px auto 20px auto;position:relative;cursor:pointer;z-index:1001;text-align:center;}
+</style>			
+<script language="JavaScript" type="text/javascript" src="/js/mootools-core-1.3-full-compat-yc.js"></script>
+<script language="JavaScript" type="text/javascript" src="/js/mootools-more.js"></script> 
+ 
+  <script type="text/javascript" src="/js/modernizr.custom.86080.js"></script>
+<script>
+
+window.addEvent('domready', function() {
+	$('myForm').addEvent('submit', function(e) {
+		e.stop();
+
+		var log = $('log_res').empty();
+		this.set('send', {onComplete: function(response) { 
+
+			log.set('html', response);			
+			response = (response)? response:'';
+			var h = response.split('>');
+			var g = (h[2]) ? h[2] : '';
+			var rowTest = new RegExp('</div','g');
+			g = g.replace(rowTest,'');
+			//alert(g);
+			$('srnum').value=g;
+
+			if (!g && response) { $('form_box').style.display='none';
+			$('rbox').style.display='block';
+			}
+
+		}});
+		
+		var fn = document.forms['myForm'].elements['name'].value;
+		var ph = document.forms['myForm'].elements['phone'].value;
+		var em = document.forms['myForm'].elements['qstn'].value;
+
+		this.send();
+
+		document.forms['myForm'].elements['name'].value=fn;
+		document.forms['myForm'].elements['phone'].value=ph;
+		document.forms['myForm'].elements['qstn'].value=em;
+	
+		document.getElementById('rnum').style.display='block';
+		//document.getElementById('coder').focus();
+
+	});
+});
+</script>		
+	</head>
+
+	<body style="width:100%;">
+		<div id="particles-js"></div>
+		<ul class="cb-slideshow">
+	            <li></li>
+	            <li></li>
+	            <li></li>
+	            <li></li>
+	            <li></li>
+	            <li></li>
+	        </ul>
+		<div style="position:relative;width:100%;height:100%;text-align:center;margin-top:3%;">
+			<div style="width:60%;height:100%;margin:0 auto;display:table;">
+				<div style="width:100%;height:100%;margin:0 auto;display:table-cell;vertical-align:middle;text-align:center;">
+               	    			<table style="margin:20px auto;width:50%;">
+						<tr>
+							<td>&nbsp;</td>
+							<td class=A>
+								<button class="tm-btn-subscribe" style="font-size:36px;background:transparent;white-space:nowrap;margin:2px;" 
+								onclick="">Правила игры</button>
+							</td>
+							<td class=A>
+								<button class="tm-btn-subscribe" style="font-size:36px;background:transparent;white-space:nowrap;margin:2px;" 
+								onclick="location.href='/cp?mode=new_register';">&nbsp;Регистрация!</button>
+							</td>
+						</tr>
+					</table>					
+					<div id=fbox style="width:100%;margin:16px auto 0 auto;">
+						<header class="mb-5" style="margin-left:10px;"><h1>&#10025;&nbsp;УМА&nbsp;&#10025;</h1></header>
+						<div style="font-size:30px;color:#fff;margin-top:-20px;margin-bottom:20px;">[ = ум-на-я ма-ши-на! ]</div>
+						<header class="mb-5"><h1>даст ответ</h1></header>
+						<div style="font-size:30px;color:#fff;margin-top:-20px;margin-bottom:20px;">[ = а и-но-гда и де-не-жки! ]</div>
+
+               	    				<div class="row form-section">
+							<div style="position:relative;width:100%;min-height:1px;margin:24px auto 0px auto;z-index:1001;padding-left:15px;">
+								<button type="submit" class="tm-btn-subscribe" style="font-size:36px;white-space:nowrap;" 
+								onclick="$('fbox').setStyles({'display':'none'});$('rnum').setStyles({'display':'none'});
+								$('form_box').setStyles({'display':'block'});">загадай загадку</button>
+							</div>
+						</div>
+						<div class="tm-social-icons-container text-xs-center" style="margin-top:5%;margin-bottom:5%;padding-left:20px;">
+	                    				<a href="#" class="tm-social-link"><i class="fa fa-facebook"></i></a>
+							<a href="#" class="tm-social-link"><i class="fa fa-google-plus"></i></a>
+							<a href="#" class="tm-social-link"><i class="fa fa-twitter"></i></a>
+							<a href="#" class="tm-social-link"><i class="fa fa-linkedin"></i></a>
+						</div><!-- social-icons -->
+						<div style="font-size:14px;color:#fff;margin-top:-20px;margin-bottom:20px;color:#fed;">(C) alex@motivation.ru 2020</div>
+					</div><!-- fbox -->
+					<div id=rbox style="width:100%;margin:16px auto 0 auto;display:none;">
+						<header class="mb-5"><h1>&#10025;&nbsp;УМА&nbsp;&#10025;</h1></header>
+						<header class="mb-5"><h1>Спасибо! ожидайте ответ</h1></header>
+
+               	    				<div class="row form-section">
+							<div style="position:relative;width:100%;min-height:1px;margin:24px auto 0px auto;z-index:1001;padding-left:15px;">
+								<button type="submit" class="tm-btn-subscribe" style="font-size:36px;" 
+								onclick="$('rbox').setStyles({'display':'none'});$('rnum').setStyles({'display':'none'});
+								$('form_box').setStyles({'display':'block'});">спросить еще</button>
+							</div>
+						</div>
+
+						<div class="tm-social-icons-container text-xs-center" style="margin-top:5%;margin-bottom:5%;padding-left:20px;">
+	                    				<a href="#" class="tm-social-link"><i class="fa fa-facebook"></i></a>
+							<a href="#" class="tm-social-link"><i class="fa fa-google-plus"></i></a>
+							<a href="#" class="tm-social-link"><i class="fa fa-twitter"></i></a>
+							<a href="#" class="tm-social-link"><i class="fa fa-linkedin"></i></a>
+						</div><!-- social-icons -->
+						<div style="font-size:14px;color:#fff;margin-top:-20px;margin-bottom:20px;color:#fed;">(C) alex@motivation.ru 2020</div>
+					</div><!-- rbox -->
+
+					<div id=form_box style="width:100%;margin:16px auto 0 auto;display:none;">
+
+               	    				<div class="row form-section">
+						<div style="position:relative;width:100%;min-height:1px;margin:30px auto 0px auto;z-index:1001;padding-left:20px;">
+
+			   	   			<form id="myForm" action="/cgi/genc/action" class="subscribe-form" method="post">
+								<div>
+									<input id="phoner" type="text"  pattern="[0-9\(\)\+\- ]+" required title="У номера могут быть цифры, круглые скобки, черточки и плюс" class="form-control" style="width:100%;height:5%;margin:3% auto;" name="phone" value="Ваш телефон" onclick="this.value='';this.onclick='';" />
+								</div>
+								<div>
+									<textarea id="qstner" type="text" class="form-control" style="width:100%;height:10%;margin:3% auto;" name="qstn" onclick="this.value='';this.onclick='';">Ваш вопрос</textarea>
+								</div>
+								<div>
+									<input id="namer"  type="text" pattern="[а-яА-ЯeE ]+" required title="В ответе может быть только кириллица" class="form-control" style="width:100%;height:5%;margin:3% auto;" name="name" value="Ответ" onclick="this.value='';this.onclick='';" />
+								</div>								<div id="rnum">
+									<input id=coder type="text" class="form-control" name="rnum"  style="width:100%;height:5%;margin:3% auto;background:#def;color:#222;" value="Введите код с картинки" onclick="this.value='';this.onclick='';"/>
+									<input id="srnum" type="hidden" name="srnum" value="shit" />
+								</div>
+								<input type="submit"  class="form-control" style="width:100%;height:5%;margin:2% auto;" value="Продолжить" onclick="var str=document.getElementById('namer').value;str=str.toLowerCase();document.getElementById('namer').value=str;str=document.getElementById('qstner').value;str=str.toLowerCase();document.getElementById('qstner').value=str;"/>
+<script>(function(){var inputs = document.getElementsByTagName('input');for (var i = 0, input; input = inputs[i]; i++) {if (input.type == 'text') {input.oninput = oninput;}}function oninput() {var valid = true;if ('required' in this.attributes) {valid = valid && this.value != '';}if ('pattern' in this.attributes) {var pattern = new RegExp('^' + this.getAttribute('pattern') + '$', 'gi');valid = valid && pattern.test(this.value);}if (!valid) {alert(this.title);}}})();</script>
+								<span class="clr"><!-- spanner --></span>
+			   				</form>		
+		 		   			<div id="log">
+								<div id="log_res"><!-- spanner --></div>
+				   			</div>
+						</div>
+						</div>
+						<!-- div class="tm-social-icons-container text-xs-center" style="margin-top:5%;margin-bottom:5%;padding-left:20px;">
+	                    				<a href="#" class="tm-social-link"><i class="fa fa-facebook"></i></a>
+							<a href="#" class="tm-social-link"><i class="fa fa-google-plus"></i></a>
+							<a href="#" class="tm-social-link"><i class="fa fa-twitter"></i></a>
+							<a href="#" class="tm-social-link"><i class="fa fa-linkedin"></i></a>
+						</div><!-- social-icons -->
+						<div style="font-size:14px;color:#fff;margin-top:-20px;margin-bottom:20px;color:#fed;">(C) alex@motivation.ru 2020</div>
+					</div><!-- form_box -->
+				</div>
+			</div>	
+			<div class="footer-link" style="position:relative;bottom:7%;">
+				<!-- p>Copyright &#169; 2020 JUST MACHINE</p -->
+			</div>
+		</div>	
+	</body>
+
+	<script type="text/javascript" src="js/particles.js"></script>
+	<script type="text/javascript" src="js/app.js"></script>
+</html>

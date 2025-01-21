@@ -1,0 +1,212 @@
+/* dhcpd tapset
+   Copyright (C) 2011, Red Hat Inc.
+ */
+
+probe dhcpd_main = process("dhcpd").mark("main")
+{
+  probestr = sprintf("%s(locals: %s)", $$name, $$locals);
+  
+}
+
+probe dhcpd_discover_start = process("dhcpd").mark("discover_start")
+{
+  probestr = sprintf("%s", $$name);
+}
+
+probe dhcpd_discover_done = process("dhcpd").mark("discover_done")
+{
+  probestr = sprintf("%s", $$name);
+}
+
+probe dhcpd_request_start = process("dhcpd").mark("request_start")
+{
+  probestr = sprintf("%s", $$name);
+}
+
+probe dhcpd_request_done = process("dhcpd").mark("request_done")
+{
+  probestr = sprintf("%s", $$name);
+}
+
+probe dhcpd_release_start = process("dhcpd").mark("release_start")
+{
+  probestr = sprintf("%s", $$name);
+}
+
+probe dhcpd_release_done = process("dhcpd").mark("release_done")
+{
+  probestr = sprintf("%s", $$name);
+}
+
+probe dhcpd_decline_start = process("dhcpd").mark("decline_start")
+{
+  probestr = sprintf("%s", $$name);
+}
+
+probe dhcpd_decline_done = process("dhcpd").mark("decline_done")
+{
+  probestr = sprintf("%s", $$name);
+}
+
+probe dhcpd_inform_start = process("dhcpd").mark("inform_start")
+{
+  probestr = sprintf("%s", $$name);
+}
+
+probe dhcpd_inform_done = process("dhcpd").mark("inform_done")
+{
+  probestr = sprintf("%s", $$name);
+}
+
+probe dhcpd_nak_lease_start = process("dhcpd").mark("nak_lease_start")
+{
+  probestr = sprintf("%s", $$name);
+}
+
+probe dhcpd_nak_lease_done = process("dhcpd").mark("nak_lease_done")
+{
+  probestr = sprintf("%s", $$name);
+}
+
+probe dhcpd_ack_lease_start = process("dhcpd").mark("ack_lease_start")
+{
+  probestr = sprintf("%s", $$name);
+}
+
+probe dhcpd_ack_lease_done = process("dhcpd").mark("ack_lease_done")
+{
+  probestr = sprintf("%s", $$name);
+}
+
+probe dhcpd_reply_start = process("dhcpd").mark("reply_start")
+{
+  probestr = sprintf("%s", $$name);
+}
+
+probe dhcpd_reply_done = process("dhcpd").mark("reply_done")
+{
+  probestr = sprintf("%s", $$name);
+}
+
+probe dhcpd_find_lease_start = process("dhcpd").mark("find_lease_start")
+{
+  probestr = sprintf("%s", $$name);
+}
+
+probe dhcpd_find_lease_done = process("dhcpd").mark("find_lease_done")
+{
+  probestr = sprintf("%s", $$name);
+}
+
+probe dhcpd_6_solicit_start = process("dhcpd").mark("6_solicit_start")
+{
+  probestr = sprintf("%s", $$name);
+}
+
+probe dhcpd_6_solicit_done = process("dhcpd").mark("6_solicit_done")
+{
+  probestr = sprintf("%s", $$name);
+}
+
+probe dhcpd_6_request_start = process("dhcpd").mark("6_request_start")
+{
+  probestr = sprintf("%s", $$name);
+}
+
+probe dhcpd_6_request_done = process("dhcpd").mark("6_request_done")
+{
+  probestr = sprintf("%s", $$name);
+}
+
+probe dhcpd_6_confirm_start = process("dhcpd").mark("6_confirm_start")
+{
+  probestr = sprintf("%s", $$name);
+}
+
+probe dhcpd_6_confirm_done = process("dhcpd").mark("6_confirm_done")
+{
+  probestr = sprintf("%s", $$name);
+}
+
+probe dhcpd_6_renew_start = process("dhcpd").mark("6_renew_start")
+{
+  probestr = sprintf("%s", $$name);
+}
+
+probe dhcpd_6_renew_done = process("dhcpd").mark("6_renew_done")
+{
+  probestr = sprintf("%s", $$name);
+}
+
+probe dhcpd_6_rebind_start = process("dhcpd").mark("6_rebind_start")
+{
+  probestr = sprintf("%s", $$name);
+}
+
+probe dhcpd_6_rebind_done = process("dhcpd").mark("6_rebind_done")
+{
+  probestr = sprintf("%s", $$name);
+}
+
+probe dhcpd_6_decline_start = process("dhcpd").mark("6_decline_start")
+{
+  probestr = sprintf("%s", $$name);
+}
+
+probe dhcpd_6_decline_done = process("dhcpd").mark("6_decline_done")
+{
+  probestr = sprintf("%s", $$name);
+}
+
+probe dhcpd_6_release_start = process("dhcpd").mark("6_release_start")
+{
+  probestr = sprintf("%s", $$name);
+}
+
+probe dhcpd_6_release_done = process("dhcpd").mark("6_release_done")
+{
+  probestr = sprintf("%s", $$name);
+}
+
+probe dhcpd_6_information_request_start = process("dhcpd").mark("6_information_request_start")
+{
+  probestr = sprintf("%s", $$name);
+}
+
+probe dhcpd_6_information_request_done = process("dhcpd").mark("6_information_request_done")
+{
+  probestr = sprintf("%s", $$name);
+}
+
+probe dhcpd_6_relay_forw_start = process("dhcpd").mark("6_relay_forw_start")
+{
+  probestr = sprintf("%s", $$name);
+}
+
+probe dhcpd_6_relay_forw_done = process("dhcpd").mark("6_relay_forw_done")
+{
+  probestr = sprintf("%s", $$name);
+}
+
+probe dhcpd_failover_pool_dobalance_start = process("dhcpd").mark("failover_pool_dobalance_start")
+{
+  probestr = sprintf("%s", $$name);
+}
+
+probe dhcpd_failover_pool_dobalance_done = process("dhcpd").mark("failover_pool_dobalance_done")
+{
+  probestr = sprintf("%s", $$name);
+}
+
+
+probe dhcpd_failover_set_state_start = process("dhcpd").mark("failover_set_state_start")
+{
+  state = $arg1;
+  new_state = $arg2;
+  probestr = sprintf("%s(state=%d, new_state=%d)", $$name, state, new_state);
+}
+
+probe dhcpd_failover_set_state_done = process("dhcpd").mark("failover_set_state_done")
+{
+  probestr = sprintf("%s", $$name);
+}

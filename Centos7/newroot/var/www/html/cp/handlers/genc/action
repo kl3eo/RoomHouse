@@ -1,0 +1,339 @@
+#!/usr/bin/perl
+use 5.006;
+use CGI;
+use DBI;
+use Socket;
+use TClubMD5;
+#use MIME::Base64::URLSafe;
+use Encode;
+use URI::Encode qw{ uri_decode };
+use Crypt::Digest::SHA512 qw( sha512 sha512_hex sha512_b64 sha512_b64u sha512_file sha512_file_hex sha512_file_b64 sha512_file_b64u );
+use String::Random;
+
+use open qw/ :std :encoding(utf8) /;
+
+my $server = "127.0.0.1";
+my $user = $primary_user;
+my $passwd = $primary_passwd;
+my $dbase = $primary_dbase;
+my $port = $primary_port;
+
+$query      = new CGI;
+
+print "Content-Type: text/html; charset=UTF-8\n\n";
+
+my $url_prefix 	= '';
+my $public_prefix = "/var/www/html/cp/juma";
+my $prefix 	= "/usr/local/netpbm";
+my $pnmdir = $prefix."/bin";
+
+($dbase,$server,$port,$user,$passwd) = TClubMD5::get_connect_req($ru_en);
+
+my $email_address = "alex\@motivation.ru";
+
+system("rm -f $public_prefix/icon/reg/*");
+
+my $rcv_rnum = ($query->param('rnum')) ? $query->param('rnum'):'none';
+my $rcv_srnum = ($query->param('srnum')) ? $query->param('srnum'):'';
+my $compare = TClubMD5::md5_hex($rcv_rnum);
+
+my $rcv_gifnum = substr($rcv_srnum,0,4);
+
+$dbconn=DBI->connect("dbi:Pg:dbname=$dbase;port=$port;host=$server",$user, $passwd);
+&connError("could not connect to server *** try $scriptname?dbase='aValidDatabaseName' ***")
+	if (!defined($dbconn));
+
+$dbconn->{LongReadLen} = 16384;
+
+my $str = "";
+
+if ($rcv_srnum eq TClubMD5::md5_hex($rcv_rnum)) {
+
+
+$str =  koitoutf8("Thank you!<p>Your question has been added to our DB.</p>");
+
+print $str;
+
+my $who = defined($query->param('name')) ? $query->param('name') : "noname";
+my $phone = defined($query->param('phone')) ? $query->param('phone') : '';
+my $qstn = defined($query->param('qstn')) ? $query->param('qstn') : '';
+
+$who = decode('UTF-8', uri_decode($who));
+$phone = decode('UTF-8', uri_decode($phone));
+$qstn = decode('UTF-8', uri_decode($qstn));
+
+my $sport = city_selector($phone);
+
+my $data = $who."<br>".$phone;
+
+my $add1 = String::Random->new;
+my $a1 = $add1->randregex('[A-Z]{8}');
+my $a2 = $add1->randregex('[A-Z]{8}');
+my $a3 = $add1->randregex('[A-Z]{8}');
+my $a4 = $add1->randregex('[A-Z]{8}');
+my $data1 = $a1." ".$who." ".$a2.$a3." ".$phone." ".$a4;
+
+my $hashed_cond = sha512_hex(Encode::encode_utf8($data1));
+
+#alter table challenges add column answer text;alter table challenges add column hashed_condition text;
+
+	my $cmd = "insert into challenges (condition,time_of_selection, date_and_time, place, price, owner, sport, answer, hashed_condition) values ('$data1',current_timestamp,current_timestamp+'2days','$qstn',1,'admin',$sport, '$who', '$hashed_cond') returning ID";
+#my $result=$dbconn->prepare($cmd);
+#print STDERR "Here cmd is $cmd, data is $data1, qstn is $qstn, sport is $sport!\n";
+
+$result = $dbconn->do("$cmd");     	
+#$result->execute($data,$qstn,$sport);
+#print STDERR "Here result is $result!\n";
+	
+	&dBaseError($dbconn, $cmd) if (!defined($result));
+
+
+} else {
+
+my $rnum = substr(TClubMD5::md5_hex(time()),0,4);
+my $srnum=TClubMD5::md5_hex($rnum);
+my $gifnum = substr($srnum,0,4);
+
+$s_call = "/bin/echo $rnum | $pnmdir/pbmtext  | $pnmdir/pnmscale 10 | $pnmdir/ppmshift 2 | $pnmdir/ppmspread 10| $pnmdir/ppmtogif >$public_prefix/icon/reg/$gifnum.gif";
+
+system($s_call);
+
+my $mode = 0644;
+chmod $mode, "$public_prefix/icon/reg/$gifnum.gif";
+
+print "<img src=\"$url_prefix/icon/reg/$gifnum.gif\" width=120><div style=\"display:none;\">$srnum</div>";
+}
+
+sub koitoutf8 {
+my $pvdcoderwin=shift;
+$pvdcoderwin=~ s/Ё/E/g;
+$pvdcoderwin=~ s/ё/e/g;
+$pvdcoderwin=~ s/я/я▐/g;
+$pvdcoderwin=~ s/п/п©/g;
+
+$pvdcoderwin=~ s/А/п░/g;
+$pvdcoderwin=~ s/Б/п▒/g;
+$pvdcoderwin=~ s/В/п▓/g;
+$pvdcoderwin=~ s/Г/п⌠/g;
+$pvdcoderwin=~ s/Д/п■/g;
+$pvdcoderwin=~ s/Е/п∙/g;
+$pvdcoderwin=~ s/Ж/п√/g;
+$pvdcoderwin=~ s/З/п≈/g;
+$pvdcoderwin=~ s/И/п≤/g;
+$pvdcoderwin=~ s/Й/п≥/g;
+$pvdcoderwin=~ s/К/п /g;
+$pvdcoderwin=~ s/Л/п⌡/g;
+$pvdcoderwin=~ s/М/п°/g;
+$pvdcoderwin=~ s/Н/п²/g;
+$pvdcoderwin=~ s/О/п·/g;
+$pvdcoderwin=~ s/П/п÷/g;
+$pvdcoderwin=~ s/Р/п═/g;
+$pvdcoderwin=~ s/С/п║/g;
+$pvdcoderwin=~ s/Т/п╒/g;
+$pvdcoderwin=~ s/У/пё/g;
+$pvdcoderwin=~ s/Ф/п╓/g;
+$pvdcoderwin=~ s/Х/п╔/g;
+$pvdcoderwin=~ s/Ц/п╕/g;
+$pvdcoderwin=~ s/Ч/п╖/g;
+$pvdcoderwin=~ s/Ш/п╗/g;
+$pvdcoderwin=~ s/Щ/п╘/g;
+$pvdcoderwin=~ s/Ь/п╛/g;
+$pvdcoderwin=~ s/Ы/п╚/g;
+$pvdcoderwin=~ s/Ъ/п╙/g;
+$pvdcoderwin=~ s/Э/п╜/g;
+$pvdcoderwin=~ s/Ю/п╝/g;
+$pvdcoderwin=~ s/Я/п╞/g;
+
+$pvdcoderwin=~ s/а/п╟/g;
+$pvdcoderwin=~ s/б/п╠/g;
+$pvdcoderwin=~ s/в/п╡/g;
+$pvdcoderwin=~ s/г/пЁ/g;
+$pvdcoderwin=~ s/д/п╢/g;
+$pvdcoderwin=~ s/е/п╣/g;
+$pvdcoderwin=~ s/ж/п╤/g;
+$pvdcoderwin=~ s/з/п╥/g;
+$pvdcoderwin=~ s/и/п╦/g;
+$pvdcoderwin=~ s/й/п╧/g;
+$pvdcoderwin=~ s/к/п╨/g;
+$pvdcoderwin=~ s/л/п╩/g;
+$pvdcoderwin=~ s/м/п╪/g;
+$pvdcoderwin=~ s/н/п╫/g;
+$pvdcoderwin=~ s/о/п╬/g;
+$pvdcoderwin=~ s/р/я─/g;
+$pvdcoderwin=~ s/с/я│/g;
+$pvdcoderwin=~ s/т/я┌/g;
+$pvdcoderwin=~ s/у/я┐/g;
+$pvdcoderwin=~ s/ф/я└/g;
+$pvdcoderwin=~ s/х/я┘/g;
+$pvdcoderwin=~ s/ц/я├/g;
+$pvdcoderwin=~ s/ч/я┤/g;
+$pvdcoderwin=~ s/ш/я┬/g;
+$pvdcoderwin=~ s/щ/я┴/g;
+$pvdcoderwin=~ s/ь/я▄/g;
+$pvdcoderwin=~ s/ы/я▀/g;
+$pvdcoderwin=~ s/ъ/я┼/g;
+$pvdcoderwin=~ s/э/я█/g;
+$pvdcoderwin=~ s/ю/я▌/g;
+
+
+return $pvdcoderwin;
+}
+
+sub getTable { #16
+
+my $now_time  = time;
+my $tt = $now_time - $script_start_time;
+
+print STDERR "Debug: in get table - begin, dbase is $dbase; comm is $comm, time is $tt\n" if ($debug);
+
+	$result=$dbconn->prepare($comm);
+
+    	$result->execute;
+	&dBaseError($result, $comm."  (".$result->rows()." rows found)") if ($result->rows() ==
+	-2);
+	
+	$listresult = $result->fetchall_arrayref;
+	$ntuples = $result->rows();
+
+$now_time  = time;
+$tt = $now_time - $script_start_time;
+
+print STDERR "Debug: in get table - end, time is $tt\n" if ($debug);
+
+}
+
+sub dBaseError {
+
+    local($check, $message) = @_;
+    print "<H4><FONT COLOR=BLACK><P>$message<BR>Error: ".$check->errstr."</FONT></H4>";
+    die("Action failed on command:$message  Error_was:$DBI::errstr");
+}
+
+sub city_selector {
+
+my $data = shift;
+
+my $r = 0;
+
+$data =~ tr/0-9//cd;
+
+if ( $data =~ /^79(.+)/ || $data =~ /^89(.+)/ ) 
+{$data = substr($data,1);}
+
+my $start = 4;
+
+my $counter = 0;
+my $reg = '';
+
+while ($counter != 1&& $start < 11 ) {
+	my $d = substr($data,0,$start);
+	$comm = "select region_name from region_codes where substr(concat(code,pattern),1,$start) = '$d'";
+	&getTable;
+	$counter = $ntuples;
+	$reg = ${${$listresult}[0]}[0];
+	$start++;
+}
+
+$reg = '' if ($start == 10 and $counter != 1);
+
+if ( length($reg) ) {
+
+$c[0] = "Все регионы";
+$c[1] = "Адыгея";
+$c[2] = "Алтай";
+$c[3] = "Алтайский";
+$c[4] = "Амурская";
+$c[5] = "Архангельская";
+$c[6] = "Астраханская";
+$c[7] = "Башкортостан";
+$c[8] = "Белгородская";
+$c[9] = "Брянская";
+$c[10] = "Бурятия";
+$c[11] = "Владимирская";
+$c[12] = "Волгоградская";
+$c[13] = "Вологодская";
+$c[14] = "Воронежская";
+$c[15] = "Дагестан";
+$c[16] = "Еврейская";
+$c[17] = "Забайкальский";
+$c[18] = "Ингушетия";
+$c[19] = "Иркутская";
+$c[20] = "Ивановская";
+$c[21] = "Кабардино-Балкарская";
+$c[22] = "Калининградская";
+$c[23] = "Калмыкия";
+$c[24] = "Калужская";
+$c[25] = "Камчатский";
+$c[26] = "Карачаево-Черкесская";
+$c[27] = "Карелия";
+$c[28] = "Кемеровская";
+$c[29] = "Кировская";
+$c[30] = "Коми";
+$c[31] = "Костромская";
+$c[32] = "Краснодарский";
+$c[33] = "Красноярский";
+$c[34] = "Крым";
+$c[35] = "Курганская";
+$c[36] = "Курская";
+$c[37] = "Липецкая";
+$c[38] = "Магаданская";
+$c[39] = "Марий Эл";
+$c[40] = "Мордовия";
+$c[41] = "Москва";
+$c[42] = "Мурманская";
+$c[43] = "Ненецкий";
+$c[44] = "Нижегородская";
+$c[45] = "Новгородская";
+$c[46] = "Новосибирская";
+$c[47] = "Омская";
+$c[48] = "Оренбургская";
+$c[49] = "Орловская";
+$c[50] = "Пензенская";
+$c[51] = "Пермский";
+$c[52] = "Приморский";
+$c[53] = "Псковская";
+$c[54] = "Ямало-Ненецкий";
+$c[55] = "Ярославская";
+$c[56] = "Ростовская";
+$c[57] = "Рязанская";
+$c[58] = "Саха (Якутия)";
+$c[59] = "Сахалинская";
+$c[60] = "Самарская";
+$c[61] = "Санкт-Петербург";
+$c[62] = "Саратовская";
+$c[63] = "Северная Осетия";
+$c[64] = "Смоленская";
+$c[65] = "Ставропольский";
+$c[66] = "Свердловская";
+$c[67] = "Тюменская";
+$c[68] = "Тамбовская";
+$c[69] = "Татарстан";
+$c[70] = "Томская";
+$c[71] = "Тульская";
+$c[72] = "Тверская";
+$c[73] = "Тыва";
+$c[74] = "Удмуртия";
+$c[75] = "Ульяновская";
+$c[76] = "Хабаровский";
+$c[77] = "Хакасия";
+$c[78] = "Ханты-Мансийский";
+$c[79] = "Челябинская";
+$c[80] = "Чеченская";
+$c[81] = "Чукотский";
+$c[82] = "Чувашская";
+$c[83] = "Другое..";
+
+#print STDERR "Here reg is $reg, c83 is $c[83]!\n";
+
+for (my $i = 1; $i < $#c; $i++) {
+	if ($c[$i] eq $reg) {
+		$r = $i; last;
+	}
+}
+
+} else { #length zero
+	$r = 83;
+}
+
+return $r;
+}

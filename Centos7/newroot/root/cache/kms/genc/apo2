@@ -1,0 +1,156 @@
+#!/usr/bin/perl
+
+use 5.006;
+use CGI;
+use DBI;
+use Socket;
+use TClubMD5;
+use JSON;
+
+my $server = "127.0.0.1";
+my $user = "postgres";
+my $passwd = "postgres";
+my $dbase = "people";
+my $port = 5432;
+
+my $debug = 0;
+
+my $cgi = CGI->new();
+
+my %form;
+
+for my $param ($cgi->param()) {
+   	$form{$param} = [ $cgi->param($param) ];
+}
+
+
+
+my $addr = defined ($ENV{'REMOTE_ADDR'}) ? $ENV{'REMOTE_ADDR'} : '';
+
+my $str = $form{'POSTDATA'}[0];
+
+if ('POST' eq $cgi->request_method) {
+	print STDERR "yes! str is $str! real address is $addr!\n";
+} else {
+    print STDERR "no!\n";
+    exit;
+}
+
+my $data = decode_json($str);
+my $name = $data->{unique_xter_id};
+my $sta = $data->{status};
+my $softpac = $data->{softpac};
+my $client = $data->{client};
+my $turn = $data->{turn};
+my $diff = $data->{kurento_diff};
+my $myname = $data->{myname};
+my $cpuload = $data->{cpuload};
+
+exit unless (length($name) eq '8');
+exit unless (length($client));
+exit unless (length($softpac));
+
+#print STDERR "Here res is $name!\n";
+
+print "Content-Type: text/html; charset=UTF-8\n\n";
+
+#black mark
+if ($name eq "AICLUMOP")
+{
+	print -2;
+	exit;
+}
+
+#replace turnserver
+#if ($name eq "XSYHXHDY" && $turn ne "95.84.186.117")
+#{
+#	print "95.84.186.117";
+#	exit;
+#}
+
+$dbconn=DBI->connect("dbi:Pg:dbname=$dbase;port=$port;host=$server",$user, $passwd);
+&connError("could not connect to server *** try $scriptname?dbase='aValidDatabaseName' ***")
+	if (!defined($dbconn));
+
+$dbconn->{LongReadLen} = 16384;
+
+
+# select distinct nodes.ip, apos.name, current_date as date_and_type, 0 as qty, nodes.address into a from nodes,apos where nodes.ip=apos.ip and (nodes.ip='169.57.1.84') order by nodes.ip;
+# insert into payouts select nextval('serial'), * from a ;
+# drop table a;	
+
+#my @arr = split(':', $myname); $myname = $arr[0]; 
+$myname =~ s/^cube\./club\./g;
+
+print STDERR "Here wget --no-check-certificate -O- --tries=1 https://$myname 2>&1 | grep Length | awk '{print \$2}'!\n";
+my $bytes = `wget --no-check-certificate -O- --timeout=1 --tries=1 https://$myname 2>&1 | grep Length | awk '{print \$2}'`;
+$bytes =~ s/(\r|\n)//g;
+my $free_ed = ($client eq "demo" || $client eq "jaja" || $client eq "rhplus" || $softpac eq '7') ? 1 : 0;
+print STDERR "Here bytes is $bytes, myname is $myname!\n";
+
+$sta  = 't' if ($free_ed && $bytes =~ /^\d+$/ ); #probably working fine?
+
+#people=# create table apos (id serial, name text, date_and_time timestamp, ip text default null, status bool default null, softpac int2 default 0, client text, kurento_diff bigint, cpuload float);
+#alter table apos add column kurento_diff bigint not null default 0;
+#alter table apos add column cpuload float not null default 0;
+
+my $cmd = "insert into apos (ip, date_and_time, name, status, softpac, client, kurento_diff, cpuload) values (?,current_timestamp,?,?,?,?,?,?) returning id";
+
+my $result=$dbconn->prepare($cmd);
+
+$diff = 0 unless length($diff);
+
+$result->execute($addr,$name,$sta,$softpac,$client,$diff,$cpuload);
+
+my $listresult = $result->fetchall_arrayref;
+my $ntuples = $result->rows();
+
+if ($ntuples == 1) {
+	my $res = ${${$listresult}[0]}[0];
+	print STDERR "Here returning $res!\n";
+	print 1;
+} else {
+	print STDERR "Here returning nada!\n";
+	print 0;
+}
+
+	
+&dBaseError($dbconn, $cmd) if (!defined($result));
+$dbconn->disconnect;
+exit;
+
+sub getTable { #16
+
+my $now_time  = time;
+my $tt = $now_time - $script_start_time;
+
+print STDERR "Debug: in get table - begin, dbase is $dbase; comm is $comm, time is $tt\n" if ($debug);
+
+	$result=$dbconn->prepare($comm);
+
+    	$result->execute;
+	&dBaseError($result, $comm."  (".$result->rows()." rows found)") if ($result->rows() ==
+	-2);
+	
+	$listresult = $result->fetchall_arrayref;
+	$ntuples = $result->rows();
+
+$now_time  = time;
+$tt = $now_time - $script_start_time;
+
+print STDERR "Debug: in get table - end, time is $tt\n" if ($debug);
+
+}
+
+sub dBaseError {
+
+    local($check, $message) = @_;
+    print "<H4><FONT COLOR=BLACK><P>$message<BR>Error: ".$check->errstr."</FONT></H4>";
+    die("Action failed on command:$message  Error_was:$DBI::errstr");
+}
+
+sub connError { #11
+
+    my $message = shift;
+    if (!defined($dbconn)) {print $DBI::errstr;die("$message ERROR:$DBI::errstr")}
+}

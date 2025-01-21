@@ -1,0 +1,12 @@
+294:7c679ea0169898f177e15cfeb24b4dd9f667056e
+0
+1
+installed:295:7c0ddafcaedcd9387ece2db7b2c4a102fd6d1a19
+1
+mbr: net-tools,x86_64,0,2.0,0.25.20131004git.el7 70
+  repo: base
+  ts_state: u
+  output_state: 20
+  isDep: False
+  reason: user
+  reinstall: False

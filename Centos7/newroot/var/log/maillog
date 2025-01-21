@@ -1,0 +1,6 @@
+May 23 12:36:05 localhost postfix/postfix-script[1254]: starting the Postfix mail system
+May 23 12:36:05 localhost postfix/master[1259]: daemon started -- version 2.10.1, configuration /etc/postfix
+May 23 12:38:56 localhost postfix/postfix-script[1095]: starting the Postfix mail system
+May 23 12:38:56 localhost postfix/master[1100]: daemon started -- version 2.10.1, configuration /etc/postfix
+May 23 13:04:33 localhost postfix/postfix-script[1138]: starting the Postfix mail system
+May 23 13:04:33 localhost postfix/master[1147]: daemon started -- version 2.10.1, configuration /etc/postfix

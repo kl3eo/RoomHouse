@@ -1,0 +1,301 @@
+#!/bin/bash
+# THIS FILE IS ADDED FOR COMPATIBILITY PURPOSES
+#
+# It is highly advisable to create own systemd services or udev rules
+# to run scripts during boot instead of using this file.
+#
+# In contrast to previous versions due to parallel execution during boot
+# this script will NOT be run after all other services.
+#
+# Please note that you must run 'chmod +x /etc/rc.d/rc.local' to ensure
+# that this script will be executed during boot.
+
+chmod 755 /
+
+mount -o remount,rw,hidepid=2 /proc
+
+modprobe v4l2-common
+modprobe v4l2loopback devices=2 exclusive_caps=1,1
+
+#needed to mount usb drive
+sleep 30
+
+# customizing network startup from flash
+# we suppose only flash here first
+MY_MOUNT=0
+
+FLASH_A1=false
+FLASH_B1=false
+FLASH_C1=false
+FLASH_A2=false
+FLASH_B2=false
+FLASH_C2=false
+
+mkdir -p /mnt/sda/
+
+if [[ (-b /dev/sda && ! (-b /dev/sda1)) ]]; then
+	if [ ! -n "`mount | grep /dev/sda`" ]; then
+		mount /dev/sda /mnt/sda
+		MY_MOUNT=1
+		echo "mounted /dev/sda"
+	fi
+	if [ -d /mnt/sda/efi/etc ]; then
+		FLASH_A1=true			
+	fi
+elif [ -b /dev/sda1 ]; then
+	if [ ! -n "`mount | grep /dev/sda1`" ]; then
+		mount /dev/sda1 /mnt/sda
+		MY_MOUNT=2
+		echo "mounted /dev/sda1"
+	fi 
+	if [ -d /mnt/sda/efi/etc ]; then
+		FLASH_A2=true			
+	fi
+fi
+
+if [[ (-b /dev/sdb && ! (-b /dev/sdb1) && ! ($FLASH_A1 == true) && ! ($FLASH_A2 == true)) ]]; then
+	if [ ! -n "`mount | grep /dev/sda`" ]; then
+		mount /dev/sdb /mnt/sda
+		MY_MOUNT=3
+		echo "mounted /dev/sdb"
+	fi
+	if [ -d /mnt/sda/efi/etc ]; then
+		FLASH_B1=true			
+	fi
+elif [[ (-b /dev/sdb1 && ! ($FLASH_A1 == true) && ! ($FLASH_A2 == true)) ]]; then
+	if [ ! -n "`mount | grep /dev/sdb1`" ]; then
+		mount /dev/sdb1 /mnt/sda
+		MY_MOUNT=4
+		echo "mounted /dev/sdb1"
+	fi 
+	if [ -d /mnt/sda/efi/etc ]; then
+		FLASH_B2=true			
+	fi
+fi
+
+if [[ (-b /dev/sdc && ! (-b /dev/sdc1) && ! ($FLASH_A1 == true) && ! ($FLASH_A2 == true) && ! ($FLASH_B1 == true) && ! ($FLASH_B2 == true)) ]]; then
+	if [ ! -n "`mount | grep /dev/sdc`" ]; then
+		mount /dev/sdc /mnt/sda
+		MY_MOUNT=5
+		echo "mounted /dev/sda"		
+	fi
+	if [ -d /mnt/sda/efi/etc ]; then
+		FLASH_C1=true			
+	fi	
+elif [[ (-b /dev/sdc1 && ! ($FLASH_A1 == true) && ! ($FLASH_A2 == true) && ! ($FLASH_B1 == true) && ! ($FLASH_B2 == true)) ]]; then
+	if [ ! -n "`mount | grep /dev/sdc1`" ]; then
+		mount /dev/sdc1 /mnt/sda
+		MY_MOUNT=6
+		echo "mounted /dev/sdc1"
+	fi 
+	if [ -d /mnt/sda/efi/etc ]; then
+		FLASH_C2=true		
+	fi
+fi
+
+#save pri/gw/client name from login:
+MYPRI=`cat /etc/sysconfig/interfaces | grep "PRI=" | awk -F '=' '{print $2}'`
+MYGW=`cat /etc/sysconfig/interfaces | grep PRI_GW | awk -F '=' '{print $2}'`
+MYCLI=`cat /etc/sysconfig/interfaces | grep CLIENTNAME | awk -F '=' '{print $2}'`
+
+if [[ ($FLASH_A1 == true) || ($FLASH_A2 == true) || ($FLASH_B1 == true) || ($FLASH_B2 == true) || ($FLASH_C1 == true) || ($FLASH_C2 == true) ]]; then
+	
+	#OLD WAYS REMOVED
+	#if [ -f /mnt/sda/efi/etc/sysconfig/interfaces ]; then
+	#	cp -f /mnt/sda/efi/etc/sysconfig/interfaces /etc/sysconfig/ifaces.img
+	#	zcat /etc/sysconfig/ifaces.img | cpio -idmv
+	#	mv /etc/sysconfig/ifaces /etc/sysconfig/interfaces
+	#fi
+	#if [ -f /mnt/sda/efi/etc/sysconfig/blacklist ]; then
+	#	cp -f /mnt/sda/efi/etc/sysconfig/blacklist /etc/sysconfig/blist.img
+	#	zcat /etc/sysconfig/blist.img | cpio -idmv
+	#	mv /etc/sysconfig/blist /etc/sysconfig/blacklist
+	#fi
+	#if [ -f /mnt/sda/efi/etc/sysconfig/whitelist ]; then
+	#	cp -f /mnt/sda/efi/etc/sysconfig/whitelist /etc/sysconfig/wlist.img
+	#	zcat /etc/sysconfig/wlist.img | cpio -idmv
+	#	mv /etc/sysconfig/wlist /etc/sysconfig/whitelist
+	#fi
+	
+	if [ -f /mnt/sda/efi/data/u1.dat.gpg ]; then
+		cd /tmp && cp -a /mnt/sda/efi/data/u1.dat.gpg ./ && gpg --yes --batch --passphrase $MYCLI u1.dat.gpg && cat u1.dat >> /etc/passwd && rm -f u1.dat
+	fi	
+	if [ -f /mnt/sda/efi/data/u2.dat.gpg ]; then
+		cd /tmp && cp -a /mnt/sda/efi/data/u2.dat.gpg ./ && gpg --yes --batch --passphrase $MYCLI u2.dat.gpg && cat u2.dat >> /etc/shadow && rm -f u2.dat
+	fi	
+	if [ -f /mnt/sda/efi/data/g.dat.gpg ]; then
+		cd /tmp && cp -a /mnt/sda/efi/data/g.dat.gpg ./ && gpg --yes --batch --passphrase $MYCLI g.dat.gpg && cat g.dat >> /etc/group && rm -f g.dat
+	fi
+	if [ -f /mnt/sda/efi/data/smb.dat.gpg ]; then
+		cd /tmp && cp -a /mnt/sda/efi/data/smb.dat.gpg ./ && gpg --yes --batch --passphrase $MYCLI smb.dat.gpg && mv /etc/samba/smbpasswd /etc/samba/smbpasswd.orig && mv smb.dat /etc/samba/smbpasswd && chmod 600 /etc/samba/smbpasswd
+	fi
+	if [ -f /mnt/sda/efi/data/sasldb2.gpg ]; then
+		cd /tmp && cp -a /mnt/sda/efi/data/sasldb2.gpg ./ && gpg --yes --batch --passphrase $MYCLI sasldb2.gpg && mv /etc/sasldb2 /etc/sasldb2.orig && mv sasldb2 /etc/ && chmod 640 /etc/sasldb2 && chown cyrus:mail /etc/sasldb2
+	fi
+	if [ -f /mnt/sda/efi/data/fetch.dat.gpg ]; then
+		cd /tmp && cp -a /mnt/sda/efi/data/fetch.dat.gpg ./ && gpg --yes --batch --passphrase $MYCLI fetch.dat.gpg && mv /etc/rc.d/fetchmail.lc /etc/rc.d/fetchmail.lc.orig && mv fetch.dat /etc/rc.d/fetchmail.lc
+	fi
+	if [ -f /mnt/sda/efi/data/mime.dat.gpg ]; then
+		cd /tmp && cp -a /mnt/sda/efi/data/mime.dat.gpg ./ && gpg --yes --batch --passphrase $MYCLI mime.dat.gpg && mv /etc/mail/sa-mimedefang.cf /etc/mail/sa-mimedefang.cf.orig && mv mime.dat /etc/mail/sa-mimedefang.cf
+	fi
+	if [ -f /mnt/sda/efi/data/b1.dat.gpg ]; then
+		cd /tmp && cp -a /mnt/sda/efi/data/b1.dat.gpg ./ && gpg --yes --batch --passphrase $MYCLI b1.dat.gpg && mv /etc/sysconfig/blacklist /etc/sysconfig/blacklist.orig && mv b1.dat /etc/sysconfig/blacklist
+	fi
+	if [ -f /mnt/sda/efi/data/b2.dat.gpg ]; then
+		cd /tmp && cp -a /mnt/sda/efi/data/b2.dat.gpg ./ && gpg --yes --batch --passphrase $MYCLI b2.dat.gpg && mv /etc/sysconfig/whitelist /etc/sysconfig/whitelist.orig && mv b2.dat /etc/sysconfig/whitelist
+	fi
+	if [ -f /mnt/sda/efi/data/b3.dat.gpg ]; then
+		cd /tmp && cp -a /mnt/sda/efi/data/b3.dat.gpg ./ && gpg --yes --batch --passphrase $MYCLI b3.dat.gpg && mv /etc/sysconfig/interfaces /etc/sysconfig/interfaces.orig && mv b3.dat /etc/sysconfig/interfaces
+	fi
+fi
+
+#now replace whatever pri/pri_gw restored in interfaces with values from the login screen:
+/bin/sed -i "s/.*PRI_GW=.*/PRI_GW=$MYGW/" /etc/sysconfig/interfaces
+/bin/sed -i "s/.*PRI=.*/PRI=$MYPRI/" /etc/sysconfig/interfaces
+/bin/sed -i "s/.*CLIENTNAME=.*/CLIENTNAME=$MYCLI/" /etc/sysconfig/interfaces
+
+if [[ ($MY_MOUNT -eq 1) || ($MY_MOUNT -eq 2) || ($MY_MOUNT -eq 3) || ($MY_MOUNT -eq 4) || ($MY_MOUNT -eq 5) || ($MY_MOUNT -eq 6) ]]; then
+	umount /mnt/sda
+fi
+
+rm -f /etc/sysconfig/interfaces.saved
+rm -f /etc/sysconfig/interfaces.new
+
+rm -f /tmp/*.gpg
+
+sleep 5
+
+/root/check_ssd.sh
+/root/check_pg_db.sh
+
+#hack ash -- it must exist on old notebooks with Windows fs on sda, why?
+mkdir -p /opt/nvme/var/www/html/lightsquid/report/
+
+su - postgres -c "/usr/local/pgsql/bin/pg_ctl -D /usr/local/pgsql/data start"
+/usr/bin/beep
+
+sleep 1
+/root/squid_to_yota.sh
+sleep 1
+
+/root/wlan0.sh
+sleep 5
+
+/root/iptables.sh
+
+ETH1_PRESENT=`cat /proc/net/dev | grep wlan0 | awk '{print $1}'`
+WLAN0_PRESENT=`cat /proc/net/dev | grep wlan0 | awk '{print $1}'`
+
+if [[ !(-z "$ETH1_PRESENT") || !(-z "$WLAN0_PRESENT") ]]; then
+	service dhcpd start
+fi
+
+if [[ !(-z "$WLAN0_PRESENT") ]]; then
+#	/usr/sbin/hostapd /etc/hostapd/hostapd.conf -B
+	service hostapd start
+fi
+	
+SOFTPAC=`cat /etc/sysconfig/softpac`
+if [ $SOFTPAC -eq 3 ]; then
+#miner
+/root/check_video_driver.sh
+cp -a /root/cron.miner /var/spool/cron/root
+/usr/local/bin/oh.sh 3
+elif [[ ($SOFTPAC -eq 2) || ($SOFTPAC -eq 5) ]]; then
+
+. /etc/sysconfig/interfaces
+
+if [[ "$CLIENTNAME" != "jaja" && "$CLIENTNAME" != "demo" && "$CLIENTNAME" != "rhplus" ]]; then
+#home/office not free
+
+/root/check_tflow.sh
+/root/check_ff.sh && cp -a /root/cache/home/objDet_utils.py /opt/models/research/Object-detection/utils/objDet_utils.py
+mv /root/cache/home/objects.out /tmp/ && su -c 'psql cp < /tmp/objects.out > /dev/null 2>&1' - postgres && mv /tmp/objects.out /root/cache/home/
+
+mic_array=( $(/bin/arecord -l | grep USB | awk '{print $2}' | sed -e 's/://g'));
+mic_array_length=${#mic_array[@]};        
+
+counter=0
+while [ $counter -lt $mic_array_length ]; do
+MIC=${mic_array[$counter]}
+
+if [ ! -z $MIC ]; then
+	/usr/sbin/alsactl init $MIC
+	#/usr/sbin/alsactl restore $MIC
+	/bin/amixer -c$MIC sset Loudness on
+	/bin/amixer -c$MIC sset Mic 24
+fi
+
+counter=$[$counter+1]
+done
+
+# not free
+fi
+
+fi
+
+/etc/rc.local.local
+
+if [[ ($SOFTPAC -eq 5) || ($SOFTPAC -eq 7) ]]; then
+
+if [ $SOFTPAC -eq 5 ]; then
+mv /root/cache/office/views.sql /tmp/ && su -c 'psql cp < /tmp/views.sql > /dev/null 2>&1' - postgres && mv /tmp/views.sql /root/cache/office/
+fi
+
+# room fields needed by wtag now (even empty in case of Office edition), that's why we allow both softpacs 5 and 7
+
+. /etc/sysconfig/interfaces && cp -a /root/cache/office/rooms.sql /tmp/ && /bin/sed -i "s/corfu/$HOSTNAME/" /tmp/rooms.sql && su -c 'psql cp < /tmp/rooms.sql > /dev/null 2>&1' - postgres && rm -f /tmp/rooms.sql
+
+/usr/local/pgsql/bin/psql -U postgres -tc "SELECT 1 FROM pg_database WHERE datname = 'ipaudit'" | grep -q 1 || /usr/local/pgsql/bin/psql -U postgres -c "CREATE DATABASE ipaudit"
+
+mv /root/cache/office/ipaudit.sql /tmp/ && su -c 'psql ipaudit < /tmp/ipaudit.sql > /dev/null 2>&1' - postgres && mv /tmp/ipaudit.sql /root/cache/office/
+
+/usr/local/apache2/bin/apachectl stop
+
+#start KMS and java app vchat
+ROO="room-house.com"
+
+sed  -i "s/.*external-ip=.*/external-ip=$EXT/" /etc/coturn/turnserver.conf && /root/start_turnserver.sh
+
+/root/check_office.sh && ldconfig && su -c 'GST_PLUGIN_SCANNER=/usr/lib/x86_64-linux-gnu/gstreamer1.5/gstreamer-1.5/gst-plugin-scanner LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/nobody/newlib/lib/ /home/nobody/newlib/lib64/ld-linux-x86-64.so.2 /home/nobody/newlib/bin/kurento-media-server > /dev/null 2>&1 &' - nobody && sleep 8 && (nohup openssl pkcs12 -export -in /etc/letsencrypt/archive/$ROO/cert1.pem -inkey /etc/letsencrypt/archive/$ROO/privkey1.pem -out /home/nobody/vchat/src/main/resources/cert.p12 -passout pass:123456 && chmod 440 /home/nobody/vchat/src/main/resources/cert.p12 && chown nobody:nobody /home/nobody/vchat/src/main/resources/cert.p12 && su -c 'NOW=$(date +"%Y-%m-%d-%H-%M");cd /home/nobody/vchat/ && /bin/mvn -U clean spring-boot:run -Dspring-boot.run.jvmArguments="-Dkms.url=ws://127.0.0.1:8888/kurento" > log-$NOW.log 2>&1 & rm -f /home/nobody/vchat/lastlog && ln -s /home/nobody/vchat/log-$NOW.log /home/nobody/vchat/lastlog' - nobody) &>/dev/null
+
+
+if [[ "$CLIENTNAME" == "jaja" || "$CLIENTNAME" == "demo" ]]; then
+
+	sed -i "s/span> +</span></g" /home/nobody/vchat/src/main/resources/static/index.html
+#no video audio/selector in RH free edition
+	sed -i "s/class=bigO style='float:right;'/class=bigO style='float:right;display:none;'/g" /home/nobody/vchat/src/main/resources/static/index.html
+	sed -i "s/class=bigO style='float:left;'/class=bigO style='float:left;display:none;'/g" /home/nobody/vchat/src/main/resources/static/index.html
+fi
+
+sleep 3 && /usr/local/apache2/bin/apachectl start
+fi
+
+#create a unique xTER run ID and put the first record of this run into our table
+
+/root/gene_xter_id.pl
+
+SOFTPAC=`cat /etc/sysconfig/softpac`
+CPULOAD=`top -d 0.5 -b -n2 | grep "Cpu(s)" | tail -n 1 | awk '{print $2 + $4}'`
+
+CUBE=controls.room-house.com
+. /etc/sysconfig/interfaces && /usr/bin/curl --silent  --connect-timeout 5 -X POST --header 'Content-type: application/json' --data '{"unique_xter_id":"'"$UNIQUE_XTER_ID"'", "status":1, "softpac":"'"$SOFTPAC"'", "client":"'"$CLIENTNAME"'","cpuload":"'"$CPULOAD"'"}' https://$CUBE/cgi/genc/apo2
+
+chown -R apache:apache /var/www/html/cp/
+chown -R nobody:nobody /var/www/html/cp/public_html/log.html
+chmod 775 /var/www/html/cp/public_html
+chown -R apache:apache /opt/nvme/polka/
+
+chmod 775 /home/nobody/vchat/src/main/resources/static/
+chmod 775 /home/nobody/vchat/target/classes/static/
+
+chmod 600 /var/www/html/cp/handlers/users.db /var/www/html/cp/handlers/sessions.db
+chmod 644 /etc/sysconfig/interfaces*
+
+/usr/local/apache2/bin/apachectl stop && sleep 3 && /usr/local/apache2/bin/apachectl start
+
+chmod 777 /tmp
+
+mkdir -p /opt/nvme/site_rh && chown -R apache:apache /opt/nvme/site_rh && chmod 755 /opt/nvme/site_rh && cd /opt/nvme/site_rh && ln -s /var/www/html/cp/public_html/js_cp ./ && ln -s /var/www/html/cp/public_html/css_cp ./ && ln -s /var/www/html/lightsquid/tpl/base/images ./
+
+touch /var/lock/subsys/local

@@ -1,0 +1,1 @@
+check_ssd_full.sh

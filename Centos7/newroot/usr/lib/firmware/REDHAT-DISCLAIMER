@@ -1,0 +1,13 @@
+
+ This update supersedes microcode provided  by Red Hat with the CVE-2017-5715 (“Spectre”)
+ CPU branch injection vulnerability mitigation. (Historically, Red Hat has provided updated
+ microcode, developed by our microprocessor partners, as a customer convenience.) Further
+ testing has uncovered problems with the microcode provided along with the “Spectre” mitigation
+ that could lead to system instabilities. As a result, Red Hat is providing an microcode update
+ that reverts to the last known good microcode version dated before 03 January 2018.
+ Red Hat strongly recommends that customers contact their hardware provider for the latest microcode updates.
+
+ IMPORTANT: Customers using Intel Skylake-, Broadwell-, and Haswell-based platforms must obtain and
+ install updated microcode from their hardware vendor immediately. The "Spectre" mitigation requires
+ both an updated kernel from Red Hat and updated microcode from your hardware vendor.
+

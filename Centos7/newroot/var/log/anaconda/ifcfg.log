@@ -1,0 +1,27 @@
+16:22:47,295 DEBUG ifcfg: content of files (network initialization):
+16:22:47,299 DEBUG ifcfg: all settings: []
+16:22:47,515 DEBUG ifcfg: content of files (missing ifcfgs created for devices ['ens3']):
+16:22:47,515 DEBUG ifcfg: /etc/sysconfig/network-scripts/ifcfg-ens3:
+16:22:47,516 DEBUG ifcfg:   TYPE=Ethernet
+16:22:47,516 DEBUG ifcfg:   PROXY_METHOD=none
+16:22:47,516 DEBUG ifcfg:   BROWSER_ONLY=no
+16:22:47,516 DEBUG ifcfg:   BOOTPROTO=dhcp
+16:22:47,516 DEBUG ifcfg:   DEFROUTE=yes
+16:22:47,516 DEBUG ifcfg:   IPV4_FAILURE_FATAL=no
+16:22:47,516 DEBUG ifcfg:   IPV6INIT=yes
+16:22:47,516 DEBUG ifcfg:   IPV6_AUTOCONF=yes
+16:22:47,517 DEBUG ifcfg:   IPV6_DEFROUTE=yes
+16:22:47,517 DEBUG ifcfg:   IPV6_FAILURE_FATAL=no
+16:22:47,517 DEBUG ifcfg:   IPV6_ADDR_GEN_MODE=stable-privacy
+16:22:47,517 DEBUG ifcfg:   NAME=ens3
+16:22:47,517 DEBUG ifcfg:   UUID=27f49288-9a52-47b1-bc62-3dbfac6f4141
+16:22:47,517 DEBUG ifcfg:   DEVICE=ens3
+16:22:47,517 DEBUG ifcfg:   ONBOOT=no
+16:22:47,528 DEBUG ifcfg: all settings: [{'802-3-ethernet': {'auto-negotiate': False, 'mac-address-blacklist': [], 's390-options': {}}, 'connection': {'autoconnect': False, 'uuid': '27f49288-9a52-47b1-bc62-3dbfac6f4141', 'interface-name': 'ens3', 'type': '802-3-ethernet', 'id': 'ens3', 'permissions': []}, 'ipv4': {'addresses': [], 'dns-search': [], 'route-data': [], 'dns': [], 'routes': [], 'address-data': [], 'method': 'auto'}, 'proxy': {}, 'ipv6': {'addresses': [], 'dns-search': [], 'route-data': [], 'dns': [], 'routes': [], 'address-data': [], 'method': 'auto'}}]
+16:23:01,801 DEBUG ifcfg: IfcfFile.read /etc/sysconfig/network-scripts/ifcfg-ens3
+16:23:01,803 DEBUG ifcfg: IfcfFile.read /etc/sysconfig/network-scripts/ifcfg-ens3
+16:23:01,806 DEBUG ifcfg: IfcfFile.read /etc/sysconfig/network-scripts/ifcfg-ens3
+16:23:01,807 DEBUG ifcfg: IfcfFile.read /etc/sysconfig/network-scripts/ifcfg-ens3
+16:23:01,819 DEBUG ifcfg: IfcfFile.read /etc/sysconfig/network-scripts/ifcfg-ens3
+16:23:02,165 DEBUG ifcfg: IfcfFile.read /etc/sysconfig/network-scripts/ifcfg-ens3
+16:23:02,167 DEBUG ifcfg: IfcfFile.read /etc/sysconfig/network-scripts/ifcfg-ens3

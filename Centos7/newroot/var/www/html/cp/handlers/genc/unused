@@ -1,0 +1,1964 @@
+sub print_users_panel_15 {
+
+my $who = nkname_lookup($r_user);
+my $mo = $is_admin ? "users_control" : "users_mode";
+my $o = substr(TClubMD5::md5_hex($r_user),0,8);
+my $obje = "<iframe scrolling='no' src=\"/?mode=$mo&o=$o\" style=\"overflow:hidden;width:100%;height:140%;min-height:410px;margin:1vh auto;background-color:#efefef;border:none;\"></iframe>";
+
+my $manage_title = $is_admin ? "Manage" : "Chat";
+print qq{
+
+<html xmlns="http://www.w3.org/1999/xhtml"> 
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Translit CRM</title> 
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<link rel="stylesheet" href="target/assets/materialize/css/materialize.min.css" media="screen,projection" />
+    <!-- Bootstrap Styles-->
+    <link href="target/assets/css/bootstrap.css" rel="stylesheet" />
+    <!-- FontAwesome Styles-->
+    <link href="target/assets/css/font-awesome.css" rel="stylesheet" />
+    <!-- Morris Chart Styles-->
+    <link href="target/assets/js/morris/morris-0.4.3.min.css" rel="stylesheet" />
+    <!-- Custom Styles-->
+    <link href="target/assets/css/custom-styles.css" rel="stylesheet" />
+    <!-- Google Fonts-->
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
+    <link rel="stylesheet" href="target/assets/js/Lightweight-Chart/cssCharts.css"> 
+</head>
+
+<body>
+    <div id="wrapper">
+        <nav class="navbar navbar-default top-navbar" role="navigation">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle waves-effect waves-dark" data-toggle="collapse" data-target=".sidebar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand waves-effect waves-dark" href="index.html"><i class="large material-icons">track_changes</i> <strong>translit</strong></a>
+				
+		<div id="sideNav" href=""><i class="material-icons dp48">toc</i></div>
+            </div>
+
+            <ul class="nav navbar-top-links navbar-right"> 
+				<li><a class="dropdown-button waves-effect waves-dark" href="#!" data-activates="dropdown4"><i class="fa fa-envelope fa-fw"></i> <i class="material-icons right">arrow_drop_down</i></a></li>				
+				<li><a class="dropdown-button waves-effect waves-dark" href="#!" data-activates="dropdown3"><i class="fa fa-tasks fa-fw"></i> <i class="material-icons right">arrow_drop_down</i></a></li>
+				<li><a class="dropdown-button waves-effect waves-dark" href="#!" data-activates="dropdown2"><i class="fa fa-bell fa-fw"></i> <i class="material-icons right">arrow_drop_down</i></a></li>
+				  <li><a class="dropdown-button waves-effect waves-dark" href="#!" data-activates="dropdown1"><i class="fa fa-user fa-fw"></i> <b>$who</b> <i class="material-icons right">arrow_drop_down</i></a></li>
+            </ul>
+        </nav>
+		<!-- Dropdown Structure -->
+<ul id="dropdown1" class="dropdown-content">
+<li><a href="#"><i class="fa fa-user fa-fw"></i> My Profile</a>
+</li>
+<li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
+</li> 
+<li><a href="/?Submit=Logout"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+</li>
+</ul>
+<ul id="dropdown2" class="dropdown-content w250">
+  <li>
+                                <div>
+                                    <i class="fa fa-comment fa-fw"></i> New Comment
+                                    <span class="pull-right text-muted small">4 min</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                                <div>
+                                    <i class="fa fa-twitter fa-fw"></i> 3 New Followers
+                                    <span class="pull-right text-muted small">12 min</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                                <div>
+                                    <i class="fa fa-envelope fa-fw"></i> Message Sent
+                                    <span class="pull-right text-muted small">4 min</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                                <div>
+                                    <i class="fa fa-tasks fa-fw"></i> New Task
+                                    <span class="pull-right text-muted small">4 min</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                                <div>
+                                    <i class="fa fa-upload fa-fw"></i> Server Rebooted
+                                    <span class="pull-right text-muted small">4 min</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a class="text-center" href="#">
+                                <strong>See All Alerts</strong>
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        </li>
+</ul>
+<ul id="dropdown3" class="dropdown-content dropdown-tasks w250">
+<li>
+		<a href="#">
+			<div>
+				<p>
+					<strong>Task 1</strong>
+					<span class="pull-right text-muted">60% Complete</span>
+				</p>
+				<div class="progress progress-striped active">
+					<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%">
+						<span class="sr-only">60% Complete (success)</span>
+					</div>
+				</div>
+			</div>
+		</a>
+	</li>
+	<li class="divider"></li>
+	<li>
+		<a href="#">
+			<div>
+				<p>
+					<strong>Task 2</strong>
+					<span class="pull-right text-muted">28% Complete</span>
+				</p>
+				<div class="progress progress-striped active">
+					<div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="28" aria-valuemin="0" aria-valuemax="100" style="width: 28%">
+						<span class="sr-only">28% Complete</span>
+					</div>
+				</div>
+			</div>
+		</a>
+	</li>
+	<li class="divider"></li>
+	<li>
+		<a href="#">
+			<div>
+				<p>
+					<strong>Task 3</strong>
+					<span class="pull-right text-muted">60% Complete</span>
+				</p>
+				<div class="progress progress-striped active">
+					<div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%">
+						<span class="sr-only">60% Complete (warning)</span>
+					</div>
+				</div>
+			</div>
+		</a>
+	</li>
+	<li class="divider"></li>
+	<li>
+		<a href="#">
+			<div>
+				<p>
+					<strong>Task 4</strong>
+					<span class="pull-right text-muted">85% Complete</span>
+				</p>
+				<div class="progress progress-striped active">
+					<div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100" style="width: 85%">
+						<span class="sr-only">85% Complete (danger)</span>
+					</div>
+				</div>
+			</div>
+		</a>
+	</li>
+	<li class="divider"></li>
+	<li>
+</ul>   
+<ul id="dropdown4" class="dropdown-content dropdown-tasks w250 taskList">
+  <li>
+                                <div>
+                                    <strong>$who</strong>
+                                    <span class="pull-right text-muted">
+                                        <em>Today</em>
+                                    </span>
+                                </div>
+                                <p>Lorem Ipsum has been the industry's standard dummy text ever since the 1500s...</p>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                                <div>
+                                    <strong>John Smith</strong>
+                                    <span class="pull-right text-muted">
+                                        <em>Yesterday</em>
+                                    </span>
+                                </div>
+                                <p>Lorem Ipsum has been the industry's standard dummy text ever since an kwilnw...</p>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="#">
+                                <div>
+                                    <strong>John Smith</strong>
+                                    <span class="pull-right text-muted">
+                                        <em>Yesterday</em>
+                                    </span>
+                                </div>
+                                <p>Lorem Ipsum has been the industry's standard dummy text ever since the...</p>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a class="text-center" href="#">
+                                <strong>Read All Messages</strong>
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        </li>
+</ul>
+	   <!--/. NAV TOP  -->
+};
+
+print qq{ 
+        <nav class="navbar-default navbar-side" role="navigation">
+            <div class="sidebar-collapse">
+                <ul class="nav" id="main-menu">
+
+                    <!-- li>
+                        <a class="waves-effect waves-dark" href="index.html"><i class="fa fa-dashboard"></i> Dashboard</a>
+                    </li -->
+                    <li>
+                        <a href="#" class="active-menu waves-effect waves-dark"><i class="fa fa-table"></i> Users<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href="#">Clients</a>
+                            </li>
+                            <li>
+                                <a href="#">Guests</a>
+                            </li>
+                            <li>
+                                <a href="#">Interpreters<span class="fa arrow"></span></a>
+                                <ul class="nav nav-third-level">
+                                    <li>
+                                        <a href="/?mode=w_uc_panel">Manage</a>
+                                    </li>
+                                </ul>
+
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+ 			<a href="/?mode=list_conferences" class="waves-effect waves-dark"><i class="fa fa-fw fa-file"></i> Conferences</a>
+                    </li>
+                </ul>
+
+            </div>
+
+        </nav>
+        <!-- /. NAV SIDE  -->
+} if ($is_admin);
+
+print qq{      
+		<div id="page-wrapper">
+		  <div class="header"> 
+                        <h1 class="page-header">
+                            $manage_title
+                        </h1>
+						<ol class="breadcrumb">
+					  <li><a href="#">Home</a></li>
+					  <li><a href="#">Users</a></li>
+					  <li class="active">Interpreters</a></li>
+					</ol> 
+									
+		</div>
+            <div id="page-inner">
+	    	$obje
+				<!-- footer><p>All right reserved. Template by: <a href="https://webthemez.com/admin-template/">WebThemez.com</a></p>
+				</footer -->
+            </div>
+            <!-- /. PAGE INNER  -->
+        </div>
+        <!-- /. PAGE WRAPPER  -->
+    </div>
+    <!-- /. WRAPPER  -->
+    <!-- JS Scripts-->
+    <!-- jQuery Js -->
+    <script src="target/assets/js/jquery-1.10.2.js"></script>
+	
+	<!-- Bootstrap Js -->
+    <script src="target/assets/js/bootstrap.min.js"></script>
+	
+	<script src="target/assets/materialize/js/materialize.min.js"></script>
+	
+    <!-- Metis Menu Js -->
+    <script src="target/assets/js/jquery.metisMenu.js"></script>
+    <!-- Custom Js -->
+    <script src="target/assets/js/custom-scripts_no_morris.js"></script> 
+</body>
+
+</html>
+};
+}
+
+sub print_conferences {
+my $who = nkname_lookup($r_user);
+
+my $o = substr(TClubMD5::md5_hex($r_user),0,8);
+my $obje = "<iframe scrolling='no' src=\"/?mode=conf_list_create&o=$o\" style=\"overflow:hidden;width:100%;height:250vh;min-height:410px;margin:1vh auto;background-color:transparent;border:none;\"></iframe>";
+
+my $manage_title = $is_admin ? "Manage" : "Chat";
+print qq{
+
+<html xmlns="http://www.w3.org/1999/xhtml"> 
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Translit CRM</title> 
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<link rel="stylesheet" href="target/assets/materialize/css/materialize.min.css" media="screen,projection" />
+    <!-- Bootstrap Styles-->
+    <link href="target/assets/css/bootstrap.css" rel="stylesheet" />
+    <!-- FontAwesome Styles-->
+    <link href="target/assets/css/font-awesome.css" rel="stylesheet" />
+    <!-- Morris Chart Styles-->
+    <link href="target/assets/js/morris/morris-0.4.3.min.css" rel="stylesheet" />
+    <!-- Custom Styles-->
+    <link href="target/assets/css/custom-styles.css" rel="stylesheet" />
+    <!-- Google Fonts-->
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
+    <link rel="stylesheet" href="target/assets/js/Lightweight-Chart/cssCharts.css"> 
+</head>
+
+<body onload="\$('html, body').animate({scrollTop: 0}, 300);">
+    <div id="wrapper">
+        <nav class="navbar navbar-default top-navbar" role="navigation">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle waves-effect waves-dark" data-toggle="collapse" data-target=".sidebar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand waves-effect waves-dark" href="index.html"><i class="large material-icons">track_changes</i> <strong>translit</strong></a>
+				
+		<div id="sideNav" href=""><i class="material-icons dp48">toc</i></div>
+            </div>
+
+            <ul class="nav navbar-top-links navbar-right"> 
+				<li><a class="dropdown-button waves-effect waves-dark" href="#!" data-activates="dropdown4"><i class="fa fa-envelope fa-fw"></i> <i class="material-icons right">arrow_drop_down</i></a></li>				
+				<li><a class="dropdown-button waves-effect waves-dark" href="#!" data-activates="dropdown3"><i class="fa fa-tasks fa-fw"></i> <i class="material-icons right">arrow_drop_down</i></a></li>
+				<li><a class="dropdown-button waves-effect waves-dark" href="#!" data-activates="dropdown2"><i class="fa fa-bell fa-fw"></i> <i class="material-icons right">arrow_drop_down</i></a></li>
+				  <li><a class="dropdown-button waves-effect waves-dark" href="#!" data-activates="dropdown1"><i class="fa fa-user fa-fw"></i> <b>$who</b> <i class="material-icons right">arrow_drop_down</i></a></li>
+            </ul>
+        </nav>
+		<!-- Dropdown Structure -->
+<ul id="dropdown1" class="dropdown-content">
+<li><a href="#"><i class="fa fa-user fa-fw"></i> My Profile</a>
+</li>
+<li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
+</li> 
+<li><a href="/?Submit=Logout"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+</li>
+</ul>
+<ul id="dropdown2" class="dropdown-content w250">
+  <li>
+                                <div>
+                                    <i class="fa fa-comment fa-fw"></i> New Comment
+                                    <span class="pull-right text-muted small">4 min</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                                <div>
+                                    <i class="fa fa-twitter fa-fw"></i> 3 New Followers
+                                    <span class="pull-right text-muted small">12 min</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                                <div>
+                                    <i class="fa fa-envelope fa-fw"></i> Message Sent
+                                    <span class="pull-right text-muted small">4 min</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                                <div>
+                                    <i class="fa fa-tasks fa-fw"></i> New Task
+                                    <span class="pull-right text-muted small">4 min</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                                <div>
+                                    <i class="fa fa-upload fa-fw"></i> Server Rebooted
+                                    <span class="pull-right text-muted small">4 min</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a class="text-center" href="#">
+                                <strong>See All Alerts</strong>
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        </li>
+</ul>
+<ul id="dropdown3" class="dropdown-content dropdown-tasks w250">
+<li>
+		<a href="#">
+			<div>
+				<p>
+					<strong>Task 1</strong>
+					<span class="pull-right text-muted">60% Complete</span>
+				</p>
+				<div class="progress progress-striped active">
+					<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%">
+						<span class="sr-only">60% Complete (success)</span>
+					</div>
+				</div>
+			</div>
+		</a>
+	</li>
+	<li class="divider"></li>
+	<li>
+		<a href="#">
+			<div>
+				<p>
+					<strong>Task 2</strong>
+					<span class="pull-right text-muted">28% Complete</span>
+				</p>
+				<div class="progress progress-striped active">
+					<div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="28" aria-valuemin="0" aria-valuemax="100" style="width: 28%">
+						<span class="sr-only">28% Complete</span>
+					</div>
+				</div>
+			</div>
+		</a>
+	</li>
+	<li class="divider"></li>
+	<li>
+		<a href="#">
+			<div>
+				<p>
+					<strong>Task 3</strong>
+					<span class="pull-right text-muted">60% Complete</span>
+				</p>
+				<div class="progress progress-striped active">
+					<div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%">
+						<span class="sr-only">60% Complete (warning)</span>
+					</div>
+				</div>
+			</div>
+		</a>
+	</li>
+	<li class="divider"></li>
+	<li>
+		<a href="#">
+			<div>
+				<p>
+					<strong>Task 4</strong>
+					<span class="pull-right text-muted">85% Complete</span>
+				</p>
+				<div class="progress progress-striped active">
+					<div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100" style="width: 85%">
+						<span class="sr-only">85% Complete (danger)</span>
+					</div>
+				</div>
+			</div>
+		</a>
+	</li>
+	<li class="divider"></li>
+	<li>
+</ul>   
+<ul id="dropdown4" class="dropdown-content dropdown-tasks w250 taskList">
+  <li>
+                                <div>
+                                    <strong>$who</strong>
+                                    <span class="pull-right text-muted">
+                                        <em>Today</em>
+                                    </span>
+                                </div>
+                                <p>Lorem Ipsum has been the industry's standard dummy text ever since the 1500s...</p>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                                <div>
+                                    <strong>John Smith</strong>
+                                    <span class="pull-right text-muted">
+                                        <em>Yesterday</em>
+                                    </span>
+                                </div>
+                                <p>Lorem Ipsum has been the industry's standard dummy text ever since an kwilnw...</p>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="#">
+                                <div>
+                                    <strong>John Smith</strong>
+                                    <span class="pull-right text-muted">
+                                        <em>Yesterday</em>
+                                    </span>
+                                </div>
+                                <p>Lorem Ipsum has been the industry's standard dummy text ever since the...</p>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a class="text-center" href="#">
+                                <strong>Read All Messages</strong>
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        </li>
+</ul>
+	   <!--/. NAV TOP  -->
+
+        <nav class="navbar-default navbar-side" role="navigation">
+            <div class="sidebar-collapse">
+                <ul class="nav" id="main-menu">
+
+                    <!-- li>
+                        <a class="waves-effect waves-dark" href="index.html"><i class="fa fa-dashboard"></i> Dashboard</a>
+                    </li -->
+                    <li>
+                        <a href="#" class="waves-effect waves-dark"><i class="fa fa-table"></i> Users<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href="#">Clients</a>
+                            </li>
+                            <li>
+                                <a href="#">Guests</a>
+                            </li>
+                            <li>
+                                <a href="#">Interpreters<span class="fa arrow"></span></a>
+                                <ul class="nav nav-third-level">
+                                    <li>
+                                        <a href="/?mode=w_uc_panel">Manage</a>
+                                    </li>
+                                </ul>
+
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+ 			<a href="/?mode=list_conferences" class="active-menu waves-effect waves-dark"><i class="fa fa-fw fa-file"></i> Conferences</a>
+                    </li>
+                </ul>
+
+            </div>
+
+        </nav>
+        <!-- /. NAV SIDE  -->
+      
+		<div id="page-wrapper">
+		  <div class="header"> 
+                        <h1 class="page-header">
+                            Conferences
+                        </h1>
+						<ol class="breadcrumb">
+					  <li><a href="#">Home</a></li>
+					  <li class="active">Conferences</a></li>
+					</ol> 
+									
+		</div>
+            <div id="page-inner">
+
+        		$obje
+	    	
+				<!-- footer><p>All right reserved. Template by: <a href="https://webthemez.com/admin-template/">WebThemez.com</a></p>
+				</footer -->
+            </div>
+            <!-- /. PAGE INNER  -->
+        </div>
+        <!-- /. PAGE WRAPPER  -->
+    </div>
+    <!-- /. WRAPPER  -->
+    <!-- JS Scripts-->
+    <!-- jQuery Js -->
+    <script src="target/assets/js/jquery-1.10.2.js"></script>
+	
+	<!-- Bootstrap Js -->
+    <script src="target/assets/js/bootstrap.min.js"></script>
+	
+	<script src="target/assets/materialize/js/materialize.min.js"></script>
+	
+    <!-- Metis Menu Js -->
+    <script src="target/assets/js/jquery.metisMenu.js"></script>
+    <script src="target/assets/js/custom-scripts_no_morris.js"></script>  
+
+</body>
+
+</html>
+};
+}
+
+sub conf_list_create {
+
+my $o = defined($query->param('o')) ? $query->param('o') : '';
+check_real_o($o);
+
+print qq{
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width"/>
+    <title>Translit</title>
+
+    <link rel="apple-touch-icon" sizes="60x60" href="/fronto_favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/fronto_favicon/fronto_favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/fronto_favicon/fronto_favicon-16x16.png">
+    <link rel="manifest" href="/fronto_favicon/site.webmanifest">
+    <link rel="mask-icon" href="/fronto_favicon/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+
+    <link href="/fronto_css/bootstrap.css" rel="stylesheet">
+    <link href="/fronto_css/font-awesome.min.css" rel="stylesheet">
+    <link href="/fronto_css/jquery.datetimepicker.min.css" rel="stylesheet">
+    <link href="/fronto_css/index.css" rel="stylesheet">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="/fronto_js/bootstrap.js" defer></script>
+    <script src="/fronto_js/jquery.datetimepicker.full.js" defer></script>
+    <script src="/fronto_js/moment-locale.js"></script>
+    <script src="/fronto_js/const.js" defer></script>
+    <script src="/fronto_js/core.js" defer></script>
+    <script src="/fronto_js/index.js?" defer></script>
+
+</head>
+<body>
+<div id="page">
+    <div class="loading-page">
+        <div class="loading-page-gif"></div>
+    </div>
+
+    <header>
+        <div class="container-fluid">
+            <div class="row  d-flex align-items-center text-center">
+                <!-- div class="col-md-4">
+                    <div class="logo"></div>
+                </div>
+                <div class="col-md-4">
+                    <h3>Conferences</h3>
+                </div>
+                <div class="col-md-4">
+                    <div class="logout">
+                        <a href="#">Log Out</a>
+                    </div>
+                </div -->
+            </div>
+        </div>
+    </header>
+
+    <div class="admin-content">
+        <div class="container">
+            <div class="wrapper">
+                <table class="table table-new-conf">
+                    <thead>
+                    <tr>
+                        <td colspan="2">Create a New Conference</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>Title:</td>
+                        <td>
+                            <textarea class="nameConf"></textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Start Time:</td>
+                        <td>
+                            <input type="datetime-locals" name="input" placeholder="yyyy-MM-ddTHH:mm:ss" required=""
+                                   class="dateBegin-newconf">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>End Time:</td>
+                        <td>
+                            <input type="datetime-locals" name="input" placeholder="yyyy-MM-ddTHH:mm:ss" required=""
+                                   class="dateEnd-newconf">
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="admin-content_create" role="button">
+                <a href="#">Create</a>
+            </div>
+            <table class="table table-conf">
+                <thead>
+                <tr>
+                    <td>Title</td>
+                    <td>Date</td>
+                    <td></td>
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+            <ul class="pagination">
+                <li class="beginPage">
+                    <a href="#">&laquo;</a>
+                </li>
+                <li class="prevPage">
+                    <a href="#">&#8249;</a>
+                </li>
+                <li class="countPage">
+                    <span></span>
+                </li>
+                <li class="nextPage">
+                    <a href="#">&#8250;</a>
+                </li>
+                <li class="endPage">
+                    <a href="#">&raquo;</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+
+};
+}
+
+sub conf_edit {
+
+my $o = defined($query->param('o')) ? $query->param('o') : '';
+check_real_o($o);
+
+print qq{
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width"/>
+    <title>Translit</title>
+
+    <link rel="apple-touch-icon" sizes="60x60" href="/fronto_favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/fronto_favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/fronto_favicon/favicon-16x16.png">
+    <link rel="manifest" href="/fronto_favicon/site.webmanifest">
+    <link rel="mask-icon" href="/fronto_favicon/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+
+    <link href="fronto_css/bootstrap.css" rel="stylesheet">
+    <link href="fronto_css/font-awesome.min.css" rel="stylesheet">
+    <link href="fronto_css/jquery.datetimepicker.min.css" rel="stylesheet">
+    <link href="fronto_css/index.css?2" rel="stylesheet">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js" defer></script>
+    <script src="fronto_js/bootstrap.js" defer></script>
+    <script src="fronto_js/moment-locale.js"></script>
+    <script src="fronto_js/jquery.datetimepicker.full.js" defer></script>
+    <script src="fronto_js/const.js?2" defer></script>
+    <script src="fronto_js/core.js" defer></script>
+    <script src="fronto_js/index.js?2" defer></script>
+
+</head>
+<body>
+<div class="loading-page">
+    <div class="loading-page-gif"></div>
+</div>
+<div id="page">
+    <!-- header>
+        <div class="container-fluid">
+            <div class="row  d-flex align-items-center text-center">
+                <div class="col-md-4">
+                    <div class="logo"></div>
+                </div>
+                <div class="col-md-4">
+                    <h3>Admin's Dashboard</h3>
+                </div>
+                <div class="col-md-4">
+                    <div class="logout">
+                        <a href="#">Log out</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="container">
+        <div class="nav_tabs d-flex">
+            <a class="flex d-flex justify-content-center align-items-center" href="./">Conferences</a>
+            <a class="flex d-flex justify-content-center align-items-center" href="./">Go Back</a>
+        </div>
+    </div -->
+    <div class="confedit">
+        <div class="container">
+            <div class="confedit_color">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="confedit_name">
+                                    Title
+                                </div>
+                            </div>
+                            <div class="col-md-9">
+                                <div class="confedit_input">
+                                    <textarea class="nameConf"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="confedit_name">
+                                    Logo:
+                                </div>
+                            </div>
+                            <div class="col-md-9">
+                                <form class="degen">
+                                    <div class="confedit_input">
+                                        <div class="logoconf_wrap">
+                                            <img class="logoconf" src="" alt="">
+                                        </div>
+                                        <input class="logoFile" type="file">
+                                        <div class="confedit_input_button uploadLogoFile">
+                                            <div class="upload">Upload</div>
+                                            <div class="delete">Delete</div>
+                                        </div>
+
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="confedit_name">
+                                    Site Url for Logo:
+                                </div>
+                            </div>
+                            <div class="col-md-9">
+                                <div class="confedit_input">
+                                    <textarea class="urlLogo"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="confedit_name">
+                                    Start Time:
+                                </div>
+                            </div>
+                            <div class="col-md-9">
+                                <div class="confedit_input">
+                                    <input type="datetime-locals" name="input" placeholder="yyyy-MM-ddTHH:mm:ss" required=""
+                                           class="dateBegin">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="confedit_name">
+                                    End Time:
+                                </div>
+                            </div>
+                            <div class="col-md-9">
+                                <div class="confedit_input">
+                                    <input type="datetime-locals" name="input" placeholder="yyyy-MM-ddTHH:mm:ss" required=""
+                                           class="dateEnd">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="confedit_name">
+                                    Language Pairs:
+                                </div>
+                            </div>
+                            <div class="col-md-9">
+                                <div class="confedit_input">
+                                    <div class="confedit_input_language">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-3 col-sm-6 col">
+                                <div class="confedit_name mediaProvider">
+                                    <span>Agora</span>
+                                    <span>Tokbox</span>
+                                </div>
+                            </div>
+                            <div class="col-md-9 col-sm-6 col">
+                                <div class="confedit_input">
+                                    <div class="confedit_input_mediaProvider">
+                                        <div class="radio">
+                                            <input class="custom-radio" type="radio" checked name="mediaProvider" id="Agora">
+                                            <label for="Agora"></label>
+                                        </div>
+                                        <div class="radio">
+                                            <input class="custom-radio" type="radio" name="mediaProvider" id="Tokbox">
+                                            <label for="Tokbox"></label>
+                                        </div>
+<!--                                        <input type="radio" checked name="mediaProvider" id="Agora">-->
+<!--                                        <input type="radio" name="mediaProvider" id="Tokbox">-->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 isEnableRelay">
+                        <div class="row">
+                            <div class="col-md-3 col-sm-6 col">
+                                <div class="confedit_name">
+                                    Enable Relay?
+                                </div>
+                            </div>
+                            <div class="col-md-9 col-sm-6 col">
+                                <div class="confedit_input">
+                                    <div class="confedit_input_relay">
+                                        <div class="checkbox">
+                                            <input class="custom-checkbox" type="checkbox" id="relay_check" name="relay">
+                                            <label for="relay_check"></label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 isEnableRecorder">
+                        <div class="row">
+                            <div class="col-md-3 col-sm-6 col">
+                                <div class="confedit_name">
+                                    Enable Recorder?
+                                </div>
+                            </div>
+                            <div class="col-md-9 col-sm-6 col">
+                                <div class="confedit_input">
+                                    <div class="confedit_input_recorder">
+                                        <div class="checkbox">
+                                            <input class="custom-checkbox" type="checkbox" id="recorder_check" name="recorder">
+                                            <label for="recorder_check"></label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-3 col-sm-6 col">
+                                <div class="confedit_name">
+                                    Access "Original" to Attendees
+                                </div>
+                            </div>
+                            <div class="col-md-9 col-sm-6 col">
+                                <div class="confedit_input">
+                                    <div class="confedit_input_original">
+                                        <div class="checkbox">
+                                            <input class="custom-checkbox" type="checkbox" id="original_check" name="original">
+                                            <label for="original_check"></label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="confedit_name">
+                                    QR-Code for Presenter:
+                                </div>
+                            </div>
+                            <div class="col-md-9">
+                                <div class="confedit_input">
+                                    <div class="confedit_input_link blockLector">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="confedit_name">
+                                    QR-code for Attendee:
+                                </div>
+                            </div>
+                            <div class="col-md-9">
+                                <div class="confedit_input">
+                                    <div class="confedit_input_link blockListen">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="confedit_name">
+                                    Interpreters Booth:
+                                </div>
+                            </div>
+                            <div class="col-md-9">
+                                <div class="confedit_input">
+                                    <div class="confedit_input_link blockTranslate">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="confedit_color mt-4">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="confedit_name">
+                            File
+                        </div>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="confedit_input file_translite_0">
+                            <input class="contentFile_0" type="file">
+                            <div class="confedit_input_button uploadContentFile" data-id="0">
+                                <div class="upload">Upload</div>
+                                <div class="delete">Delete</div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="separation">
+                    <div class="col-md-3">
+                        <div class="confedit_name">
+                            Comments:
+                        </div>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="confedit_input">
+                            <textarea class="confedit_input_name confedit_input_nameFile_0" rows="1"
+                                      cols="80"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="confedit_color mt-4">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="confedit_name">
+                            File
+                        </div>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="confedit_input file_translite_1">
+                            <input class="contentFile_1" type="file">
+                            <div class="confedit_input_button uploadContentFile" data-id="1">
+                                <div class="upload">Upload</div>
+                                <div class="delete">Delete</div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="separation">
+                    <div class="col-md-3">
+                        <div class="confedit_name">
+                            Comments:
+                        </div>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="confedit_input">
+                                <textarea class="confedit_input_name confedit_input_nameFile_1" rows="1"
+                                          cols="80"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="confedit_color mt-4">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="confedit_name">
+                            File
+                        </div>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="confedit_input file_translite_2">
+                            <input class="contentFile_2" type="file">
+                            <div class="confedit_input_button uploadContentFile" data-id="2">
+                                <div class="upload">Upload</div>
+                                <div class="delete">Delete</div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="separation">
+                    <div class="col-md-3">
+                        <div class="confedit_name">
+                            Comments:
+                        </div>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="confedit_input">
+                                <textarea class="confedit_input_name confedit_input_nameFile_2" rows="1"
+                                          cols="80"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="admin-content_bot_button" role="button">
+                <a href="#" class="save_conf">Save</a>
+            </div>
+            <div class="admin-content_bot_button" role="button">
+                <a href="#" class="save_exit_conf">Save and Go Back</a>
+            </div>
+            <div class="admin-content_bot_button" role="button">
+                <a href="#" class="exit_conf">Go Back</a>
+            </div>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>
+};
+}
+
+sub print_intre {
+
+my %Coo = TClubMD5::GetCookies('IQS');
+my $i_coo = defined($Coo{'IQS'}) ? $Coo{'IQS'} : '';
+
+print qq {
+
+<script>
+function clearCookie(cname,value) {
+	var curCookie = escape(cname) + "=" + escape(value) +"; expires=Mon, 01-Jan-1970 00:00:01 GMT;"
+	document.cookie = curCookie
+}
+clearCookie('IQS','');
+</script>
+
+<script>
+location.href = '/?$i_coo';
+</script>
+};
+
+}
+
+sub print_interprete {
+
+
+my $o = defined($query->param('o')) ? $query->param('o') : '';
+check_real_o($o);
+
+print qq{
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width"/>
+    <title>Translit</title>
+    <link rel="apple-touch-icon" sizes="60x60" href="/fronto_favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/fronto_favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/fronto_favicon/favicon-16x16.png">
+    <link rel="manifest" href="/fronto_favicon/site.webmanifest">
+    <link rel="mask-icon" href="/fronto_favicon/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+
+    <link href="fronto_css/bootstrap.css" rel="stylesheet">
+    <link href="fronto_css/font-awesome.min.css" rel="stylesheet">
+    <link href="fronto_css/index.css?2" rel="stylesheet">
+
+    <script src="https://www.gstatic.com/firebasejs/8.2.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.2/firebase-analytics.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js" defer></script>
+    <script src="fronto_js/bootstrap.js" defer></script>
+    <script src="fronto_js/moment-locale.js"></script>
+    <script src="fronto_js/AgoraRTCSDK-3.1.1.js" defer></script>
+    <script src="fronto_js/opentok.min.js" defer></script>
+    <script src="fronto_js/const.js?2" defer></script>
+    <script src="fronto_js/core.js" defer></script>
+    <script src="fronto_js/flags.js" defer></script>
+    <script src="fronto_js/translate.js?2" defer></script>
+
+</head>
+<body>
+<div id="page" style="min-width: 992px">
+    <div class="loading-page">
+        <div class="loading-page-gif"></div>
+    </div>
+    <!--<div id="alarm">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <p><strong>Your browser does not seem to support the server code. Please upgrade!</p>
+                    <div id="alarm-close"></div>
+                </div>
+            </div>
+        </div>
+    </div>-->
+    <header>
+        <div class="container-fluid">
+            <div class="row  d-flex align-items-center text-center">
+                <div class="col-4">
+                </div>
+                <div class="col-4">
+                    <h3>Virtual Interpreter Booth</h3>
+                </div>
+
+            </div>
+            <div class="row  d-flex align-items-center text-center">
+                <div class="col-4">
+                </div>
+                <div class="col-4 d-flex justify-conten-center align-items-center">
+                    <img src="#" alt="" class="logoconf" style="max-height: 100px;">
+                    <!-- h3 class="nameConf" style="text-align: left; margin-left: 15px;"></h3 -->
+                </div>
+
+            </div>
+        </div>
+    </header>
+    <div class="confroom">
+        <div class="container">
+            <div class="confroom_head bg-white">
+                <img src="/images/logo.jpg" class="main-logoconf" alt="">
+                <!-- h1 class="main-nameConf"></h1 -->
+		<span style="font-size:15px;">Title:</span><h3 class="nameConf" style="text-align:left;margin-left:15px;display:inline;background:#fed;"></h3>
+            </div>
+            <div class="confroom_body bg-white">
+                <div class="language_choose">
+                    <div class="confroom_body_langs_pair">
+                        <p>Choose language pair:</p>
+                        <div class="language_choose_input">
+                        </div>
+                    </div>
+                </div>
+                <div class="row confroom_body_frame" style="display: none">
+
+                    <div class="col-7">
+                        <div class="conf-dialog_block_lectors">
+                            <div class="pdf-view">
+                                <div class="conf-dialog_block_lectors_controls"></div>
+                                <!-- lector window height: 490px; width: 585px;-->
+                                <div id="LangLectorFrom_place" style="width:100%;"></div>
+                            </div>
+                            <div class="conf-dialog_block_lectors_pdf">
+
+                            </div>
+
+
+                            <div class="pdf-links">
+                            <span>
+                                  <span role="button" class="active-video">Broadcast</span>
+                            </span>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-5">
+                        <div class="conf-dialog_left_big_container_langs clearfix" style="max-width: 379px">
+                            <div class="conf-dialog_block_langs conf-dialog_block_langs_second">
+                                <div class="row">
+                                    <div class="col-6 pr-0">
+                                        <div class="conf-buttons_second_left">
+                                            <div class="d-flex">
+                                                <span langpairbuttonattr="" class="conf-button conf-button_small langPairButton_small conf-button_small_second ng-binding js-flag-first" role="button"></span>
+                                                <span langpairbuttonattr="" class="conf-button conf-button_small langPairButton_small conf-button_small_second ng-binding js-flag-last" role="button"></span>
+                                            </div>
+                                            <div class="conf-window__container" style="margin-bottom: 0">
+                                                <div class="conf-window_small_agora1 display-none"><canvas width="70" height="40"></canvas></div>
+                                                <div class="conf-window_small_agora2 display-none"><canvas width="70" height="40"></canvas></div>
+                                            </div>
+                                            <div class="conf-window__container" style="margin-bottom: 0;min-width:240px;">
+                                                <div class="conf-window_small LangTo_1 display-none"></div>
+                                                <div class="conf-window_small LangTo_2 display-none"></div>
+                                            </div>						
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="conf-buttons_second_right">
+                                            <span id="onAir_place"
+                                                class="conf-button confroom_body_frame_btn conf-button_onair_large"
+                                                role="button">
+
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <span id="cough_place" class="confroom_body_frame_btn_mute">MUTE</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="conf-chat_box">
+                                <div id="chatbox" class="conf-chat_box_area"></div>
+                                <div id="chat_place">
+                                    <div class="d-flex">
+                                        <input type="text" id="usermsg" class="conf-chat_send_box">
+                                        <span id="submitmsg" class="conf-button_chat conf-button_chat_send"
+                                              role="button">Send</span>
+                                    </div>
+                                    <div class="d-flex">
+                                        <div class="conf-button_chat_list">
+                                            <span id="msgChat1" class="conf-button_chat conf-button_chat_take"
+                                                  role="button">Take please</span>
+                                            <span id="msgChat2" class="conf-button_chat conf-button_chat_go" role="button">I'm ON AIR</span>
+                                            <span id="msgChat3" class="conf-button_chat conf-button_chat_ok" role="button">Ok</span>
+                                            <span id="msgChat4" class="conf-button_chat conf-button_chat_break" role="button">Taking 5 min Break</span>
+                                            <span id="msgChat5" class="conf-button_chat conf-button_chat_break_back" role="button">Back from Break</span>
+                                        </div>
+                                        <span id="submitmsg" class="conf-button_chat conf-button_chat_clear" role="button">
+                                            Clear
+                                            chat
+                                            <svg class="mt-1" width="21" height="20" viewBox="0 0 21 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M11.5254 1.25L6.37958 6.39475L1.22941 11.6413C0.830543 12.0494 0.608305 12.5981 0.610738 13.1688C0.61317 13.7394 0.840078 14.2862 1.24241 14.6909L5.89966 19.3482C5.99986 19.4493 6.11916 19.5296 6.25065 19.5843C6.38213 19.639 6.52318 19.667 6.66558 19.6667H19.6667V17.5H12.1288L19.9527 9.67616C20.7977 8.83116 20.7977 7.4575 19.9527 6.6125L14.5891 1.25C14.1826 0.844074 13.6317 0.616074 13.0572 0.616074C12.4828 0.616074 11.9319 0.844074 11.5254 1.25ZM7.11408 17.5L2.77533 13.1602L7.91899 7.92008L8.72391 7.11516L14.0864 12.4777L9.14966 17.4144C9.123 17.4414 9.09804 17.47 9.07491 17.5H7.11408Z" fill="white"/>
+                                            </svg>
+                                        </span>
+                                    </div>
+
+
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+
+                            <div class="conf-window_iterpreters" style="min-height: 176px;">
+                                <div id="tech_room_subscriber" class="conf-window_small_iterpreter" style="min-height: 176px;float:left;"></div>
+                                <div id="tech_room_publisher" class="conf-window_small_iterpreter" style="display:flex; align-items:flex-end;min-height: 176px;float:left;">
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+
+
+                            <div class="conf-dialog_left_big_container_langs_interpreters relay_main_place">
+                                <span id="relay_place" class="conf-button confroom_body_frame_btn" role="button">FLOOR</span>
+                                <span langpairbuttonattr="" class="conf-button conf-button_small langRelayPairButton_small conf-button_small_second ng-binding" role="button"></span>
+                                <span langpairbuttonattr="" class="conf-button conf-button_small langRelayPairButton_small conf-button_small_second ng-binding" role="button"></span>
+                                <div class="conf-window_small RelayLangTo_1 display-none"></div>
+                                <div class="conf-window_small RelayLangTo_2 display-none"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <footer>
+        <div class="container">
+            <div class="bg-white">
+                <div class="row">
+                    <div class="col-4 d-flex align-items-center justify-content-center">
+                        <p class="d-flex align-items-center justify-content-center m-0">
+                            <svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-right: 10px">
+                                <path d="M10.5 0C4.70156 0 0 4.70156 0 10.5C0 16.2984 4.70156 21 10.5 21C16.2984 21 21 16.2984 21 10.5C21 4.70156 16.2984 0 10.5 0ZM10.5 19.2188C5.68594 19.2188 1.78125 15.3141 1.78125 10.5C1.78125 5.68594 5.68594 1.78125 10.5 1.78125C15.3141 1.78125 19.2188 5.68594 19.2188 10.5C19.2188 15.3141 15.3141 19.2188 10.5 19.2188ZM10.6312 6.73359C11.8734 6.73359 12.7172 7.52578 12.8109 8.68828C12.818 8.78672 12.9 8.86172 12.9984 8.86172H14.3273C14.3883 8.86172 14.4375 8.8125 14.4375 8.75156C14.4375 6.71953 12.8344 5.29688 10.6242 5.29688C8.04844 5.29688 6.5625 7.03594 6.5625 9.90937V11.1352C6.5625 13.9875 8.04844 15.7031 10.6242 15.7031C12.8273 15.7031 14.4375 14.325 14.4375 12.3891C14.4375 12.3281 14.3883 12.2789 14.3273 12.2789H12.9961C12.8977 12.2789 12.818 12.3539 12.8086 12.45C12.7102 13.5305 11.8688 14.2734 10.6289 14.2734C9.09844 14.2734 8.23594 13.1508 8.23594 11.1422V9.90937C8.23828 7.87031 9.10312 6.73359 10.6312 6.73359V6.73359Z" fill="black"/>
+                            </svg>
+                            RSI LIVE, 2021
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+</div>
+</body>
+</html>
+};
+
+}
+
+#unused
+sub print_target_panel {
+
+my $who = nkname_lookup($r_user);
+
+print qq{
+
+<html xmlns="http://www.w3.org/1999/xhtml"> 
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Translit CRM</title> 
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<link rel="stylesheet" href="target/assets/materialize/css/materialize.min.css" media="screen,projection" />
+    <!-- Bootstrap Styles-->
+    <link href="target/assets/css/bootstrap.css" rel="stylesheet" />
+    <!-- FontAwesome Styles-->
+    <link href="target/assets/css/font-awesome.css" rel="stylesheet" />
+    <!-- Morris Chart Styles-->
+    <link href="target/assets/js/morris/morris-0.4.3.min.css" rel="stylesheet" />
+    <!-- Custom Styles-->
+    <link href="target/assets/css/custom-styles.css" rel="stylesheet" />
+    <!-- Google Fonts-->
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
+    <link rel="stylesheet" href="target/assets/js/Lightweight-Chart/cssCharts.css"> 
+</head>
+
+<body>
+    <div id="wrapper">
+        <nav class="navbar navbar-default top-navbar" role="navigation">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle waves-effect waves-dark" data-toggle="collapse" data-target=".sidebar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand waves-effect waves-dark" href="index.html"><i class="large material-icons">track_changes</i> <strong>translit</strong></a>
+				
+		<div id="sideNav" href=""><i class="material-icons dp48">toc</i></div>
+            </div>
+
+            <ul class="nav navbar-top-links navbar-right"> 
+				<li><a class="dropdown-button waves-effect waves-dark" href="#!" data-activates="dropdown4"><i class="fa fa-envelope fa-fw"></i> <i class="material-icons right">arrow_drop_down</i></a></li>				
+				<li><a class="dropdown-button waves-effect waves-dark" href="#!" data-activates="dropdown3"><i class="fa fa-tasks fa-fw"></i> <i class="material-icons right">arrow_drop_down</i></a></li>
+				<li><a class="dropdown-button waves-effect waves-dark" href="#!" data-activates="dropdown2"><i class="fa fa-bell fa-fw"></i> <i class="material-icons right">arrow_drop_down</i></a></li>
+				  <li><a class="dropdown-button waves-effect waves-dark" href="#!" data-activates="dropdown1"><i class="fa fa-user fa-fw"></i> <b>$who</b> <i class="material-icons right">arrow_drop_down</i></a></li>
+            </ul>
+        </nav>
+		<!-- Dropdown Structure -->
+<ul id="dropdown1" class="dropdown-content">
+<li><a href="#"><i class="fa fa-user fa-fw"></i> My Profile</a>
+</li>
+<li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
+</li> 
+<li><a href="/?Submit=Logout"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+</li>
+</ul>
+<ul id="dropdown2" class="dropdown-content w250">
+  <li>
+                                <div>
+                                    <i class="fa fa-comment fa-fw"></i> New Comment
+                                    <span class="pull-right text-muted small">4 min</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                                <div>
+                                    <i class="fa fa-twitter fa-fw"></i> 3 New Followers
+                                    <span class="pull-right text-muted small">12 min</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                                <div>
+                                    <i class="fa fa-envelope fa-fw"></i> Message Sent
+                                    <span class="pull-right text-muted small">4 min</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                                <div>
+                                    <i class="fa fa-tasks fa-fw"></i> New Task
+                                    <span class="pull-right text-muted small">4 min</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                                <div>
+                                    <i class="fa fa-upload fa-fw"></i> Server Rebooted
+                                    <span class="pull-right text-muted small">4 min</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a class="text-center" href="#">
+                                <strong>See All Alerts</strong>
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        </li>
+</ul>
+<ul id="dropdown3" class="dropdown-content dropdown-tasks w250">
+<li>
+		<a href="#">
+			<div>
+				<p>
+					<strong>Task 1</strong>
+					<span class="pull-right text-muted">60% Complete</span>
+				</p>
+				<div class="progress progress-striped active">
+					<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%">
+						<span class="sr-only">60% Complete (success)</span>
+					</div>
+				</div>
+			</div>
+		</a>
+	</li>
+	<li class="divider"></li>
+	<li>
+		<a href="#">
+			<div>
+				<p>
+					<strong>Task 2</strong>
+					<span class="pull-right text-muted">28% Complete</span>
+				</p>
+				<div class="progress progress-striped active">
+					<div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="28" aria-valuemin="0" aria-valuemax="100" style="width: 28%">
+						<span class="sr-only">28% Complete</span>
+					</div>
+				</div>
+			</div>
+		</a>
+	</li>
+	<li class="divider"></li>
+	<li>
+		<a href="#">
+			<div>
+				<p>
+					<strong>Task 3</strong>
+					<span class="pull-right text-muted">60% Complete</span>
+				</p>
+				<div class="progress progress-striped active">
+					<div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%">
+						<span class="sr-only">60% Complete (warning)</span>
+					</div>
+				</div>
+			</div>
+		</a>
+	</li>
+	<li class="divider"></li>
+	<li>
+		<a href="#">
+			<div>
+				<p>
+					<strong>Task 4</strong>
+					<span class="pull-right text-muted">85% Complete</span>
+				</p>
+				<div class="progress progress-striped active">
+					<div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100" style="width: 85%">
+						<span class="sr-only">85% Complete (danger)</span>
+					</div>
+				</div>
+			</div>
+		</a>
+	</li>
+	<li class="divider"></li>
+	<li>
+</ul>   
+<ul id="dropdown4" class="dropdown-content dropdown-tasks w250 taskList">
+  <li>
+                                <div>
+                                    <strong>$who</strong>
+                                    <span class="pull-right text-muted">
+                                        <em>Today</em>
+                                    </span>
+                                </div>
+                                <p>Lorem Ipsum has been the industry's standard dummy text ever since the 1500s...</p>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                                <div>
+                                    <strong>John Smith</strong>
+                                    <span class="pull-right text-muted">
+                                        <em>Yesterday</em>
+                                    </span>
+                                </div>
+                                <p>Lorem Ipsum has been the industry's standard dummy text ever since an kwilnw...</p>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="#">
+                                <div>
+                                    <strong>John Smith</strong>
+                                    <span class="pull-right text-muted">
+                                        <em>Yesterday</em>
+                                    </span>
+                                </div>
+                                <p>Lorem Ipsum has been the industry's standard dummy text ever since the...</p>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a class="text-center" href="#">
+                                <strong>Read All Messages</strong>
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        </li>
+</ul>  
+	   <!--/. NAV TOP  -->
+        <nav class="navbar-default navbar-side" role="navigation">
+            <div class="sidebar-collapse">
+                <ul class="nav" id="main-menu">
+
+                    <!-- li>
+                        <a class="active-menu waves-effect waves-dark" href="index.html"><i class="fa fa-dashboard"></i> Dashboard</a>
+                    </li -->
+<!-- li>
+                        <a href="ui-elements.html" class="waves-effect waves-dark"><i class="fa fa-desktop"></i> UI Elements</a>
+                    </li>
+					<li>
+                        <a href="chart.html" class="waves-effect waves-dark"><i class="fa fa-bar-chart-o"></i> Charts</a>
+                    </li>
+                    <li>
+                        <a href="tab-panel.html" class="waves-effect waves-dark"><i class="fa fa-qrcode"></i> Tabs & Panels</a>
+                    </li>
+                    
+                    <li>
+                        <a href="table.html" class="waves-effect waves-dark"><i class="fa fa-table"></i> Responsive Tables</a>
+                    </li>
+                    <li>
+                        <a href="form.html" class="waves-effect waves-dark"><i class="fa fa-edit"></i> Forms </a>
+</li -->
+
+
+                    <li>
+		    <!-- i class="fa fa-sitemap"></i -->
+                        <a href="#" class="waves-effect waves-dark"><i class="fa fa-table"></i> Users<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href="#">Clients</a>
+                            </li>
+                            <li>
+                                <a href="#">Guests</a>
+                            </li>
+                            <li>
+                                <a href="#">Interpreters<span class="fa arrow"></span></a>
+                                <ul class="nav nav-third-level">
+                                    <li>
+                                        <a href="/?mode=w_uc_panel">Manage</a>
+                                    </li>
+                                </ul>
+
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <!-- a href="empty.html" class="waves-effect waves-dark"><i class="fa fa-fw fa-file"></i> Conferences</a -->
+			<a href="/?mode=list_conferences" class="waves-effect waves-dark"><i class="fa fa-fw fa-file"></i> Conferences</a>
+                    </li>
+                </ul>
+
+            </div>
+
+        </nav>
+        <!-- /. NAV SIDE  -->
+      
+		<div id="page-wrapper">
+		  <div class="header"> 
+                        <h1 class="page-header">
+                            Dashboard
+                        </h1>
+						<ol class="breadcrumb">
+					  <li><a href="#">Home</a></li>
+					  <li><a href="#">Dashboard</a></li>
+					  <li class="active">Data</li>
+					</ol> 
+									
+		</div>
+            <div id="page-inner">
+
+			<div class="dashboard-cards"> 
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6 col-md-3">
+					
+						<div class="card horizontal cardIcon waves-effect waves-dark">
+						<div class="card-image red">
+						<i class="material-icons dp48">import_export</i>
+						</div>
+						<div class="card-stacked red">
+						<div class="card-content">
+						<h3>84,198</h3> 
+						</div>
+						<div class="card-action">
+						<strong>REVENUE</strong>
+						</div>
+						</div>
+						</div>
+	 
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-3">
+					
+						<div class="card horizontal cardIcon waves-effect waves-dark">
+						<div class="card-image orange">
+						<i class="material-icons dp48">shopping_cart</i>
+						</div>
+						<div class="card-stacked orange">
+						<div class="card-content">
+						<h3>36,540</h3> 
+						</div>
+						<div class="card-action">
+						<strong>SALES</strong>
+						</div>
+						</div>
+						</div> 
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-3">
+					
+							<div class="card horizontal cardIcon waves-effect waves-dark">
+						<div class="card-image blue">
+						<i class="material-icons dp48">equalizer</i>
+						</div>
+						<div class="card-stacked blue">
+						<div class="card-content">
+						<h3>24,225</h3> 
+						</div>
+						<div class="card-action">
+						<strong>PRODUCTS</strong>
+						</div>
+						</div>
+						</div> 
+						 
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-3">
+					
+					<div class="card horizontal cardIcon waves-effect waves-dark">
+						<div class="card-image green">
+						<i class="material-icons dp48">supervisor_account</i>
+						</div>
+						<div class="card-stacked green">
+						<div class="card-content">
+						<h3>88,658</h3> 
+						</div>
+						<div class="card-action">
+						<strong>VISITS</strong>
+						</div>
+						</div>
+						</div> 
+						 
+                    </div>
+                </div>
+			   </div>
+				<!-- /. ROW  --> 
+				<div class="row">
+					<div class="col-xs-12 col-sm-12 col-md-7"> 
+					<div class="cirStats">
+						  	<div class="row">
+								<div class="col-xs-12 col-sm-6 col-md-6"> 
+										<div class="card-panel text-center">
+											<h4>Profit</h4>
+											<div class="easypiechart" id="easypiechart-blue" data-percent="82" ><span class="percent">82%</span>
+											</div> 
+										</div>
+								</div>
+								<div class="col-xs-12 col-sm-6 col-md-6"> 
+										<div class="card-panel text-center">
+											<h4>No. of Visits</h4>
+											<div class="easypiechart" id="easypiechart-red" data-percent="46" ><span class="percent">46%</span>
+											</div>
+										</div>
+								</div>
+								<div class="col-xs-12 col-sm-6 col-md-6"> 
+										<div class="card-panel text-center">
+											<h4>Customers</h4>
+											<div class="easypiechart" id="easypiechart-teal" data-percent="84" ><span class="percent">84%</span>
+											</div> 
+										</div>
+								</div>
+								<div class="col-xs-12 col-sm-6 col-md-6"> 
+										<div class="card-panel text-center">
+											<h4>Sales</h4>
+											<div class="easypiechart" id="easypiechart-orange" data-percent="55" ><span class="percent">55%</span>
+											</div>
+										</div>
+								</div>  
+							</div>
+						</div>							
+						</div><!--/.row-->
+						<div class="col-xs-12 col-sm-12 col-md-5"> 
+						     <div class="row">
+									<div class="col-xs-12"> 
+									<div class="card">
+										<div class="card-image donutpad">
+										  <div id="morris-donut-chart"></div>
+										</div> 
+										<div class="card-action">
+										  <b>Donut Chart Example</b>
+										</div>
+									</div>	
+								</div>
+							 </div>
+						</div><!--/.row-->
+					</div>
+					
+		 
+				<div class="row">
+				<div class="col-md-5"> 
+						<div class="card">
+						<div class="card-image">
+						 <div id="morris-line-chart"></div>
+						</div> 
+						<div class="card-action">
+						  <b>Line Chart</b>
+						</div>
+						</div>
+		  
+					</div>		
+					
+						<div class="col-md-7"> 
+					<div class="card">
+					<div class="card-image">
+					  <div id="morris-bar-chart"></div>
+					</div> 
+					<div class="card-action">
+					  <b> Bar Chart Example</b>
+					</div>
+					</div>					
+					</div>
+					
+				</div> 
+			 
+				
+				
+                <div class="row">
+                    <div class="col-xs-12">
+						<div class="card">
+					<div class="card-image">
+					  <div id="morris-area-chart"></div>
+					</div> 
+					<div class="card-action">
+					  <b>Area Chart</b>
+					</div>
+					</div>	 
+                    </div> 
+
+                </div>
+				<div class="row">
+				<div class="col-md-12">
+				
+					</div>		
+				</div> 	
+                <!-- /. ROW  -->
+
+	   
+				
+				
+				
+                <div class="row">
+                    <div class="col-md-4 col-sm-12 col-xs-12">
+						<div class="card"><div class="card-action">
+					  <b>Tasks Panel</b>
+					</div>
+					<div class="card-image">
+					  <div class="collection">
+						  <a href="#!" class="collection-item">Red<span class="new badge red" data-badge-caption="red">4</span></a>
+						  <a href="#!" class="collection-item">Blue<span class="new badge blue" data-badge-caption="blue">4</span></a>
+						  <a href="#!" class="collection-item"><span class="badge">1</span>Alan</a>
+							<a href="#!" class="collection-item"><span class="new badge">4</span>Alan</a>
+							<a href="#!" class="collection-item">Alan<span class="new badge blue" data-badge-caption="blue">4</span></a>
+							<a href="#!" class="collection-item"><span class="badge">14</span>Alan</a>
+							   <a href="#!" class="collection-item">Custom Badge Captions<span class="new badge" data-badge-caption="custom caption">4</span></a>
+							<a href="#!" class="collection-item">Custom Badge Captions<span class="badge" data-badge-caption="custom caption">4</span></a>
+						</div>
+					</div> 
+					
+					</div>	  
+
+                    </div>
+                    <div class="col-md-8 col-sm-12 col-xs-12">
+	<div class="card">
+	<div class="card-action">
+					  <b>User List</b>
+					</div>
+					<div class="card-image">
+					  <ul class="collection">
+    <li class="collection-item avatar">
+      <i class="material-icons circle green">track_changes</i>
+      <span class="title">Title</span>
+      <p>First Line <br>
+         Second Line
+      </p>
+      <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
+    </li>
+    <li class="collection-item avatar">
+      <i class="material-icons circle">folder</i>
+      <span class="title">Title</span>
+      <p>First Line <br>
+         Second Line
+      </p>
+      <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
+    </li>
+    <li class="collection-item avatar">
+      <i class="material-icons circle green">track_changes</i>
+      <span class="title">Title</span>
+      <p>First Line <br>
+         Second Line
+      </p>
+      <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
+    </li>
+    <li class="collection-item avatar">
+      <i class="material-icons circle red">play_arrow</i>
+      <span class="title">Title</span>
+      <p>First Line <br>
+         Second Line
+      </p>
+      <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
+    </li>
+  </ul>
+					 </div>  
+					</div>	 
+					
+                       
+
+                    </div>
+                </div>
+                <!-- /. ROW  -->
+			   <div class="fixed-action-btn horizontal click-to-toggle">
+    <a class="btn-floating btn-large red">
+      <i class="material-icons">menu</i>
+    </a>
+    <ul>
+      <li><a class="btn-floating red"><i class="material-icons">track_changes</i></a></li>
+      <li><a class="btn-floating yellow darken-1"><i class="material-icons">format_quote</i></a></li>
+      <li><a class="btn-floating green"><i class="material-icons">publish</i></a></li>
+      <li><a class="btn-floating blue"><i class="material-icons">attach_file</i></a></li>
+    </ul>
+  </div>
+		
+				<!-- footer><p>All right reserved. Template by: <a href="https://webthemez.com/admin-template/">WebThemez.com</a></p>        
+				</footer -->
+            </div>
+            <!-- /. PAGE INNER  -->
+        </div>
+        <!-- /. PAGE WRAPPER  -->
+    </div>
+    <!-- /. WRAPPER  -->
+    <!-- JS Scripts-->
+    <!-- jQuery Js -->
+    <script src="target/assets/js/jquery-1.10.2.js"></script>
+	
+	<!-- Bootstrap Js -->
+    <script src="target/assets/js/bootstrap.min.js"></script>
+	
+	<script src="target/assets/materialize/js/materialize.min.js"></script>
+	
+    <!-- Metis Menu Js -->
+    <script src="target/assets/js/jquery.metisMenu.js"></script>
+    <!-- Morris Chart Js -->
+    <script src="target/assets/js/morris/raphael-2.1.0.min.js"></script>
+    <script src="target/assets/js/morris/morris.js"></script>
+	
+	
+	<script src="target/assets/js/easypiechart.js"></script>
+	<script src="target/assets/js/easypiechart-data.js"></script>
+	
+	 <script src="target/assets/js/Lightweight-Chart/jquery.chart.js"></script>
+	
+    <!-- Custom Js -->
+    <script src="target/assets/js/custom-scripts.js"></script> 
+ 
+
+</body>
+
+</html>
+};
+}

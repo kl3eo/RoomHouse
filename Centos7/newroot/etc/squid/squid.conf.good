@@ -1,0 +1,97 @@
+#
+# Recommended minimum configuration:
+#
+
+# Example rule allowing access from your local networks.
+# Adapt to list your (internal) IP networks from where browsing
+# should be allowed
+
+acl localhost src 127.0.0.1
+acl localnet src 192.168.56.0/24	# RFC1918 possible internal network
+acl cube src 192.168.0.13
+acl cubenet src 192.168.0.0/24
+
+acl SSL_ports port 443
+acl Safe_ports port 80		# http
+acl Safe_ports port 21		# ftp
+acl Safe_ports port 443		# https
+acl Safe_ports port 70		# gopher
+acl Safe_ports port 210		# wais
+acl Safe_ports port 1025-65535	# unregistered ports
+acl Safe_ports port 280		# http-mgmt
+acl Safe_ports port 488		# gss-http
+acl Safe_ports port 591		# filemaker
+acl Safe_ports port 777		# multiling http
+acl CONNECT method CONNECT
+
+#
+# Recommended minimum Access Permission configuration:
+#
+# Deny requests to certain unsafe ports
+http_access deny !Safe_ports
+
+# Deny CONNECT to other than secure SSL ports
+http_access deny CONNECT !SSL_ports
+
+# Only allow cachemgr access from localhost
+http_access allow localhost manager
+http_access deny manager
+
+# We strongly recommend the following be uncommented to protect innocent
+# web applications running on the proxy server who think the only
+# one who can access services on "localhost" is a local user
+#http_access deny to_localhost
+
+#
+# INSERT YOUR OWN RULE(S) HERE TO ALLOW ACCESS FROM YOUR CLIENTS
+#
+
+# Example rule allowing access from your local networks.
+# Adapt localnet in the ACL section to list your (internal) IP networks
+# from where browsing should be allowed
+http_access allow localnet
+http_access allow localhost
+http_access allow corfu
+http_access allow corfunet
+
+# And finally deny all other access to this proxy
+http_access deny all
+
+# Squid normally listens to port 3128
+http_port 8080
+http_port 3128 intercept
+https_port 3129 intercept ssl-bump generate-host-certificates=on dynamic_cert_mem_cache_size=4MB key=/etc/squid/ssl_cert/example.com.private  cert=/etc/squid/ssl_cert/example.com.cert
+
+acl serverIsBank ssl::server_name .bank1.example.com
+acl serverIsBank ssl::server_name .bank2.example.net
+
+acl monitoredSites ssl::server_name .pornhub.com
+acl monitoredSites ssl::server_name .xvideos.com
+
+acl step1 at_step SslBump1
+ssl_bump peek step1
+ssl_bump bump monitoredSites !serverIsBank
+ssl_bump splice all
+
+sslcrtd_program /usr/lib64/squid/ssl_crtd -s /var/lib/ssl_db -M 4MB sslcrtd_children 8 startup=1 idle=1  
+
+sslproxy_cafile /etc/squid/ssl_cert/COMODO_DV_SHA-256_bundle.crt
+sslproxy_flags DONT_VERIFY_PEER
+sslproxy_cert_error deny all
+sslproxy_options NO_SSLv2,NO_SSLv3,SINGLE_DH_USE
+
+#Found on Spiceworks: https://community.spiceworks.com/topic/574637-squid-proxy-server?utm_source=copy_paste&utm_campaign=growth
+
+# Uncomment and adjust the following to add a disk cache directory.
+#cache_dir ufs /var/spool/squid 100 16 256
+
+# Leave coredumps in the first cache dir
+coredump_dir /var/spool/squid
+
+#
+# Add any of your own refresh_pattern entries above these.
+#
+refresh_pattern ^ftp:		1440	20%	10080
+refresh_pattern ^gopher:	1440	0%	1440
+refresh_pattern -i (/cgi-bin/|\?) 0	0%	0
+refresh_pattern .		0	20%	4320

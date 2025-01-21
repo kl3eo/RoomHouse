@@ -1,0 +1,129 @@
+# sudoers file.
+#
+# This file MUST be edited with the 'visudo' command as root.
+#
+# See the sudoers man page for the details on how to write a sudoers file.
+#
+
+# Host alias specification
+
+# User alias specification
+
+# Cmnd alias specification
+
+# Defaults specification
+
+Defaults    env_reset
+Defaults    env_keep = "COLORS DISPLAY HOSTNAME HISTSIZE INPUTRC KDEDIR \
+                        LS_COLORS MAIL PS1 PS2 QTDIR USERNAME \
+                        LANG LC_ADDRESS LC_CTYPE LC_COLLATE LC_IDENTIFICATION \
+                        LC_MEASUREMENT LC_MESSAGES LC_MONETARY LC_NAME LC_NUMERIC \
+                        LC_PAPER LC_TELEPHONE LC_TIME LC_ALL LANGUAGE LINGUAS \
+                        _XKB_CHARSET"
+Cmnd_Alias	SHELLS = /usr/local/bin/traff.acc.3 m curr
+Cmnd_Alias      SHELLS1 = /usr/local/bin/mv.group_server
+Cmnd_Alias      SHELLS2 = /usr/local/bin/add.users_server
+Cmnd_Alias      SHELLS3 = /usr/local/bin/rm.users_server
+Cmnd_Alias      SHELLS4 = /usr/local/bin/mv.group_server.1
+Cmnd_Alias      SHELLS5 = /usr/local/bin/add.users_server.1
+Cmnd_Alias      SHELLS6 = /usr/local/bin/rm.users_server.1
+Cmnd_Alias      SHELLS7 = /usr/local/bin/squid_reconf.sh
+Cmnd_Alias      SHELLS8 = /usr/local/bin/traff.acc.yota m curr
+Cmnd_Alias      SHELLS9 = /usr/bin/mailq
+Cmnd_Alias      SHELLS10 = /usr/local/bin/rm_message
+Cmnd_Alias      SHELLS11 = /usr/local/bin/sendmail_log_parser [0-3]
+Cmnd_Alias      SHELLS12 = /bin/cat /var/log/maillog
+Cmnd_Alias      SHELLS13 = /bin/cat /var/log/maillog.[1-3]
+Cmnd_Alias      SHELLS14 = /usr/local/bin/reload_mimedefang
+Cmnd_Alias      SHELLS15 = /usr/local/bin/check_sendmail.sh
+Cmnd_Alias      SHELLS16 = /usr/local/bin/restart_sendmail.sh
+Cmnd_Alias      SHELLS17 = /usr/local/bin/magic.sh
+Cmnd_Alias      SHELLS18 = /usr/local/bin/restart_squid.sh
+Cmnd_Alias      SHELLS19 = /usr/local/bin/ntpdate.sh
+Cmnd_Alias      SHELLS20 = /usr/local/bin/reboot_yota.sh
+Cmnd_Alias      SHELLS21 = /usr/local/bin/add_user.sh
+Cmnd_Alias      SHELLS22 = /usr/local/bin/del_user.sh
+#Cmnd_Alias      SHELLS23 = /usr/local/bin/change_pass_user.sh
+Cmnd_Alias      SHELLS24 = /usr/local/bin/i0.sh
+Cmnd_Alias      SHELLS25 = /usr/local/bin/i6.sh
+Cmnd_Alias      SHELLS26 = /usr/local/bin/ps.sh
+Cmnd_Alias      SHELLS27 = /usr/local/bin/du.sh
+Cmnd_Alias      SHELLS28 = /usr/local/bin/sech.sh
+Cmnd_Alias      SHELLS29 = /usr/local/bin/freesp.sh
+Cmnd_Alias      SHELLS30 = /usr/local/bin/change_val.sh
+Cmnd_Alias      SHELLS31 = /bin/cat /etc/hostapd/hostapd.conf.new
+Cmnd_Alias      SHELLS32 = /usr/local/bin/cp_new.sh
+Cmnd_Alias      SHELLS33 = /usr/local/bin/replace_with_new.sh
+Cmnd_Alias      SHELLS34 = /usr/local/bin/reset_to_factory.sh
+Cmnd_Alias      SHELLS35 = /usr/local/bin/lp.sh
+Cmnd_Alias      SHELLS36 = /usr/local/bin/check_stream.sh
+Cmnd_Alias      SHELLS37 = /usr/local/bin/chip8.sh
+Cmnd_Alias      SHELLS38 = /usr/local/bin/add_bl.sh
+Cmnd_Alias      SHELLS39 = /usr/local/bin/rm_bl.sh
+Cmnd_Alias      SHELLS41 = /usr/local/bin/check_pa.sh
+Cmnd_Alias      SHELLS42 = /usr/bin/ping
+Cmnd_Alias      SHELLS43 = /usr/local/bin/change_policy.sh
+Cmnd_Alias      SHELLS44 = /usr/local/bin/add_wl.sh
+Cmnd_Alias      SHELLS45 = /usr/local/bin/rm_wl.sh
+Cmnd_Alias      SHELLS46 = /usr/local/bin/return_to_saved.sh
+Cmnd_Alias      SHELLS47 = /usr/local/bin/restart_cyrus.sh
+Cmnd_Alias      SHELLS48 = /usr/local/bin/restart_http.sh
+Cmnd_Alias      SHELLS49 = /usr/local/bin/restart_wftp.sh
+Cmnd_Alias      SHELLS50 = /usr/local/bin/restart_smb.sh
+Cmnd_Alias      SHELLS51 = /usr/local/bin/restart_pg.sh
+Cmnd_Alias      SHELLS52 = /usr/local/bin/restart_ntp.sh
+Cmnd_Alias      SHELLS53 = /usr/local/bin/restart_named.sh
+Cmnd_Alias      SHELLS54 = /usr/local/bin/check_daemons.pl
+Cmnd_Alias      SHELLS55 = /usr/local/bin/ip_apply
+Cmnd_Alias      SHELLS56 = /usr/local/bin/notify_email.sh
+Cmnd_Alias      SHELLS57 = /usr/local/bin/notify_sms.pl
+Cmnd_Alias      SHELLS58 = /var/www/html/cp/controls/addUser.pl
+Cmnd_Alias      SHELLS59 = /var/www/html/cp/controls/removeUser.pl
+Cmnd_Alias      SHELLS60 = /usr/local/bin/mount_sdb.sh
+Cmnd_Alias      SHELLS61 = /usr/local/bin/create_qemu.sh
+Cmnd_Alias      SHELLS62 = /usr/local/bin/create_go.sh
+Cmnd_Alias      SHELLS63 = /usr/local/bin/kq.sh
+Cmnd_Alias      SHELLS64 = /usr/local/bin/dbase.pl
+Cmnd_Alias      SHELLS65 = /usr/local/bin/check_sig.pl
+Cmnd_Alias      SHELLS66 = /usr/sbin/chroot
+Cmnd_Alias      SHELLS67 = /usr/local/bin/start_ethmi.sh
+Cmnd_Alias      SHELLS68 = /usr/local/bin/stop_ethmi.sh
+Cmnd_Alias      SHELLS69 = /usr/local/bin/oh.sh
+Cmnd_Alias      SHELLS70 = /usr/local/bin/tail_ethminer_log.sh
+Cmnd_Alias      SHELLS71 = /usr/local/bin/restart_gexp.sh
+Cmnd_Alias      SHELLS72 = /usr/local/bin/read_coinbase.sh
+Cmnd_Alias      SHELLS73 = /usr/local/bin/read_miner_target.sh
+Cmnd_Alias      SHELLS74 = /usr/local/bin/toggle_bc_mode.sh
+Cmnd_Alias      SHELLS75 = /usr/local/bin/new_https_certs.sh
+Cmnd_Alias      SHELLS76 = /usr/local/bin/restart_kurento.sh
+Cmnd_Alias      SHELLS77 = /usr/local/bin/stop_kurento.sh
+Cmnd_Alias      SHELLS78 = /usr/local/bin/restart_maven.sh
+Cmnd_Alias      SHELLS79 = /usr/local/bin/ip_unapply
+Cmnd_Alias      SHELLS80 = /usr/local/bin/add_cabo.sh
+Cmnd_Alias      SHELLS81 = /usr/local/bin/new_png_covers.sh
+Cmnd_Alias      SHELLS82 = /usr/local/bin/new_jpg_texture.sh
+Cmnd_Alias      SHELLS83 = /usr/local/bin/new_mp3_ringtones.sh
+Cmnd_Alias      SHELLS84 = /usr/local/bin/change_target_mod.sh
+
+# Run as alias specification
+
+# User privilege specification
+root	ALL=(ALL) ALL
+
+User_Alias APACHE = apache
+User_Alias CYRUS = cyrus
+User_Alias OP = op
+
+APACHE ALL = (ALL) NOPASSWD: SHELLS,SHELLS1,SHELLS2,SHELLS3,SHELLS4,SHELLS5,SHELLS6,SHELLS7,SHELLS8,SHELLS9,SHELLS10,SHELLS11,SHELLS12,SHELLS13,SHELLS14,SHELLS15,SHELLS16,SHELLS18,SHELLS19,SHELLS20,SHELLS21,SHELLS22,SHELLS24,SHELLS25,SHELLS26,SHELLS27,SHELLS28,SHELLS29,SHELLS30,SHELLS31,SHELLS32,SHELLS33,SHELLS34,SHELLS35,SHELLS36,SHELLS37,SHELLS38,SHELLS39,SHELLS41,SHELLS42,SHELLS43,SHELLS44,SHELLS45,SHELLS46,SHELLS47,SHELLS48,SHELLS49,SHELLS50,SHELLS51,SHELLS52,SHELLS53,SHELLS54,SHELLS55,SHELLS56,SHELLS57,SHELLS58,SHELLS59,SHELLS60,SHELLS61,SHELLS62,SHELLS63,SHELLS64,SHELLS65,SHELLS67,SHELLS68,SHELLS69,SHELLS70,SHELLS71,SHELLS72,SHELLS73,SHELLS74,SHELLS75,SHELLS76,SHELLS77,SHELLS78,SHELLS79,SHELLS80,SHELLS81,SHELLS82,SHELLS83,SHELLS84
+CYRUS ALL = (ALL) NOPASSWD: SHELLS17
+OP ALL = (ALL) NOPASSWD: SHELLS66
+
+# Uncomment to allow people in group wheel to run all commands
+# %wheel	ALL=(ALL)	ALL
+
+# Same thing without a password
+
+
+# Samples
+# %users  ALL=/sbin/mount /cdrom,/sbin/umount /cdrom
+# %users  localhost=/sbin/shutdown -h now

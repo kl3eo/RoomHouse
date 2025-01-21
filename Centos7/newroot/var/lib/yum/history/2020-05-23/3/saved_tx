@@ -1,0 +1,12 @@
+295:7c0ddafcaedcd9387ece2db7b2c4a102fd6d1a19
+0
+1
+installed:294:2e8f719c089f57cde394394df081d88fd06b7047
+1
+mbr: firewalld,noarch,0,0.6.3,8.el7 20
+  repo: installed
+  ts_state: e
+  output_state: 40
+  isDep: False
+  reason: user
+  reinstall: False

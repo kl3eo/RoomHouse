@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<gconf>
+	<dir name="schemas">
+		<dir name="system">
+			<dir name="gstreamer">
+				<dir name="0.10">
+					<dir name="default">
+					</dir>
+				</dir>
+			</dir>
+		</dir>
+	</dir>
+	<dir name="system">
+		<dir name="gstreamer">
+			<dir name="0.10">
+				<dir name="default">
+				</dir>
+			</dir>
+		</dir>
+	</dir>
+</gconf>

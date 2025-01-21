@@ -1,0 +1,6 @@
+Microcode revision 0x2000065 for Intel Skylake-SP/X/W (family 6, model 85,
+stepping 4; CPUID 0x50654) CPUs that has been included into microcode-20191112
+release is disabled as it may cause system instability and the previous revision
+0x2000064 is used instead.
+Please refer to /usr/share/doc/microcode_ctl/caveats/06-55-04_readme
+and /usr/share/doc/microcode_ctl/README.caveats for details.

@@ -1,0 +1,1264 @@
+
+[Sun Sep 26 01:04:01.425839 2021] [mpm_event:notice] [pid 621:tid 140058807113536] AH00489: Apache/2.4.46 (Unix) OpenSSL/1.0.2k-fips configured -- resuming normal operations
+[Sun Sep 26 01:04:01.425869 2021] [core:notice] [pid 621:tid 140058807113536] AH00094: Command line: '/usr/local/apache2/bin/httpd'
+[Sun Sep 26 01:05:00.242435 2021] [mpm_event:notice] [pid 621:tid 140058807113536] AH00491: caught SIGTERM, shutting down
+[Sun Sep 26 01:05:01.355287 2021] [mpm_event:notice] [pid 1433:tid 140674491897664] AH00489: Apache/2.4.46 (Unix) OpenSSL/1.0.2k-fips configured -- resuming normal operations
+[Sun Sep 26 01:05:01.355319 2021] [core:notice] [pid 1433:tid 140674491897664] AH00094: Command line: '/usr/local/apache2/bin/httpd'
+[Sun Sep 26 01:05:48.009190 2021] [mpm_event:notice] [pid 1433:tid 140674491897664] AH00491: caught SIGTERM, shutting down
+[Sun Sep 26 01:05:51.064043 2021] [mpm_event:notice] [pid 1953:tid 140220470495040] AH00489: Apache/2.4.46 (Unix) OpenSSL/1.0.2k-fips configured -- resuming normal operations
+[Sun Sep 26 01:05:51.064081 2021] [core:notice] [pid 1953:tid 140220470495040] AH00094: Command line: '/usr/local/apache2/bin/httpd'
+Here mode is !
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+Here mode is nw_panel!
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+Here mode is js_change_value!
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+Here mode is js_ctrl!
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+/etc/sysconfig/ifaces
+2 blocks
+Here mode is nw_panel!
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+/etc/sysconfig/blist
+1 block
+/etc/sysconfig/wlist
+1 block
+Here mode is system_panel!
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+Here mode is !
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+Here mode is nw_panel!
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+Here mode is js_change_value!
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+Here mode is js_ctrl!
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+/etc/sysconfig/ifaces
+2 blocks
+/etc/sysconfig/blist
+1 block
+/etc/sysconfig/wlist
+1 block
+Here mode is nw_panel!
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+Here mode is system_panel!
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+Here mode is nw_panel!
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+Here mode is system_panel!
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+Here mode is nw_panel!
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+Here mode is js_change_value!
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+Here mode is js_ctrl!
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+/etc/sysconfig/ifaces
+2 blocks
+/etc/sysconfig/blist
+1 block
+/etc/sysconfig/wlist
+1 block
+Here mode is nw_panel!
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+Here mode is system_panel!
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+pnmscale: promoting from PBM to PGM
+pamtogif: computing colormap...
+pamtogif: 2 colors found
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+Here mode is !
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+Here mode is nw_panel!
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+Here mode is w_uc_stats!
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+Here mode is stats_mode!
+DBD::Pg::st execute failed: ERROR:  relation "members" does not exist
+LINE 1: select a_nkname from members where proj_code = 'alex'
+                             ^ at ../genc/cp line 12033.
+DBD::Pg::st fetchall_arrayref failed: no statement executing at ../genc/cp line 12036.
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100    75    0     0  100    75      0     62  0:00:01  0:00:01 --:--:--    62100   395    0   320  100    75    207     48  0:00:01  0:00:01 --:--:--   207100   395    0   320  100    75    207     48  0:00:01  0:00:01 --:--:--   207
+Here mode is w_uc_stats!
+Here mode is stats_mode!
+Here mode is js_change_value!
+Polka apo4 curl: /usr/bin/curl --silent -X POST --header 'Content-type: application/json' --data '{"unique_xter_id":"NXIVOJGN", "status":"1", "softpac":"5", "client":"jaja"}' https://cube.room-house.com:8443/cgi/genc/apo4
+Here mode is w_uc_stats!
+Here mode is stats_mode!
+Here mode is !
+Here mode is nw_panel!
+Here mode is js_chip!
+Here mode is js_chip!
+Here mode is js_chip!
+Here mode is js_chip!
+Here mode is js_change_value!
+Here mode is js_chip!
+Here mode is js_ctrl!
+/etc/sysconfig/ifaces
+2 blocks
+/etc/sysconfig/blist
+1 block
+/etc/sysconfig/wlist
+1 block
+Here mode is !
+Here mode is w_uc_stats!
+Here mode is stats_mode!
+Here mode is js_change_value!
+Polka apo4 curl: /usr/bin/curl --silent -X POST --header 'Content-type: application/json' --data '{"unique_xter_id":"NXIVOJGN", "status":"1", "softpac":"5", "client":"jaja"}' https://cube.room-house.com:8443/cgi/genc/apo4
+Here mode is w_uc_stats!
+Here mode is stats_mode!
+Here mode is w_uc_stats!
+Here mode is stats_mode!
+Here mode is js_change_value!
+Polka apo4 curl: /usr/bin/curl --silent -X POST --header 'Content-type: application/json' --data '{"unique_xter_id":"NXIVOJGN", "status":"1", "softpac":"5", "client":"jaja"}' https://cube.room-house.com:8443/cgi/genc/apo4
+Here mode is w_uc_stats!
+Here mode is stats_mode!
+Here mode is w_uc_stats!
+Here mode is stats_mode!
+Here mode is w_uc_stats!
+Here mode is stats_mode!
+Here mode is w_uc_stats!
+Here mode is stats_mode!
+Here mode is nw_panel!
+Here mode is w_uc_stats!
+Here mode is stats_mode!
+Here mode is w_uc_stats!
+Here mode is stats_mode!
+Here mode is w_uc_stats!
+Here mode is stats_mode!
+Here mode is js_change_value!
+Polka apo4 curl: /usr/bin/curl --silent -X POST --header 'Content-type: application/json' --data '{"unique_xter_id":"NXIVOJGN", "status":"1", "softpac":"5", "client":"jaja"}' https://cube.room-house.com:8443/cgi/genc/apo4
+Here mode is w_uc_stats!
+Here mode is stats_mode!
+Here mode is w_uc_stats!
+Here mode is stats_mode!
+Here mode is js_change_value!
+Polka apo4 curl: /usr/bin/curl --silent -X POST --header 'Content-type: application/json' --data '{"unique_xter_id":"NXIVOJGN", "status":"1", "softpac":"5", "client":"jaja"}' https://cube.room-house.com:8443/cgi/genc/apo4
+Here mode is w_uc_stats!
+Here mode is stats_mode!
+Here mode is w_uc_stats!
+Here mode is stats_mode!
+Here mode is w_uc_stats!
+Here mode is stats_mode!
+Here mode is w_uc_stats!
+Here mode is stats_mode!
+Here mode is w_uc_stats!
+Here mode is stats_mode!
+pnmscale: promoting from PBM to PGM
+pamtogif: computing colormap...
+pamtogif: 2 colors found
+Here mode is w_uc_stats!
+Here mode is stats_mode!
+Here mode is js_change_value!
+Polka apo4 curl: /usr/bin/curl --silent -X POST --header 'Content-type: application/json' --data '{"unique_xter_id":"NXIVOJGN", "status":"1", "softpac":"5", "client":"jaja"}' https://cube.room-house.com:8443/cgi/genc/apo4
+Here mode is w_uc_stats!
+Here mode is stats_mode!
+pnmscale: promoting from PBM to PGM
+pamtogif: computing colormap...
+pamtogif: 2 colors found
+Here mode is w_uc_stats!
+Here mode is stats_mode!
+Here mode is w_uc_stats!
+Here mode is stats_mode!
+Here mode is w_uc_stats!
+Here mode is stats_mode!
+Here mode is js_change_value!
+Polka apo4 curl: /usr/bin/curl --silent -X POST --header 'Content-type: application/json' --data '{"unique_xter_id":"NXIVOJGN", "status":"1", "softpac":"5", "client":"jaja"}' https://cube.room-house.com:8443/cgi/genc/apo4
+Here mode is w_uc_stats!
+Here mode is stats_mode!
+Here mode is w_uc_stats!
+Here mode is stats_mode!
+Here mode is js_change_value!
+Polka apo4 curl: /usr/bin/curl --silent -X POST --header 'Content-type: application/json' --data '{"unique_xter_id":"NXIVOJGN", "status":"1", "softpac":"5", "client":"jaja"}' https://cube.room-house.com:8443/cgi/genc/apo4
+Here mode is w_uc_stats!
+Here mode is stats_mode!
+Here mode is w_uc_stats!
+Here mode is stats_mode!
+Here mode is w_uc_stats!
+Here mode is stats_mode!
+Here mode is w_uc_stats!
+Here mode is stats_mode!
+Here mode is js_change_value!
+Polka apo4 curl: /usr/bin/curl --silent -X POST --header 'Content-type: application/json' --data '{"unique_xter_id":"NXIVOJGN", "status":"1", "softpac":"5", "client":"jaja"}' https://cube.room-house.com:8443/cgi/genc/apo4
+Here mode is w_uc_stats!
+Here mode is stats_mode!
+Here mode is w_uc_stats!
+Here mode is stats_mode!
+Here mode is js_change_value!
+Polka apo4 curl: /usr/bin/curl --silent -X POST --header 'Content-type: application/json' --data '{"unique_xter_id":"NXIVOJGN", "status":"1", "softpac":"5", "client":"jaja"}' https://cube.room-house.com:8443/cgi/genc/apo4
+Here mode is w_uc_stats!
+Here mode is stats_mode!
+pnmscale: promoting from PBM to PGM
+pamtogif: computing colormap...
+pamtogif: 2 colors found
+Here mode is w_uc_stats!
+Here mode is stats_mode!
+Here mode is js_change_value!
+Polka apo4 curl: /usr/bin/curl --silent -X POST --header 'Content-type: application/json' --data '{"unique_xter_id":"NXIVOJGN", "status":"1", "softpac":"5", "client":"jaja"}' https://cube.room-house.com:8443/cgi/genc/apo4
+Here mode is w_uc_stats!
+Here mode is stats_mode!
+Here mode is js_change_value!
+Polka apo4 curl: /usr/bin/curl --silent -X POST --header 'Content-type: application/json' --data '{"unique_xter_id":"NXIVOJGN", "status":"1", "softpac":"5", "client":"jaja"}' https://cube.room-house.com:8443/cgi/genc/apo4
+Here mode is w_uc_stats!
+Here mode is stats_mode!
+pnmscale: promoting from PBM to PGM
+pamtogif: computing colormap...
+pamtogif: 2 colors found
+pnmscale: promoting from PBM to PGM
+pamtogif: computing colormap...
+pamtogif: 2 colors found
+Here mode is !
+Here mode is nw_panel!
+[Thu Oct 07 08:41:14.899613 2021] [mpm_event:notice] [pid 1953:tid 140220470495040] AH00494: SIGHUP received.  Attempting to restart
+[Thu Oct 07 08:41:14.914738 2021] [mpm_event:notice] [pid 1953:tid 140220470495040] AH00489: Apache/2.4.46 (Unix) OpenSSL/1.0.2k-fips configured -- resuming normal operations
+[Thu Oct 07 08:41:14.914775 2021] [core:notice] [pid 1953:tid 140220470495040] AH00094: Command line: '/usr/local/apache2/bin/httpd'
+Here mode is nw_panel!
+[Thu Oct 07 09:23:57.152340 2021] [mpm_event:notice] [pid 1953:tid 140220470495040] AH00494: SIGHUP received.  Attempting to restart
+[Thu Oct 07 09:23:57.172339 2021] [mpm_event:notice] [pid 1953:tid 140220470495040] AH00489: Apache/2.4.46 (Unix) OpenSSL/1.0.2k-fips configured -- resuming normal operations
+[Thu Oct 07 09:23:57.172390 2021] [core:notice] [pid 1953:tid 140220470495040] AH00094: Command line: '/usr/local/apache2/bin/httpd'
+[Thu Oct 07 09:32:54.321560 2021] [mpm_event:notice] [pid 1953:tid 140220470495040] AH00494: SIGHUP received.  Attempting to restart
+[Thu Oct 07 09:32:54.353168 2021] [mpm_event:notice] [pid 1953:tid 140220470495040] AH00489: Apache/2.4.46 (Unix) OpenSSL/1.0.2k-fips configured -- resuming normal operations
+[Thu Oct 07 09:32:54.353238 2021] [core:notice] [pid 1953:tid 140220470495040] AH00094: Command line: '/usr/local/apache2/bin/httpd'
+[Thu Oct 07 09:34:11.456355 2021] [mpm_event:notice] [pid 1953:tid 140220470495040] AH00494: SIGHUP received.  Attempting to restart
+[Thu Oct 07 09:34:11.493823 2021] [mpm_event:notice] [pid 1953:tid 140220470495040] AH00489: Apache/2.4.46 (Unix) OpenSSL/1.0.2k-fips configured -- resuming normal operations
+[Thu Oct 07 09:34:11.493853 2021] [core:notice] [pid 1953:tid 140220470495040] AH00094: Command line: '/usr/local/apache2/bin/httpd'
+[Thu Oct 07 11:34:03.461361 2021] [mpm_event:notice] [pid 1953:tid 140220470495040] AH00494: SIGHUP received.  Attempting to restart
+[Thu Oct 07 11:34:03.470052 2021] [mpm_event:notice] [pid 1953:tid 140220470495040] AH00489: Apache/2.4.46 (Unix) OpenSSL/1.0.2k-fips configured -- resuming normal operations
+[Thu Oct 07 11:34:03.470073 2021] [core:notice] [pid 1953:tid 140220470495040] AH00094: Command line: '/usr/local/apache2/bin/httpd'
+pnmscale: promoting from PBM to PGM
+pamtogif: computing colormap...
+pamtogif: 2 colors found
+Here mode is !
+Here mode is w_uc_stats!
+Here mode is stats_mode!
+Here mode is w_uc_stats!
+Here mode is stats_mode!
+Here mode is w_uc_stats!
+Here mode is stats_mode!
+Here mode is js_change_value!
+Polka apo4 curl: /usr/bin/curl --silent -X POST --header 'Content-type: application/json' --data '{"unique_xter_id":"NXIVOJGN", "status":"1", "softpac":"5", "client":"jaja"}' https://cube.room-house.com:8443/cgi/genc/apo4
+Here mode is w_uc_stats!
+Here mode is stats_mode!
+Here mode is w_uc_stats!
+Here mode is stats_mode!
+Here mode is js_change_value!
+Polka apo4 curl: /usr/bin/curl --silent -X POST --header 'Content-type: application/json' --data '{"unique_xter_id":"NXIVOJGN", "status":"1", "softpac":"5", "client":"jaja"}' https://cube.room-house.com:8443/cgi/genc/apo4
+Here mode is w_uc_stats!
+Here mode is stats_mode!
+Here mode is w_uc_stats!
+Here mode is stats_mode!
+Here mode is js_change_value!
+Polka apo4 curl: /usr/bin/curl --silent -X POST --header 'Content-type: application/json' --data '{"unique_xter_id":"NXIVOJGN", "status":"1", "softpac":"5", "client":"jaja"}' https://cube.room-house.com:8443/cgi/genc/apo4
+Here mode is w_uc_stats!
+Here mode is stats_mode!
+Here mode is w_uc_stats!
+Here mode is stats_mode!
+Here mode is w_uc_stats!
+Here mode is stats_mode!
+Here mode is w_uc_stats!
+Here mode is stats_mode!
+Here mode is w_uc_stats!
+Here mode is stats_mode!
+Here mode is w_uc_stats!
+Here mode is stats_mode!
+Here mode is w_uc_stats!
+Here mode is stats_mode!
+Here mode is w_uc_stats!
+Here mode is stats_mode!
+Here mode is w_uc_stats!
+Here mode is stats_mode!
+Here mode is w_uc_stats!
+Here mode is stats_mode!
+pnmscale: promoting from PBM to PGM
+pamtogif: computing colormap...
+pamtogif: 2 colors found
+Here mode is w_uc_stats!
+Here mode is stats_mode!
+Here mode is js_change_value!
+Polka apo4 curl: /usr/bin/curl --silent -X POST --header 'Content-type: application/json' --data '{"unique_xter_id":"NXIVOJGN", "status":"1", "softpac":"5", "client":"jaja"}' https://cube.room-house.com:8443/cgi/genc/apo4
+Here mode is w_uc_stats!
+Here mode is stats_mode!
+pnmscale: promoting from PBM to PGM
+pamtogif: computing colormap...
+pamtogif: 2 colors found
+pnmscale: promoting from PBM to PGM
+pamtogif: computing colormap...
+pamtogif: 2 colors found
+Here mode is !
+Here mode is nw_panel!
+Here mode is !
+Here mode is nw_panel!
+Here mode is system_panel!
+pnmscale: promoting from PBM to PGM
+pamtogif: computing colormap...
+pamtogif: 2 colors found
+pnmscale: promoting from PBM to PGM
+pamtogif: computing colormap...
+pamtogif: 2 colors found
+pnmscale: promoting from PBM to PGM
+pamtogif: computing colormap...
+pamtogif: 2 colors found
+pnmscale: promoting from PBM to PGM
+pamtogif: computing colormap...
+pamtogif: 2 colors found
+pnmscale: promoting from PBM to PGM
+pamtogif: computing colormap...
+pamtogif: 2 colors found
+pnmscale: promoting from PBM to PGM
+pamtogif: computing colormap...
+pamtogif: 2 colors found
+Here mode is !
+Here mode is w_uc_stats!
+Here mode is stats_mode!
+Here mode is !
+Here mode is w_uc_stats!
+Here mode is stats_mode!
+Here mode is w_uc_stats!
+Here mode is stats_mode!
+Here mode is js_change_value!
+Polka apo4 curl: /usr/bin/curl --silent -X POST --header 'Content-type: application/json' --data '{"unique_xter_id":"NXIVOJGN", "status":"1", "softpac":"5", "client":"jaja"}' https://cube.room-house.com:8443/cgi/genc/apo4
+Here mode is w_uc_stats!
+Here mode is stats_mode!
+Here mode is w_uc_stats!
+Here mode is stats_mode!
+Here mode is nw_panel!
+Here mode is js_ctrl!
+/etc/sysconfig/ifaces
+2 blocks
+/etc/sysconfig/blist
+1 block
+/etc/sysconfig/wlist
+1 block
+Here mode is nw_panel!
+pnmscale: promoting from PBM to PGM
+pamtogif: computing colormap...
+pamtogif: 2 colors found
+pnmscale: promoting from PBM to PGM
+pamtogif: computing colormap...
+pamtogif: 2 colors found
+pnmscale: promoting from PBM to PGM
+pamtogif: computing colormap...
+pamtogif: 2 colors found
+Here mode is w_uc_stats!
+Here mode is stats_mode!
+Here mode is w_uc_stats!
+Here mode is stats_mode!
+Here mode is w_uc_stats!
+Here mode is stats_mode!
+Here mode is w_uc_stats!
+Here mode is stats_mode!
+Here mode is js_change_value!
+Polka apo4 curl: /usr/bin/curl --silent -X POST --header 'Content-type: application/json' --data '{"unique_xter_id":"NXIVOJGN", "status":"1", "softpac":"5", "client":"jaja"}' https://cube.room-house.com/cgi/genc/apo4
+Here mode is w_uc_stats!
+Here mode is stats_mode!
+[Thu Oct 14 15:50:35.370099 2021] [mpm_event:notice] [pid 1953:tid 140220470495040] AH00494: SIGHUP received.  Attempting to restart
+httpd: Syntax error on line 25 of /usr/local/apache2/conf/httpd.conf: Cannot load modules/mod_headers.so into server: /usr/local/apache2/modules/mod_headers.so: undefined symbol: ap_ssl_var_lookup
+[Thu Oct 14 15:51:01.289615 2021] [qos:warn] [pid 4797:tid 140694640809856] mod_qos(009): mod_unique_id not available (mod_qos generates simple request id if required)
+[Thu Oct 14 15:51:01.300979 2021] [qos:warn] [pid 4819:tid 140694640809856] mod_qos(009): mod_unique_id not available (mod_qos generates simple request id if required)
+[Thu Oct 14 15:51:01.301037 2021] [core:warn] [pid 4819:tid 140694640809856] AH00098: pid file /usr/local/apache2/logs/httpd.pid overwritten -- Unclean shutdown of previous Apache run?
+[Thu Oct 14 15:51:01.302564 2021] [mpm_worker:notice] [pid 4819:tid 140694640809856] AH00292: Apache/2.4.49 (Unix) OpenSSL/1.0.2k-fips mod_qos/11.68 configured -- resuming normal operations
+[Thu Oct 14 15:51:01.302599 2021] [core:notice] [pid 4819:tid 140694640809856] AH00094: Command line: '/usr/local/apache2/bin/httpd'
+Here mode is w_uc_stats!
+Here mode is stats_mode!
+pnmscale: promoting from PBM to PGM
+pamtogif: computing colormap...
+pamtogif: 2 colors found

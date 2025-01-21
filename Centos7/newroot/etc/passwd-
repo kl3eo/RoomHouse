@@ -1,0 +1,38 @@
+root:x:0:0:root:/root:/bin/bash
+bin:x:1:1:bin:/bin:/sbin/nologin
+daemon:x:2:2:daemon:/sbin:/sbin/nologin
+adm:x:3:4:adm:/var/adm:/sbin/nologin
+lp:x:4:7:lp:/var/spool/lpd:/sbin/nologin
+sync:x:5:0:sync:/sbin:/bin/sync
+shutdown:x:6:0:shutdown:/sbin:/sbin/shutdown
+halt:x:7:0:halt:/sbin:/sbin/halt
+mail:x:8:12:mail:/var/spool/mail:/sbin/nologin
+operator:x:11:0:operator:/root:/sbin/nologin
+games:x:12:100:games:/usr/games:/sbin/nologin
+ftp:x:14:50:FTP User:/var/ftp:/sbin/nologin
+nobody:x:99:99:Nobody:/home/nobody:/bin/bash
+systemd-network:x:192:192:systemd Network Management:/:/sbin/nologin
+dbus:x:81:81:System message bus:/:/sbin/nologin
+polkitd:x:999:998:User for polkitd:/:/sbin/nologin
+sshd:x:74:74:Privilege-separated SSH:/var/empty/sshd:/sbin/nologin
+postfix:x:89:89::/var/spool/postfix:/sbin/nologin
+chrony:x:998:996::/var/lib/chrony:/sbin/nologin
+rpc:x:32:32:Rpcbind Daemon:/var/lib/rpcbind:/sbin/nologin
+dhcpd:x:177:177:DHCP server:/:/sbin/nologin
+squid:x:23:23::/var/spool/squid:/sbin/nologin
+saslauth:x:997:76:Saslauthd user:/run/saslauthd:/sbin/nologin
+mailnull:x:47:47::/var/spool/mqueue:/sbin/nologin
+smmsp:x:51:51::/var/spool/mqueue:/sbin/nologin
+defang:x:996:995:MIMEDefang User:/var/spool/MIMEDefang:/sbin/nologin
+clamupdate:x:995:994:Clamav database update user:/var/lib/clamav:/sbin/nologin
+cyrus:x:76:12:Cyrus IMAP Server:/var/lib/imap:/sbin/nologin
+clamscan:x:994:992:Clamav scanner user:/:/sbin/nologin
+clamilt:x:993:991:Clamav Milter user:/run/clamav-milter:/sbin/nologin
+op:x:1002:1003::/:/bin/bash
+named:x:25:25:Named:/var/named/chroot:/bin/bash
+postgres:x:1003:1004::/home/postgres:/bin/bash
+tss:x:59:59:Account used by the trousers package to sandbox the tcsd daemon:/dev/null:/sbin/nologin
+rtkit:x:172:172:RealtimeKit:/proc:/sbin/nologin
+pulse:x:171:171:PulseAudio System Daemon:/var/run/pulse:/sbin/nologin
+tcpdump:x:72:72::/:/sbin/nologin
+qemu:x:107:107:qemu user:/:/sbin/nologin

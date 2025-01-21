@@ -1,0 +1,2 @@
+#none /home/op/proc proc defaults 0 0
+#/dev /home/op/dev none bind 0 0

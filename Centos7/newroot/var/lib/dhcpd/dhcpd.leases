@@ -1,0 +1,14 @@
+# The format of this file is documented in the dhcpd.leases(5) manual page.
+# This lease file was written by isc-dhcp-4.2.5
+
+lease 192.168.1.100 {
+  starts 5 2018/09/07 11:38:22;
+  ends 5 2018/09/07 23:38:22;
+  tstp 5 2018/09/07 23:38:22;
+  cltt 5 2018/09/07 11:38:22;
+  binding state free;
+  hardware ethernet 54:5a:a6:2c:39:4a;
+  uid "\001TZ\246,9J";
+}
+server-duid "\000\001\000\001\"\350\206\334p\205\302I\262>";
+

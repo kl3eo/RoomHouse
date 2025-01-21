@@ -1,0 +1,39 @@
+294:4ade663c541a42ea6245f2ea19a4196a6420630a
+0
+1
+installed:290:b29fcbcdc3b2067e38e4a51c04b7569c473e2744
+4
+mbr: NetworkManager-tui,x86_64,1,1.18.4,3.el7 20
+  repo: installed
+  ts_state: e
+  output_state: 40
+  isDep: True
+  reason: user
+  reinstall: False
+  relatedto: NetworkManager,x86_64,1,1.18.4,3.el7@i:dependson
+  depends_on: NetworkManager,x86_64,1,1.18.4,3.el7@i
+mbr: NetworkManager,x86_64,1,1.18.4,3.el7 20
+  repo: installed
+  ts_state: e
+  output_state: 40
+  isDep: False
+  reason: user
+  reinstall: False
+mbr: NetworkManager-team,x86_64,1,1.18.4,3.el7 20
+  repo: installed
+  ts_state: e
+  output_state: 40
+  isDep: True
+  reason: user
+  reinstall: False
+  relatedto: NetworkManager,x86_64,1,1.18.4,3.el7@i:dependson
+  depends_on: NetworkManager,x86_64,1,1.18.4,3.el7@i
+mbr: NetworkManager-wifi,x86_64,1,1.18.4,3.el7 20
+  repo: installed
+  ts_state: e
+  output_state: 40
+  isDep: True
+  reason: user
+  reinstall: False
+  relatedto: NetworkManager,x86_64,1,1.18.4,3.el7@i:dependson
+  depends_on: NetworkManager,x86_64,1,1.18.4,3.el7@i

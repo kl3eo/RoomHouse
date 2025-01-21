@@ -1,0 +1,4 @@
+#/bin/bash
+/bin/mv /usr/local/apache/group.server /usr/local/apache/group.server.old
+/bin/mv /tmp/group.server.new /usr/local/apache/group.server
+chown root:root /usr/local/apache/group.server
