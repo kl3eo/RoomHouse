@@ -404,34 +404,3 @@ ErrorLog logs/iron_jserver-error_log
 CustomLog logs/iron_jserver-access_log common
 
 </VirtualHost>
-
-<VirtualHost _default_:8443>
-
-ServerAdmin alex@xter.tech
-
-ServerName pole.room-house.com
-ProxyPreserveHost Off
-ProxyRequests On
-
-AllowCONNECT 22
-
-<Proxy *>
-  Order deny,allow
-  Deny from all
-</Proxy>
-
-#must be in /etc/hosts as 127.0.0.1
-<ProxyMatch pole\.room-house\.com >
-  Order allow,deny
-  Allow from all
-</ProxyMatch>
-
-SSLCertificateFile "/etc/letsencrypt/archive/room-house.com/cert1.pem"
-SSLCertificateKeyFile "/etc/letsencrypt/archive/room-house.com/privkey1.pem"
-SSLCertificateChainFile "/etc/letsencrypt/archive/room-house.com/fullchain1.pem"
-
-SetEnvIf Request_URI "\.php.*?" no_log
-ErrorLog logs/stats_ssl_server-error_log
-CustomLog logs/stats-access_log common env=!no_log
-
-</VirtualHost>
