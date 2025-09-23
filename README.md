@@ -1,8 +1,6 @@
 #   Room-House 
-Copyright (c) 2021-2025 Alex Shevlakov alex@motivation.ru
+Copyright (c) 2021-2025 Alex Shevlaquov alex@motivation.ru
 All Rights Reserved.
-
-folder "Centos7" contains Room-House branch in Centos7
 
 folder "manual" contains PDFs and HTML
 

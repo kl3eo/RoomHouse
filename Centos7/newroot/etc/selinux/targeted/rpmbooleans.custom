@@ -1,2 +1,0 @@
-# This file is managed by macros.selinux-policy. Do not edit it manually
-boolean -m -- named_write_master_zones

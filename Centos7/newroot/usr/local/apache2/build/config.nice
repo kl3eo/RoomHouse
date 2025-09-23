@@ -1,9 +1,0 @@
-#! /bin/sh
-#
-# Created by configure
-
-"./configure" \
-"--enable-nls=ru" \
-"--enable-ssl" \
-"--enable-charset-lite" \
-"$@"

@@ -1,6 +1,0 @@
-[Unit]
-Description=Flexible Branding Service
-
-[Service]
-ExecStart=/usr/libexec/initscripts/brandbot
-PrivateTmp=true

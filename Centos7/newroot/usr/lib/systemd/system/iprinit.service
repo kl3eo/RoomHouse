@@ -1,9 +1,0 @@
-[Unit]
-Description=IBM Power Raid init daemon
-
-[Service]
-Type=forking
-ExecStart=/usr/sbin/iprinit --daemon
-
-[Install]
-WantedBy=iprutils.target

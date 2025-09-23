@@ -1,3 +1,0 @@
-#!/bin/bash
-/sbin/iptables -D INPUT -s $1 -p tcp -m tcp -j DROP
-

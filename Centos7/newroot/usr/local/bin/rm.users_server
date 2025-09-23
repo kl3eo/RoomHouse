@@ -1,3 +1,0 @@
-#/bin/bash
-/bin/cp /usr/local/apache/users.server /usr/local/apache/users.server.old
-/usr/bin/htpasswd -D /usr/local/apache/users.server $1 2>/dev/null
