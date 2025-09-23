@@ -2053,7 +2053,7 @@ function requestFilm(request) {
 }
 
 function denyMovie(request) {
-	flashText('Currently ' + request.n + ' people watching!');
+	if (cine) flashText('Currently ' + request.n + ' people watching!');
 }
 
 function changeTabLR(request) {
